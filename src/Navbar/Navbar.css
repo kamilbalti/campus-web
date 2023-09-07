@@ -1,0 +1,41 @@
+.NavbarMainDiv{
+    background-color: white;
+    width: 70%;
+    right: 0;
+    height: 10vh;
+    position: fixed;
+    top: 0;
+    box-shadow: 3px 4px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+    transition: 0.5s ease;
+}
+.NavbarMainDiv2{
+    width: 100%;
+}
+.NavbarRow{
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+}
+.LogOutBut{
+    padding: 12px;
+    background-color: black;
+    color: white;
+    border-radius: 15px;
+    font-size: 16px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+}
+.hideIcon{
+    display: none;
+}
+.showIcon{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
