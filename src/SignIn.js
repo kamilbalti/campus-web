@@ -16,15 +16,17 @@ const SignIn = () => {
     const dispatch = useDispatch()
     const LogIn = () => {
         signInWithEmailAndPassword(auth, email, password).then(() => {
-            navigate('/')
             onAuthStateChanged(auth, (user) => {
-                    if(user){
+                if(user){
                     const uid = user.uid
                     onValue(ref(db, "users/" + uid + "/userDetail"), (data) => {
+                        (data.val()?.block == true)?
+                        alert("You are Blocked by the Admin"): 
                         dispatch(setUserDetail(data.val()))
                     })
                 }
             })
+            navigate('/')
         }).catch((err) => alert(err))
     }
     return(
@@ -41,7 +43,6 @@ const SignIn = () => {
                 </div>
                 <button className='signUpButton' onClick={LogIn}>Log In</button>
                 <p>Don't have an account <Link to={'/signUp'}>Create One</Link></p>
-                {/* <p onClick={() => signOut(auth) && dispatch(setUserDetail(false))}>Log Out</p> */}
             </div>
         </div>
     )

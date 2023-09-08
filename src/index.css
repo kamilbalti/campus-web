@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  word-break: break-all;
+  /* word-break: break-all; */
   overflow-wrap: break-word;
 }
 

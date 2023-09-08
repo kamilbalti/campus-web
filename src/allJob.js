@@ -5,7 +5,7 @@ import { useSelector } from "react-redux"
 
 const AllJob = ({setSelect, appliedJob}) => {
     const {userDetail} = useSelector(e => e)
-    const uid = userDetail.uid
+    const uid = userDetail?.uid
     const [ tempArr, setTempArr ] = useState([])
     const [ applyInd, setApplyInd ] = useState(false)
     const [ applyText, setApplyText ] = useState("")
@@ -19,15 +19,10 @@ const AllJob = ({setSelect, appliedJob}) => {
             if(tempInd - item.length >= 0){
             tempInd = tempInd - item.length
             temp += 1
-            // console.log(temp)
         }
     }))
     tempUid = Object.values(data.val())[temp][tempInd].jobDetail.uid
-    // console.log(tempUid + " myNew tempINd")
         })
-        // set(ref(db, "AllJobs/" + tempUid + "/" + tempInd + "/jobDetail"),{
-
-        // })
         set(ref(db, "AllJobs/" + tempUid + "/" + tempInd + "/jobDetail/" + "/apply/" + uid ), {
             userDetail: userDetail,
             description: applyText
@@ -37,9 +32,10 @@ const AllJob = ({setSelect, appliedJob}) => {
     let descriptionPause = false;
     useEffect(() => {
         onValue(ref(db, "AllJobs/"),(data) =>{
-            (Object.values(data.val())).map((item, index) => 
+            data.val() && (Object.values(data.val())).map((item, index) => 
             item.map((item2, index2) => setTempArr(tempArr => [...tempArr,(item2)]))
             )
+            !data.val() && setSelect(false)
         })
     },[])
     useEffect(() => {

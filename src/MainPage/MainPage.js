@@ -16,20 +16,29 @@ const MainPage = ({select, closeCheck, setSelect}) => {
     const {userDetail} = useSelector(e => e)
     let appliedJob = [];
     return(
-        <div className={closeCheck? "MainPageMainDiv MainPageDiv2" :"MainPageMainDiv"}>
-            {userDetail.status == "Student" ? 
+        <div className={closeCheck == true ? "MainPageMainDiv MainPageDiv2" :"MainPageMainDiv"}>
+            {select == false && select !== 0 ? 
+            <img width={"100%"} height={"99%"} src={'https://i.pinimg.com/originals/49/e5/8d/49e58d5922019b8ec4642a2e2b9291c2.png'}/> 
+            : userDetail?.status == "Student" ?
             (select == 0 ? 
             <AllJob setSelect={setSelect} appliedJob={appliedJob}/>
-            : (select == 1? <JobApplied appliedJob={appliedJob}/> : <div></div>)) : (
-            userDetail.status == "Company" ? 
+            : (select == 1? <JobApplied appliedJob={appliedJob} setSelect={setSelect}/> : <div></div>)) : (
+            userDetail?.status == "Company" ? 
             (select == 0 ? 
             <PostJob tempInd={tempInd} setTempInd={setTempInd} setSelect={setSelect} title={title} setTitle={setTitle} duration={duration} setDuration={setDuration}
             salary={salary} setSalary={setSalary} description={description} setDescription={setDescription} /> 
             : (select == 1? <PreviousJob setTempInd={setTempInd} setSelect={setSelect} setTitle={setTitle} setDuration={setDuration} setSalary={setSalary} setDescription={setDescription}/> : 
-            <StudentApplied />)) : 
+            <StudentApplied setSelect={setSelect}/>)) :
             (select == 0 ? 
-            <AllUser />
-            : (select == 1? <div></div> : <div></div>)))
+            <AllUser select={select} setSelect={setSelect}/>
+            : (select == 1? 
+            <AllUser select={select} setSelect={setSelect}/>
+            : (select == 2? 
+            <AllUser select={select} setSelect={setSelect}/>
+            : 
+            <AllUser select={select} setSelect={setSelect}/>
+            )))
+            )
             }
         </div>
     )

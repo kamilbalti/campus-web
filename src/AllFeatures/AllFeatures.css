@@ -35,3 +35,19 @@
     height: 100%;
     /* background-color: aqua; */
 }
+.profilePage{
+    position: fixed;
+    right: 0;
+}
+@media screen and (max-width: 600px){
+    .AllFeaturesMainDiv{
+        z-index: 20;
+        /* display: none; */
+        display: none;
+        position: fixed;
+        width: 100%;
+    }
+    .AllFeaturesDiv2{
+        margin: 0;
+    }
+}

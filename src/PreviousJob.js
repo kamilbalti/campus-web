@@ -7,7 +7,7 @@ const PreviousJob = ({tempInd, setTempInd, setSelect, setTitle, setDuration, set
     const {userDetail} = useSelector(e => e)
     const [applyInd, setApplyInd] = useState(false)
     const [ PreviousJobData, setPreviousJobData ] = useState([])
-    const uid = userDetail.uid
+    const uid = userDetail?.uid
     let deleteInd = false
     const deleteJob = (index) => {
         deleteInd = index
@@ -41,6 +41,7 @@ const PreviousJob = ({tempInd, setTempInd, setSelect, setTitle, setDuration, set
     useEffect(() => {
         onValue(ref(db, "AllJobs/" + uid),(data) =>{
             setPreviousJobData(data.val())
+            !data.val() && setSelect(false)
             // console.log(PreviousJobData, "Previous Job Data")  
     })
     },[])

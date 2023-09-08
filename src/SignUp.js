@@ -17,19 +17,32 @@ const SignUp = () => {
     const [ edu, setEdu ] = useState('Matric')
     const [ exp, setExp ] = useState(0)
     const navigate = useNavigate()
+    const [ AllUsersData, setAllUsersData ] = useState([])
+    const [ index, setIndex ] = useState(false)
+    useEffect(() => {
+        onValue(ref(db,"users/"),(data) => {
+            let temp = [...AllUsersData]
+            data.val() && Object.values(data.val()).map((item,index) => 
+            temp.push(item?.userDetail)
+            )
+            setAllUsersData(temp)
+            // console.log(AllUsersData[0].block)
+            setIndex(temp.findIndex((item, index) => item?.status == "Admin"))
+            // alert(index)
+        })
+    },[])
+
     const CreateUser = () => {
-        let tempUserDetail = {name, status, email, password}
-        dispatch(setUserDetail(tempUserDetail))
+        // let tempUserDetail = {name, status, email, password}
         createUserWithEmailAndPassword(auth, email, password).then(async(res) => {
             let userId = res?.user?.uid
-            await set(ref(db, 'users/' + userId + "/userDetail"), {
-                name: name,
-                status: status,
-                email: email,
-                password: password,
-                exp: exp,
-                edu: edu,
-                uid: res?.user?.uid,
+            let userDetail = { name, status, email, password, 
+            uid: res?.user?.uid, block: false, verify: false,
+            exp: status == "Student"  ? exp : false, edu: status == "Student"  ? edu : false 
+        }
+            dispatch(setUserDetail(userDetail))
+            await set(ref(db, 'users/' + userId), {
+                userDetail
             })
             navigate('/')
         }).catch((err) => {
@@ -50,7 +63,7 @@ const SignUp = () => {
                     <select className='signUpSelect signUpTextInput' value={status} onChange={(e) => setStatus(e.target.value)}>
                         <option className='signUpOption'>Student</option>
                         <option className='signUpOption'>Company</option>
-                        <option className='signUpOption'>Admin</option>
+                        {index !== false && index? <option className='signUpOption'>Admin</option> : false}
                     </select>
                 </div>{status == 'Student' ?
                     <div className='signUpRow2'>

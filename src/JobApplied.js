@@ -2,17 +2,19 @@ import { onValue, ref } from "firebase/database"
 import { db } from "./firebase"
 import { useEffect, useState } from "react"
 
-const JobApplied = ({appliedJob}) => {
+const JobApplied = ({appliedJob, setSelect}) => {
     const [ applyInd, setApplyInd ] = useState(false)
     // const [ appliedJob, setAppliedJob ] = useState() 
     // let appliedJob = []
     onValue(ref(db, "AllJobs/"),(data) =>{
-        Object.values(data.val()).map((item, index) => item.map((item, index2) => item.jobDetail.apply && appliedJob.push(item.jobDetail)))
+        data.val() && Object.values(data.val()).map((item, index) => item.map((item, index2) => item.jobDetail.apply && appliedJob.push(item.jobDetail)))
+        !data.val() && setSelect(false) 
     })
-    useEffect(() => {
-        console.log(Object.values(appliedJob[0].apply)[0].description + " applied job")
-        // console.log((appliedJob[0].uid[5] )+ " applied")
-    })
+    // useEffect(() => {
+    //     // setSelect(false)
+    //     console.log(appliedJob)
+    //     // appliedJob == [] || !appliedJob && setSelect(false)
+    // },[])
 
     return(
         <div className="previousJobMainDiv">

@@ -86,7 +86,7 @@
     /* height: 150px; */
 }
 .previousJobBox2{
-    transition: 0.7s ease; 
+    /* transition: 0.7s ease;  */
     width: 97%;
     max-width: none;
     height: fit-content;
@@ -99,4 +99,12 @@
     display: flex;
     flex-direction: row;
     gap: 25px;
+}
+@media screen and (max-width: 600px){
+    .MainPageMainDiv{
+        width: 100%;
+    }
+    .postButton{
+        padding: 10px;
+    }
 }

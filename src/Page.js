@@ -14,16 +14,18 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 const Page = () => {
     const {userDetail} = useSelector(e => e)
     const auth = getAuth()
-    let name = userDetail.name;
-    let status = userDetail.status
+    let name = userDetail?.name;
+    let status = userDetail?.status
     const dispatch = useDispatch()
     const [ select, setSelect ] = useState(0)
     const [ closeCheck, setCloseCheck ] = useState(false)
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
+            setUserDetail(false)
             if(user){
                 const uid = user.uid
-                onValue(ref(db, "users/" + uid + "/userDetail"), (data) => {          
+                onValue(ref(db, "users/" + uid + "/userDetail"), (data) => {       
+                    (data.val()?.block == true) &&
                     dispatch(setUserDetail(data.val()))
                 })
             }

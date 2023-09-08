@@ -6,7 +6,6 @@ import MyRouter from './Router';
 function App() {
   return (
     <MyRouter />
-    // <Page />
   );
 }
 

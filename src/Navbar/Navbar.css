@@ -39,3 +39,28 @@
     align-items: center;
     cursor: pointer;
 }
+.userLogo{
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    border-radius: 100%;
+    width: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+@media screen and (max-width: 600px){
+    .NavbarMainDiv{
+        width: 100%;
+    }
+    .showIcon{
+        display: none;
+    }
+    .hideIcon{
+        display: flex;
+    }
+    .NavbarRow{
+        gap: 10px;
+    }
+}
