@@ -21,11 +21,11 @@ const AllUser = ({select, setSelect}) => {
             data.val() && Object.values(data.val()).map((item,index) => item?.userDetail?.status !== "Admin" &&
             temp.push(item?.userDetail)
             )
-        let index = temp.findIndex((item, index) => select == 0? item == item : 
-        select == 1 ? item?.verify == false : select == 2 ? item?.verify == true : item?.block == true        )
-        index == -1 && setSelect(false)
+        let index = temp.findIndex((item, index) =>  
+        select == 1 ? item?.verify == false : select == 2 ? item?.verify == true : select == 3 ? item?.block == true: true)
+        index == -1 ? setSelect(false) : setSelect(select)
         })
-    },[select, AllUsersData])
+    },[select, check, AllUsersData])
     const block = (uid) => {
         setCheck(true)
         let index = AllUsersData.findIndex((item, index) => item.uid == uid)

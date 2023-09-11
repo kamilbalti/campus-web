@@ -40,6 +40,7 @@
     cursor: pointer;
 }
 .userLogo{
+    cursor: pointer;
     background-color: black;
     color: white;
     font-weight: bold;
@@ -54,12 +55,12 @@
     .NavbarMainDiv{
         width: 100%;
     }
-    .showIcon{
+    /* .showIcon{
         display: none;
     }
     .hideIcon{
         display: flex;
-    }
+    } */
     .NavbarRow{
         gap: 10px;
     }

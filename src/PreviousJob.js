@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { db } from "./firebase"
 import { useSelector } from "react-redux"
 
-const PreviousJob = ({tempInd, setTempInd, setSelect, setTitle, setDuration, setSalary, setDescription}) => {
+const PreviousJob = ({ select, tempInd, setTempInd, setSelect, setTitle, setDuration, setSalary, setDescription}) => {
     const {userDetail} = useSelector(e => e)
     const [applyInd, setApplyInd] = useState(false)
     const [ PreviousJobData, setPreviousJobData ] = useState([])
@@ -13,38 +13,45 @@ const PreviousJob = ({tempInd, setTempInd, setSelect, setTitle, setDuration, set
         deleteInd = index
         let temp = [...PreviousJobData];
         temp = temp.filter((item2, index2) => 
-            index2 !== deleteInd
+        index2 !== deleteInd
         )
-        set(ref(db, "AllJobs/" + uid + "/"),{})
-        temp.map((item, index) => 
-        set(ref(db, "AllJobs/" + uid + "/" + index),{
+        set(ref(db, "AllJobs/" + uid + "/job/"),{})
+        temp?.map((item, index) => 
+        set(ref(db, "AllJobs/" + uid + "/job/" + index),{
             jobDetail: item.jobDetail,
         })
         )
-        // console.log(temp)
+        setSelect(1)
         setPreviousJobData(temp)
         deleteInd = false
     }
     const updateJob = (index) => {
         setTempInd(index)
-        // alert(index)
-        onValue(ref(db, "AllJobs/" + uid),(data) =>{
+        onValue(ref(db, "AllJobs/" + uid + "/job/"),async(data) =>{
+            if(data.val()){
             setTitle(data.val()[index].jobDetail.title)
             setDuration(data.val()[index].jobDetail.duration)
             setSalary(data.val()[index].jobDetail.salary)
             setDescription(data.val()[index].jobDetail.description)
-            // console.log(data.val()[index].jobDetail.description)
-            setPreviousJobData(data.val())
             setSelect(0)
+            setPreviousJobData( await data.val() ? [...data.val()] : false)
+        }
         })
     }
     useEffect(() => {
-        onValue(ref(db, "AllJobs/" + uid),(data) =>{
-            setPreviousJobData(data.val())
-            !data.val() && setSelect(false)
-            // console.log(PreviousJobData, "Previous Job Data")  
-    })
-    },[])
+        onValue(ref(db, "AllJobs/" + uid + "/job/"), async(data) =>{
+            setPreviousJobData( await data.val() ? [...data.val()] : false)
+        })
+    },[select])
+    useEffect(() => {
+        console.log(PreviousJobData)
+        if(PreviousJobData == false){
+            setSelect(false)
+        }
+        else{
+            setSelect(1)
+        }
+    },[PreviousJobData])
     return(
         <div className="previousJobMainDiv">
             {PreviousJobData ? PreviousJobData.map((item, index) => 

@@ -19,7 +19,7 @@ const MyRouter = () => {
             if(user){
                 const uid = user.uid
                 onValue(ref(db, "users/" + uid + "/userDetail"), (data) => {
-                    dispatch(setUserDetail(data.val()))
+                   data.val() && dispatch(setUserDetail(data.val()))
                 })
             }
         })

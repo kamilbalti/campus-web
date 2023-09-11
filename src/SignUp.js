@@ -68,7 +68,7 @@ const SignUp = () => {
                 </div>{status == 'Student' ?
                     <div className='signUpRow2'>
                     <h2 className='signUpIntroName'>Qualification:</h2>
-                        <select className='signUpSelect signUpEdu' value={edu} onChange={(e) => setEdu(e.target.value)}>
+                        <select className='signUpTextInput signUpSelect signUpEdu' value={edu} onChange={(e) => setEdu(e.target.value)}>
                             <option className='signUpOption'>Matric</option>
                             <option className='signUpOption'>Inter</option>
                             <option className='signUpOption'>Bachelor</option>
@@ -76,7 +76,7 @@ const SignUp = () => {
                         </select>
                         <div className='signUpRowDiv'>
                             <h2 className='signUpIntroName'>Experience: (Y)</h2>
-                            <input type='number' value={exp} onChange={(e) => e.target.value >= 0 ?setExp(e.target.value) : false} className='' />
+                            <input className='signUpTextInput' type='number' value={exp} onChange={(e) => e.target.value >= 0 ? setExp(e.target.value) : false} />
                         </div>
                     </div>: false}
                 <div className='signUpRowDiv'>

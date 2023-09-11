@@ -14,16 +14,16 @@ const AllJob = ({setSelect, appliedJob}) => {
         let temp = 0;
         let tempUid;
         onValue(ref(db, "AllJobs/"),(data) =>{
-            (Object.values(data.val()).map((item, index2) => {
+            data.val() && (Object.values(data.val()).map((item, index2) => {
             // console.log(item.length, " Index")
             if(tempInd - item.length >= 0){
             tempInd = tempInd - item.length
             temp += 1
         }
     }))
-    tempUid = Object.values(data.val())[temp][tempInd].jobDetail.uid
+    tempUid = data.val() && Object.values(data.val())[temp].job[tempInd].jobDetail.uid
         })
-        set(ref(db, "AllJobs/" + tempUid + "/" + tempInd + "/jobDetail/" + "/apply/" + uid ), {
+        set(ref(db, "AllJobs/" + tempUid + "/job/" + tempInd + "/jobDetail/" + "/apply/" + uid ), {
             userDetail: userDetail,
             description: applyText
         })
@@ -33,7 +33,7 @@ const AllJob = ({setSelect, appliedJob}) => {
     useEffect(() => {
         onValue(ref(db, "AllJobs/"),(data) =>{
             data.val() && (Object.values(data.val())).map((item, index) => 
-            item.map((item2, index2) => setTempArr(tempArr => [...tempArr,(item2)]))
+            item.job.map((item2, index2) => setTempArr(tempArr => [...tempArr,(item2)]))
             )
             !data.val() && setSelect(false)
         })
@@ -47,11 +47,11 @@ const AllJob = ({setSelect, appliedJob}) => {
         descriptionPause = true
         else descriptionPause = false
     })
-    useEffect(() => {
-        appliedJob.map((item, index) => 
-        setTempArr(tempArr.filter((item2, index2) => item2 !== item))
-    )
-    })
+    // useEffect(() => {
+    //     appliedJob?.map((item, index) => 
+    //     setTempArr(tempArr.filter((item2, index2) => item2 !== item))
+    // )
+    // },[appliedJob])
     return(
         <div className="previousJobMainDiv">
             {tempArr !== [] ? tempArr.map((item, index) => 

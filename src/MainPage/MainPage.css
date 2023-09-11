@@ -3,26 +3,21 @@
     top: 10%;
     right: 0;
     width: 70%;
-    /* height: max-content; */
     height: 90vh;
-    /* height: calc(100%-60px); */
     padding: 30px;
     transition: 0.5s ease;
-    overflow-y: scroll;
-    /* filter: grayscale(100%); */
-    /* background-color: rgba(0, 0, 0, 0.7); */
+    overflow-y: auto;
 }
 .MainPageDiv2{
     width: 100%;
 }
 .postJobDiv{
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: black;
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* justify-content: center; */
-       /* padding: 110px; */
-    /* height: 100%; */
+    justify-self: center;
+    margin-top: auto;
     width: 100%;
     color: white;
     padding: 10px;
@@ -33,9 +28,6 @@
 .postJobChildDiv{
     width: 100%;
     max-width: 700px;
-    /* width: 500px; */
-    /* min-width: 280px; */
-    /* width: fit-content   ; */
 }
 .postJobInput{
     color: black;
@@ -49,8 +41,6 @@
     resize: none;
     overflow: hidden;
     padding: 20px;
-    /* padding-top: 40px; */
-    /* display: subgrid; */
 }
 .postButton{
     background-color: gray;
@@ -65,7 +55,6 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    /* margin-bottom: 20px; */
 }
 .previousJobBox{
     transition: 0.7s ease; 
@@ -83,28 +72,29 @@
     justify-content: center;
     word-break: break-all;
     overflow: hidden;
-    /* height: 150px; */
 }
 .previousJobBox2{
-    /* transition: 0.7s ease;  */
     width: 97%;
     max-width: none;
     height: fit-content;
     min-height: 300px;
-    /* height: 100%; */
-    /* max-width: ; */
 }
 .previousJobButtonDiv{
-    /* gap: 10px; */
     display: flex;
     flex-direction: row;
     gap: 25px;
 }
 @media screen and (max-width: 600px){
     .MainPageMainDiv{
+        padding: 20px 10px;
         width: 100%;
     }
     .postButton{
         padding: 10px;
+    }
+    .previousJobBox{
+        height: 280px;
+        padding: 10px;
+        margin: 10px;
     }
 }

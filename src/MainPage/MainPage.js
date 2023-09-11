@@ -22,12 +22,12 @@ const MainPage = ({select, closeCheck, setSelect}) => {
             : userDetail?.status == "Student" ?
             (select == 0 ? 
             <AllJob setSelect={setSelect} appliedJob={appliedJob}/>
-            : (select == 1? <JobApplied appliedJob={appliedJob} setSelect={setSelect}/> : <div></div>)) : (
+            : (select == 1? <JobApplied closeCheck={closeCheck} select={select} appliedJob={appliedJob} setSelect={setSelect}/> : <div></div>)) : (
             userDetail?.status == "Company" ? 
             (select == 0 ? 
             <PostJob tempInd={tempInd} setTempInd={setTempInd} setSelect={setSelect} title={title} setTitle={setTitle} duration={duration} setDuration={setDuration}
             salary={salary} setSalary={setSalary} description={description} setDescription={setDescription} /> 
-            : (select == 1? <PreviousJob setTempInd={setTempInd} setSelect={setSelect} setTitle={setTitle} setDuration={setDuration} setSalary={setSalary} setDescription={setDescription}/> : 
+            : (select == 1? <PreviousJob select={select} setTempInd={setTempInd} setSelect={setSelect} setTitle={setTitle} setDuration={setDuration} setSalary={setSalary} setDescription={setDescription}/> : 
             <StudentApplied setSelect={setSelect}/>)) :
             (select == 0 ? 
             <AllUser select={select} setSelect={setSelect}/>

@@ -5,7 +5,8 @@ import { db } from "./firebase"
 
 const PostJob = ({ tempInd, setTempInd, setSelect, title, setTitle, duration, setDuration, salary, setSalary, description, setDescription}) => {
     const {userDetail} = useSelector(e => e)
-    const [ index, setIndex ] = useState(0)
+    // const [ index, setIndex ] = useState(0)
+    let tempIndex = 0
     let descriptionPause = false;
     
     const uid = userDetail?.uid
@@ -14,31 +15,29 @@ const PostJob = ({ tempInd, setTempInd, setSelect, title, setTitle, duration, se
         if( temp.length > 79 && description )
         descriptionPause = true
         else descriptionPause = false
-        onValue(ref(db, "AllJobs/" + uid),async(data) =>{
-            // alert(data.val()[data.val().length-1].index + 1)
-            await setIndex(
-                (data?.val())? 
-                data?.val()[data?.val()?.length-1]?.jobDetail?.index+1: 0)
+        
+        onValue(ref(db, "AllJobs/" + uid + "/job/"),async(data) =>{
+            tempIndex = data?.val() ? data?.val()?.length : 0
+            // console.log(data.val())  
+            // await setIndex(
+            //     (data?.val())? data.length : 0)
                 // console.log(index, " Data Val length")
             })
-            
-        })
-    const addJob = () => {
-        onValue(ref(db, "AllJobs/" + uid),async(data) =>{
-            // alert(data.val()[data.val().length-1].index + 1)
-            await setIndex(
-            (data?.val())? 
-            data?.val()[data?.val()?.length-1]?.jobDetail?.index+1: 0)
-            // console.log(index, " Data Val length")
-        })
-        set(ref(db, "AllJobs/" + uid + "/" + index + "/jobDetail"), {
-            title,
-            duration,
-            salary,
-            description,
-            index,
-            uid
-        })
+        },[])
+        const addJob = () => {
+            onValue(ref(db, "AllJobs/" + uid + "/job/"),async(data) =>{
+                
+                // console.log(data.val()?.length)
+                // setIndex( await data?.val()?.length)
+                tempIndex = data.val()? data.val().length : 0
+            })
+            set(ref(db, "AllJobs/" + uid + "/job/" + tempIndex + "/jobDetail"), {
+                title,
+                duration,
+                salary,
+                description,
+                uid
+            })
         setTitle("")
         setDuration(1)
         setSalary(10)
@@ -47,15 +46,15 @@ const PostJob = ({ tempInd, setTempInd, setSelect, title, setTitle, duration, se
         // setIndex(index+1)
     }
     const updateJob = () => {
-        let tempData= 
+        let tempData = 
         {description,
         duration,
-        index: tempInd,
+        // index: tempInd,
         salary,
         title,
         uid
     }
-        set(ref(db, "AllJobs/" + uid + "/" + tempInd),{
+        set(ref(db, "AllJobs/" + uid + "/job/" + tempInd),{
             jobDetail: tempData,
         })        
         setTempInd(false)

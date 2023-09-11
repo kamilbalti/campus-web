@@ -54,3 +54,23 @@
     padding: 10px;
     margin: 0 10px;
 }
+@media screen and (max-width: 600px){
+    .signUpRowDiv{
+        display: flex;
+        flex-direction: column;
+    }
+    .signUpDiv{
+        width: 280px;
+    }
+    input{
+        border: 1px solid black;
+    }
+    .signUpRow2{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    .signUpEdu{
+        margin: 0;
+    }
+}

@@ -13,12 +13,25 @@ const AllFeatures = ({status, closeCheck, setCloseCheck, setSelect, select}) => 
         "Verify: " +userDetail?.verify, 
         "Block: " +userDetail?.block]] 
     : [
-        ["All Jobs", "Jobs Applied"], ["Post Jobs", "Previous Jobs", "Student Applied"], ["All Users", "Not Verified Users", "Verified Users", "Blocked Users"],
+        ["All Jobs", "Jobs Applied"], ["Post Jobs", "Previous Jobs", "Student Applied"], 
+        [
+            "All Users", "Non Verified Users", "Verified Users", "Blocked Users",
+            "All Users", "Non Verified Users", "Verified Users", "Blocked Users",
+        ],
     ]
 
     let arrNum = closeCheck == "profile"? 0 : status == "Student" ? 0 : status == 'Company'? 1: 2
     const close = () => {
         setCloseCheck(true)
+    }
+    const changeSelect = (index) => {
+        if(select !== index && closeCheck !== 'profile') 
+            setSelect(index); 
+
+        // : false
+        if((window !== 'undefined') && window.innerWidth <= 600 && closeCheck !== 'profile') 
+        close() 
+        // alert('test')
     }
     return(
         <div className={closeCheck == true ? "AllFeaturesMainDiv AllFeaturesDiv2" : 'AllFeaturesMainDiv'}>
@@ -30,7 +43,7 @@ const AllFeatures = ({status, closeCheck, setCloseCheck, setSelect, select}) => 
             </div>
                 {arr[arrNum].map((item, index) => 
                 <div key={index}>
-                <h3 onClick={() => select !== index && closeCheck !== 'profile' && setSelect(index)} className='AllFeaturesHeading'>{item}</h3>
+                <h3 onClick={() => changeSelect(index)} className='AllFeaturesHeading'>{item}</h3>
                 </div>
                 )}
         </div>
