@@ -1,7 +1,7 @@
 'use client';
 import { createSlice } from "@reduxjs/toolkit"
 const initialState = {
-    userDetail: false,
+    userDetail: 'loading',
     userArr: []
 }
 export const bazar = createSlice({

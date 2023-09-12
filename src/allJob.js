@@ -47,11 +47,6 @@ const AllJob = ({setSelect, appliedJob}) => {
         descriptionPause = true
         else descriptionPause = false
     })
-    // useEffect(() => {
-    //     appliedJob?.map((item, index) => 
-    //     setTempArr(tempArr.filter((item2, index2) => item2 !== item))
-    // )
-    // },[appliedJob])
     return(
         <div className="previousJobMainDiv">
             {tempArr !== [] ? tempArr.map((item, index) => 

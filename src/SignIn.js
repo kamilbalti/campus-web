@@ -1,4 +1,4 @@
-import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut} from 'firebase/auth'
+import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail} from 'firebase/auth'
 import './SignUp.css'
 import { db, firebase } from './firebase'
 import { useState } from 'react';
@@ -6,16 +6,33 @@ import { Link, useNavigate } from 'react-router-dom';
 import { setUserDetail } from './Redux-Toolkit/BazarSlice';
 import { onValue, ref } from 'firebase/database';
 import { useDispatch } from 'react-redux';
+import { useFormik } from 'formik';
+import * as Yup from 'yup'
 const SignIn = () => {
     const auth = getAuth();
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [ name, setName ] = useState("")
-    const [ status, setStatus ] = useState("Student")
+    const validationSchema = Yup.object().shape({
+        email: Yup.string()
+          .email('Invalid email address')
+          .required('Email is required'),
+        password: Yup.string()
+          .min(6, 'Password must be at least 6 characters')
+          .required('Password is required'),
+      });
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const LogIn = () => {
-        signInWithEmailAndPassword(auth, email, password).then(() => {
+        const formik = useFormik({
+            initialValues:{
+            email: "",
+            password: ""
+        },
+        validationSchema: validationSchema,
+        onSubmit: (values) => {
+            LogIn()
+            console.log(values)
+        }
+        })
+    const LogIn = (e) => {
+        signInWithEmailAndPassword(auth, formik.values.email, formik.values.password).then(() => {
             onAuthStateChanged(auth, (user) => {
                 if(user){
                     const uid = user.uid
@@ -26,24 +43,38 @@ const SignIn = () => {
                     })
                 }
             })
-            navigate('/')
+            formik.values.email = ""
+            formik.values.password = ""
+            // navigate('/')
         }).catch((err) => alert(err))
+    }
+    let check = true
+    const sendMail = () => {
+        check = false
+        sendPasswordResetEmail(auth, formik.values.email);
+        alert('Password Reset Email Send')
+        check = true
     }
     return(
         <div className="signUpMainDiv">
-            <div className="signUpDiv">
+            <form onSubmit={(e)=>formik.handleSubmit(e)} className="signUpDiv">
                 <h1>Log In</h1>
                 <div className='signUpRowDiv'>
                     <h2 className='signUpIntroName'>Email:</h2>
-                    <input value={email} onChange={(e) => setEmail(e.target.value)} className='signUpTextInput'/>
+                    <input name="email" value={formik.values.email} onChange={formik.handleChange} className='signUpTextInput'/>
                 </div>
                 <div className='signUpRowDiv'>
+                {check ?
+                <>
                     <h2 className='signUpIntroName'>Password:</h2>
-                    <input value={password} onChange={(e) => setPassword(e.target.value)} type='password' className='signUpTextInput'/>
+                    <input name="password" value={formik.values.password} onChange={formik.handleChange} type='password' className='signUpTextInput'/>
+                </>    
+                : false}
                 </div>
-                <button className='signUpButton' onClick={LogIn}>Log In</button>
+                <p><Link onClick={() => sendMail()}>Forgot Password</Link></p>
+                <button className='signUpButton' type='submit'>Log In</button>
                 <p>Don't have an account <Link to={'/signUp'}>Create One</Link></p>
-            </div>
+            </form>
         </div>
     )
 }

@@ -1,3 +1,4 @@
+// import * as Yup from 'yup'
 import {getAuth, createUserWithEmailAndPassword} from 'firebase/auth'
 import { onValue, ref, set } from 'firebase/database'
 import './SignUp.css'
@@ -7,18 +8,31 @@ import { setUserArr, setUserDetail } from './Redux-Toolkit/BazarSlice';
 import { app, db } from "./firebase"
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
+import { useFormik } from 'formik';
+import * as Yup from 'yup'
 const SignUp = () => {
     const dispatch = useDispatch() 
     const auth = getAuth(app);
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [ name, setName ] = useState("")
+    // const [email, setEmail] = useState("")
+    // const [password, setPassword] = useState("")
+    // const [ name, setName ] = useState("")
     const [ status, setStatus ] = useState("Student")
     const [ edu, setEdu ] = useState('Matric')
     const [ exp, setExp ] = useState(0)
     const navigate = useNavigate()
     const [ AllUsersData, setAllUsersData ] = useState([])
     const [ index, setIndex ] = useState(false)
+    const validationSchema = Yup.object().shape({
+        email: Yup.string()
+          .email('Invalid email address')
+          .required('Email is required'),
+        password: Yup.string()
+          .min(6, 'Password must be at least 6 characters')
+          .required('Password is required'),
+        name: Yup.string()
+        .required('Name is required')
+        .matches(/^[a-zA-Z\s'-]+$/, 'Invalid name format')
+      });
     useEffect(() => {
         onValue(ref(db,"users/"),(data) => {
             let temp = [...AllUsersData]
@@ -26,17 +40,29 @@ const SignUp = () => {
             temp.push(item?.userDetail)
             )
             setAllUsersData(temp)
-            // console.log(AllUsersData[0].block)
             setIndex(temp.findIndex((item, index) => item?.status == "Admin"))
-            // alert(index)
         })
     },[])
+    const formik = useFormik({
+        initialValues:{
+        name: "",
+        email: "",
+        password: ""
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+        CreateUser()
+        console.log(values)
+    }
+    })
+
 
     const CreateUser = () => {
         // let tempUserDetail = {name, status, email, password}
-        createUserWithEmailAndPassword(auth, email, password).then(async(res) => {
+        createUserWithEmailAndPassword(auth, formik.values.email, formik.values.password).then(async(res) => {
             let userId = res?.user?.uid
-            let userDetail = { name, status, email, password, 
+            let userDetail = { name: formik.values.name, status, 
+            email: formik.values.email, password: formik.values.password, 
             uid: res?.user?.uid, block: false, verify: false,
             exp: status == "Student"  ? exp : false, edu: status == "Student"  ? edu : false 
         }
@@ -52,11 +78,11 @@ const SignUp = () => {
     }
     return(
         <div className="signUpMainDiv">
-            <div className="signUpDiv">
+            <form onSubmit={(e) => formik.handleSubmit(e)} className="signUpDiv">
                 <h1>Sign Up</h1>
                 <div className='signUpRowDiv'>
                     <h2 className='signUpIntroName'>Name:</h2>
-                    <input value={name} onChange={(e) => setName(e.target.value)} className='signUpTextInput'/>
+                    <input name='name' value={formik.values.name} onChange={formik.handleChange} className='signUpTextInput'/>
                 </div>
                 <div className='signUpRowDiv'>
                     <h2 className='signUpIntroName'>Status:</h2>
@@ -81,17 +107,17 @@ const SignUp = () => {
                     </div>: false}
                 <div className='signUpRowDiv'>
                     <h2 className='signUpIntroName'>Email:</h2>
-                    <input value={email} onChange={(e) => setEmail(e.target.value)} className='signUpTextInput'/>
+                    <input name='email' value={formik.values.email} onChange={formik.handleChange} className='signUpTextInput'/>
                 </div>
                 <div className='signUpRowDiv'>
                     <h2 className='signUpIntroName'>Password:</h2>
-                    <input value={password} onChange={(e) => setPassword(e.target.value)} type='password' className='signUpTextInput'/>
+                    <input name='password' value={formik.values.password} onChange={formik.handleChange} type='password' className='signUpTextInput'/>
                 </div>
                 {/* <Link to={'/'}> */}
-                <button className='signUpButton' onClick={CreateUser}>Sign Up</button>
+                <button className='signUpButton' type='submit'>Sign Up</button>
                 {/* </Link> */}
             <p>Already have an account <Link to={'/'}>Sign in</Link></p>
-            </div>
+            </form>
         </div>
     )
 }

@@ -13,6 +13,7 @@ const MainPage = ({select, closeCheck, setSelect}) => {
     const [ salary, setSalary ] = useState(10)
     const [ description, setDescription ] = useState("")
     const [ tempInd, setTempInd ] = useState(false)
+    const [ Applied, setApplied ] = useState([])
     const {userDetail} = useSelector(e => e)
     let appliedJob = [];
     return(
@@ -21,8 +22,9 @@ const MainPage = ({select, closeCheck, setSelect}) => {
             <img width={"100%"} height={"99%"} src={'https://i.pinimg.com/originals/49/e5/8d/49e58d5922019b8ec4642a2e2b9291c2.png'}/> 
             : userDetail?.status == "Student" ?
             (select == 0 ? 
-            <AllJob setSelect={setSelect} appliedJob={appliedJob}/>
-            : (select == 1? <JobApplied closeCheck={closeCheck} select={select} appliedJob={appliedJob} setSelect={setSelect}/> : <div></div>)) : (
+            <AllJob select={select} setSelect={setSelect} appliedJob={appliedJob}/>
+            : (select == 1? <JobApplied setApplied={setApplied} Applied={Applied} closeCheck={closeCheck} 
+            select={select} appliedJob={appliedJob} setSelect={setSelect}/> : <div></div>)) : (
             userDetail?.status == "Company" ? 
             (select == 0 ? 
             <PostJob tempInd={tempInd} setTempInd={setTempInd} setSelect={setSelect} title={title} setTitle={setTitle} duration={duration} setDuration={setDuration}

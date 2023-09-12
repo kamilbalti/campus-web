@@ -6,30 +6,32 @@ import SignIn from "./SignIn"
 import { useDispatch, useSelector } from "react-redux"
 import { onValue, ref } from "firebase/database"
 import { db } from "./firebase"
-import { getAuth, onAuthStateChanged } from "firebase/auth"
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth"
 import { setUserDetail } from "./Redux-Toolkit/BazarSlice"
 import { useEffect, useState } from "react"
+import { CirclesWithBar, ColorRing } from "react-loader-spinner"
 const MyRouter = () => {
     const auth = getAuth();
     const {userDetail} = useSelector(e => e)
     const dispatch = useDispatch()
-    useState(()=> {
-        onAuthStateChanged(auth, (user) => {
-            setUserDetail('loading')
-            if(user){
+    let check = true
+    useEffect(()=> {
+        onAuthStateChanged(auth, async (user) => {
+            if(await user){
                 const uid = user.uid
                 onValue(ref(db, "users/" + uid + "/userDetail"), (data) => {
-                   data.val() && dispatch(setUserDetail(data.val()))
+                   data.val() && 
+                   data.val()?.block == true ?
+                   dispatch(setUserDetail(false))
+                :
+                   dispatch(setUserDetail(data.val())) 
                 })
             }
+            else{
+                dispatch(setUserDetail(false))
+            }
         })
-    })
-    // useEffect(() => {
-    //         // if(userDetail == "loading")
-    //         setTimeout(() =>{
-    //             setUserDetail(false)
-    //         },2000)
-    // },[])
+    },[])
     return(
         <Router>
                 {userDetail == false ?
@@ -40,9 +42,8 @@ const MyRouter = () => {
                 : 
                 userDetail == 'loading' ?
                 <div style={{width: '100%', height: '100vh', display: 'flex', alignItems: "center", justifyContent: 'center'}} role="status">
-                <div class="spinner-border" style={{width: '3rem', height: '3rem'}} role="status">
-                  <span class="sr-only">Loading...</span>
-                </div>
+                    <ColorRing visible={true} height="100" width="100" ariaLabel="blocks-loading" wrapperStyle={{}} wrapperClass="blocks-wrapper" colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}/>
+                    {/* <CirclesWithBar height="100" width="100" color="#4fa94d" wrapperStyle={{}} wrapperClass="" visible={true} outerCircleColor="" innerCircleColor="" barColor="" ariaLabel='circles-with-bar-loading'/> */}
                 </div>
                 :
                 <Page /> 

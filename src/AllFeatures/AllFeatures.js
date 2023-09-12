@@ -9,15 +9,12 @@ const AllFeatures = ({status, closeCheck, setCloseCheck, setSelect, select}) => 
     [[
         "Name: " +userDetail?.name, 
         "Email: " +userDetail?.email, 
-        "Uid: " +userDetail?.uid, 
-        "Verify: " +userDetail?.verify, 
-        "Block: " +userDetail?.block]] 
+        "Uid: " +userDetail?.uid,
+        "Status: " +userDetail?.status
+    ]] 
     : [
         ["All Jobs", "Jobs Applied"], ["Post Jobs", "Previous Jobs", "Student Applied"], 
-        [
-            "All Users", "Non Verified Users", "Verified Users", "Blocked Users",
-            "All Users", "Non Verified Users", "Verified Users", "Blocked Users",
-        ],
+        ["All Users", "Non Verified Users", "Verified Users", "Blocked Users"],
     ]
 
     let arrNum = closeCheck == "profile"? 0 : status == "Student" ? 0 : status == 'Company'? 1: 2
