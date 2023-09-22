@@ -10,6 +10,9 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup'
 const SignIn = () => {
     const auth = getAuth();
+    const [reqCheck, setReqCheck] = useState({name: false, email: false, password: false, passlength: false, emaillength: false, exp: false})
+    const [err, setErr] = useState(false)
+    const [ check, setCheck ] = useState(false)
     const validationSchema = Yup.object().shape({
         email: Yup.string()
           .email('Invalid email address')
@@ -25,13 +28,32 @@ const SignIn = () => {
             email: "",
             password: ""
         },
-        validationSchema: validationSchema,
+        // validationSchema: validationSchema,
         onSubmit: (values) => {
             LogIn()
-            console.log(values)
         }
         })
     const LogIn = (e) => {
+            setCheck(true)
+            let temp = {...reqCheck}
+            if(formik.values.email == "") {
+                temp.email = true;
+                setErr(false)
+                setReqCheck(temp)
+            }
+            else if(formik.values.email.length < 8)
+            temp.emaillength = true
+        if(formik.values.password == "") {
+            temp.password = true;
+            setErr(false)
+            setReqCheck(temp)
+        }
+        else if(formik.values.password.length < 8){
+            temp.passlength = true
+            setErr(false)
+            setReqCheck(temp)
+        }
+        else if(!temp.email && !temp.emaillength && !temp.password && !temp.passlength)
         signInWithEmailAndPassword(auth, formik.values.email, formik.values.password).then(() => {
             onAuthStateChanged(auth, (user) => {
                 if(user){
@@ -46,32 +68,43 @@ const SignIn = () => {
             formik.values.email = ""
             formik.values.password = ""
             // navigate('/')
-        }).catch((err) => alert(err))
+        }).catch((err) => setErr(err))
     }
-    let check = true
-    const sendMail = () => {
-        check = false
-        sendPasswordResetEmail(auth, formik.values.email);
-        alert('Password Reset Email Send')
-        check = true
-    }
+    // let check = true
+    // const sendMail = () => {
+    //     check = false
+    //     sendPasswordResetEmail(auth, formik.values.email);
+    //     alert('Password Reset Email Send')
+    //     check = true
+    // }
     return(
         <div className="signUpMainDiv">
             <form onSubmit={(e)=>formik.handleSubmit(e)} className="signUpDiv">
                 <h1>Log In</h1>
                 <div className='signUpRowDiv'>
-                    <h2 className='signUpIntroName'>Email:</h2>
-                    <input name="email" value={formik.values.email} onChange={formik.handleChange} className='signUpTextInput'/>
+                    <input placeholder='Email' name="email" value={formik.values.email} onChange={(e) => {
+                            let temp = {...reqCheck}
+                            if(check){
+                            temp.email = e.target.value.length == 0
+                            temp.emaillength = e.target.value.length < 8}
+                            setReqCheck(temp)
+                            setErr(false)                        
+                            formik.handleChange(e)}} className='signUpTextInput'/>
+                    {reqCheck.email? <p>Required!</p> : reqCheck.emaillength? <p>Minimum 8 character required!</p> : false}
                 </div>
                 <div className='signUpRowDiv'>
-                {check ?
-                <>
-                    <h2 className='signUpIntroName'>Password:</h2>
-                    <input name="password" value={formik.values.password} onChange={formik.handleChange} type='password' className='signUpTextInput'/>
-                </>    
-                : false}
+                    <input placeholder='Password' name="password" value={formik.values.password} onChange={(e) => {
+                        let temp = {...reqCheck}
+                        if(check){
+                        temp.password = e.target.value.length == 0
+                        temp.passlength = e.target.value.length < 8}
+                        setReqCheck(temp)
+                        setErr(false)                                                
+                        formik.handleChange(e)
+                        }} type='password' className='signUpTextInput'/>
+                    {reqCheck.password? <p>Required!</p> : reqCheck.passlength? <p>Minimum 8 character required!</p> : err && !reqCheck.email && !reqCheck.emaillength? 
+                    <p>Invalid Email or Password</p> : false}
                 </div>
-                <p><Link onClick={() => sendMail()}>Forgot Password</Link></p>
                 <button className='signUpButton' type='submit'>Log In</button>
                 <p>Don't have an account <Link to={'/signUp'}>Create One</Link></p>
             </form>

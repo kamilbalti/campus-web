@@ -5,6 +5,7 @@ import { useSelector } from "react-redux"
 
 const JobApplied = ({ closeCheck, select, appliedJob, setSelect, prevApplied, setPrevApplied }) => {
     const [ applyInd, setApplyInd ] = useState(false)
+    // const [ tempArr, setTempArr ] = useState(false)
     const [tempApplied, setTempApplied] = useState([])
     // let appliedJob = []
     const { userDetail } = useSelector(e => e)
@@ -28,14 +29,25 @@ setSelect(false)
 },[select, closeCheck])
 useEffect(() => {
     setTempApplied([...appliedJob])
+},[appliedJob])
+// useEffect(() => {
+//     onValue(ref(db, "AllJobs/"),(data) =>{
+//         data.val() && (Object.values(data.val())).map((item, index) => 
+//         item?.job?.map((item2, index2) => setTempArr(tempArr => [...tempArr,(item2)]))
+//         )
+//         !data.val() && setSelect(false)
+//     })
+// },[])
     // console.log(prevApplied)
     // console.log(appliedJob)
     // if(appliedJob == [])
     // setSelect(false)
-    },[appliedJob])
     // useEffect(() => {
-    //     setPrevApplied(tempApplied)
-    // },[tempApplied])
+    //     tempArr?.map((item2, index2) => 
+    //     appliedJob = appliedJob.filter((item, index) =>
+    //     item?.uid !== item2.jobDetail.uid))
+    //     // setPrevApplied(tempApplied)
+    // },[tempArr])
 
     return(
         <div className="previousJobMainDiv">
