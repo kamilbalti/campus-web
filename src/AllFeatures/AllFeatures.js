@@ -39,7 +39,7 @@ const AllFeatures = ({status, closeCheck, setCloseCheck, setSelect, select}) => 
                 </div>
             </div>
                 {arr[arrNum].map((item, index) => 
-                <div key={index}>
+                <div key={index} className={closeCheck == false && select == index && select !== false ? 'AllFeaturesChildDiv AllFeaturesSelect' : 'AllFeaturesChildDiv'}>
                 <h3 onClick={() => changeSelect(index)} className='AllFeaturesHeading'>{item}</h3>
                 </div>
                 )}

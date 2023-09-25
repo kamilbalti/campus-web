@@ -14,27 +14,30 @@ const AllJob = ({setSelect, appliedJob}) => {
         let temp = 0;
         let tempUid;
         onValue(ref(db, "AllJobs/"),(data) =>{
-            data.val() && (Object.values(data.val()).map((item, index2) => {
+            data?.val() && (Object?.values(data?.val())?.map((item, index2) => {
             // console.log(item.length, " Index")
             if(tempInd - item.length >= 0){
-            tempInd = tempInd - item.length
+            tempInd = tempInd - item?.length
             temp += 1
         }
     }))
-    tempUid = data.val() && Object.values(data.val())[temp].job[tempInd].jobDetail.uid
+    tempUid = data.val() && Object?.values(data?.val())[temp]?.job[tempInd]?.jobDetail?.uid
         })
         set(ref(db, "AllJobs/" + tempUid + "/job/" + tempInd + "/jobDetail/" + "/apply/" + uid ), {
             userDetail: userDetail,
-            description: applyText
+            // description: applyText
         })
         setSelect(1)
     }
     let descriptionPause = false;
     useEffect(() => {
         onValue(ref(db, "AllJobs/"),(data) =>{
-            data.val() && (Object.values(data.val())).map((item, index) => 
-            item.job.map((item2, index2) => setTempArr(tempArr => [...tempArr,(item2)]))
-            )
+            data?.val() && (Object?.values(data?.val()))?.map((item, index) => 
+            item?.job?.map((item2, index2) => {
+                if(!item2?.jobDetail?.apply?.hasOwnProperty(uid)) 
+                setTempArr(tempArr => [...tempArr,(item2)])
+            }
+            ))
             !data.val() && setSelect(false)
         })
     },[])
@@ -54,18 +57,18 @@ const AllJob = ({setSelect, appliedJob}) => {
                 <h1>{item?.jobDetail?.title}</h1>
                 <h3>Duration: {item?.jobDetail?.duration} {item?.jobDetail?.duration == 1? "Day" : "Days"}</h3>
                 <h3>Budget: ${item?.jobDetail?.salary}</h3>
-                {applyInd == index && applyInd !== false ?
-                <>
                 <h3>
-                    Description: <i>{item.jobDetail.description}</i>
+                    Description: <i>{item?.jobDetail?.description}</i>
                 </h3>
+                <button className="postButton" onClick={() => Apply(index)}>Apply</button>
+                {/* {applyInd == index && applyInd !== false ?
+                <>
                 <textarea placeholder="The description must be between 30 - 50 words" value={applyText} onChange={(e) => descriptionPause && applyText.length <= e.target.value.length && (e.target.value)[e.target.value.length-2 ] == " " ? false : setApplyText(e.target.value) } className="postJobText"/>
                 <div className="previousJobButtonDiv">
-                <button className="postButton" onClick={() => Apply(index)}>Apply</button>
                 <button className="postButton" onClick={() => setApplyInd(false)}>x</button>
                 </div>
                 </>
-                : false}
+                : false} */}
                 </div>
             ) : false}
         </div>

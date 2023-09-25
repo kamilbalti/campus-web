@@ -7,14 +7,14 @@ const PostJob = ({ tempInd, setTempInd, setSelect, title, setTitle, duration, se
     const {userDetail} = useSelector(e => e)
     // const [ index, setIndex ] = useState(0)
     let tempIndex = 0
-    let descriptionPause = false;
-    
+    // let descriptionPause = false;
+
     const uid = userDetail?.uid
     useEffect(() => {
         let temp = description.trim().split(" ")
-        if( temp.length > 79 && description )
-        descriptionPause = true
-        else descriptionPause = false
+        // if( temp.length > 79 && description )
+        // descriptionPause = true
+        // else descriptionPause = false
         
         onValue(ref(db, "AllJobs/" + uid + "/job/"),async(data) =>{
             tempIndex = data?.val() ? data?.val()?.length : 0
@@ -23,7 +23,7 @@ const PostJob = ({ tempInd, setTempInd, setSelect, title, setTitle, duration, se
             //     (data?.val())? data.length : 0)
                 // console.log(index, " Data Val length")
             })
-        },[])
+        })
         const addJob = () => {
             onValue(ref(db, "AllJobs/" + uid + "/job/"),async(data) =>{
                 
@@ -39,8 +39,8 @@ const PostJob = ({ tempInd, setTempInd, setSelect, title, setTitle, duration, se
                 uid
             })
         setTitle("")
-        setDuration(1)
-        setSalary(10)
+        setDuration("")
+        setSalary("")
         setDescription("")
         setSelect(1)
         // setIndex(index+1)
@@ -59,28 +59,28 @@ const PostJob = ({ tempInd, setTempInd, setSelect, title, setTitle, duration, se
         })        
         setTempInd(false)
         setTitle("")
-        setDuration(1)
-        setSalary(10)
+        setDuration("")
+        setSalary("")
         setDescription("")
         setSelect(1)
     }
     return(
         <div className="postJobDiv">
             <div className="postJobChildDiv">
-            <h2 className="postJobHead">Title Of Job :</h2>
-            <input value={title} onChange={(e) => setTitle(e.target.value)} className="postJobInput" />
+            {/* <h2 className="postJobHead">Title Of Job :</h2> */}
+            <input placeholder="Title Of Job :" value={title} onChange={(e) => setTitle(e.target.value)} className="postJobInput" />
             </div>
             <div className="postJobChildDiv">
-            <h2 className="postJobHead">Duration of Job : (In Days)</h2>
-            <input value={duration} onChange={(e) => e.target.value > 0 ? setDuration(e.target.value) : false} type="number" className="postJobInput" />
+            {/* <h2 className="postJobHead">Duration of Job : (In Days)</h2> */}
+            <input placeholder="Duration of Job : " value={duration} onChange={(e) => e.target.value > 0 ? setDuration(e.target.value) : false} type="number" className="postJobInput" />
             </div>
             <div className="postJobChildDiv">
-            <h2 className="postJobHead">Salary : In Dollar($)</h2>
-            <input type="number" value={salary} onChange={(e) => e.target.value >= 10 ? setSalary(e.target.value) : false} className="postJobInput" />
+            {/* <h2 className="postJobHead">Salary : In Dollar($)</h2> */}
+            <input placeholder="Salary :" type="number" value={salary} onChange={(e) => e.target.value >= 10 ? setSalary(e.target.value) : false} className="postJobInput" />
             </div>
             <div className="postJobChildDiv">
-            <h2 className="postJobHead">Description :</h2>
-            <textarea placeholder="The description must be between 40 - 80 words" value={description} onChange={(e) => descriptionPause && description.length <= e.target.value.length && (e.target.value)[e.target.value.length-2 ] == " " ? false : setDescription(e.target.value) } className="postJobText"/>
+            {/* <h2 className="postJobHead">Description :</h2> */}
+            <textarea placeholder="Description:" value={description} onChange={(e) => description.length <= e.target.value.length && (e.target.value)[e.target.value.length-2 ] == " " ? false : setDescription(e.target.value) } className="postJobText"/>
             </div>
             <div className="postJobChildDiv">
             {

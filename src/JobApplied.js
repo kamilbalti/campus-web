@@ -15,9 +15,9 @@ const JobApplied = ({ closeCheck, select, appliedJob, setSelect, prevApplied, se
         data.val() && 
         Object.values(data.val()).map((item, index) =>{
             // console.log(Object.values(item.job[1].jobDetail.apply)[0])
-        item?.job?.map((item2, index2) =>{
+        item && item?.job && item?.job[0] && item?.job?.map((item2, index2) =>{
         if(item2?.jobDetail?.apply?.hasOwnProperty(uid)){ 
-            appliedJob.push(item2.jobDetail)  
+            appliedJob?.push(item2?.jobDetail)  
         }
     }
     )
@@ -52,15 +52,15 @@ useEffect(() => {
     return(
         <div className="previousJobMainDiv">
         {appliedJob !== [] ? appliedJob?.map((item, index) => 
-            <div onClick={() => setApplyInd(index)} className={applyInd == index && applyInd !== false ? "previousJobBox previousJobBox2" :"previousJobBox"}>
+            <div onClick={() => setApplyInd(index)} className={"previousJobBox"}>
             <h1>{item?.title}</h1>
             <h3>Duration: {item?.duration} {item?.duration == 1? "Day" : "Days"}</h3>
             <h3>Budget: ${item?.salary}</h3>
-            <h3><b>Description: </b><i>
+            {/* <h3><b>Description: </b><i>
                 { applyInd !== index  && item.apply[uid]?.description.length >=1 ? item.apply[uid]?.description?.split("").filter((item, index) => 
                 index <= 110).map((item2, index2) => <>{item2}</>
             ) : item.apply[uid]?.description
-        } {item.apply[uid]?.description.length > 110 && applyInd !== index ? "..." : ""} </i></h3>
+        } {item.apply[uid]?.description.length > 110 && applyInd !== index ? "..." : ""} </i></h3> */}
             </div>
         ) : false}
     </div>

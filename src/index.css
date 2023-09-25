@@ -1,5 +1,9 @@
 body {
   margin: 0;
+  /* background-image: url('https://img.freepik.com/free-vector/student-campus-flat-composition-with-university-building-background-vector-illustration_1284-81556.jpg?w=996&t=st=1695639005~exp=1695639605~hmac=50eadb5e44d0397cb6b26cfedc9488cd444aaaaa3b3d17d7b2941743caf93b8b');
+  background-size: 100% 100%; */
+  /* overflow: auto; */
+  background-repeat: none;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;

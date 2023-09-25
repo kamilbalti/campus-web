@@ -10,9 +10,13 @@
   display: flex;
   flex-direction: row;
   position: fixed;
-  filter: grayscale(40%);
+  /* filter: grayscale(40%); */
   /* background-color: aqua; */
-  background-image: urL('https://unreasonablegroup.com/articles/wp-content/uploads/2000/11/cy45.png');
+  /* background-image: url('https://img.freepik.com/free-vector/student-campus-flat-composition-with-university-building-background-vector-illustration_1284-81556.jpg?w=996&t=st=1695639005~exp=1695639605~hmac=50eadb5e44d0397cb6b26cfedc9488cd444aaaaa3b3d17d7b2941743caf93b8b');
+  background-size: 100% 100%;
+  background-repeat: no-repeat; */
+  overflow: hidden;
+  /* background-image: urL('https://unreasonablegroup.com/articles/wp-content/uploads/2000/11/cy45.png'); */
   opacity: 0.7;
   right: 0;
   width: 100%;

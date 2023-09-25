@@ -1,5 +1,5 @@
 // import {} from "react"
-import { Route, BrowserRouter as Router, Routes} from "react-router-dom"
+import { Navigate, Route, BrowserRouter as Router, Routes} from "react-router-dom"
 import Page from "./Page"
 import SignUp from "./SignUp"
 import SignIn from "./SignIn"
@@ -32,6 +32,7 @@ const MyRouter = () => {
             }
         })
     },[])
+    let location = window && window.location.pathname
     return(
         <Router>
                 {userDetail == false ?
@@ -46,7 +47,11 @@ const MyRouter = () => {
                     {/* <CirclesWithBar height="100" width="100" color="#4fa94d" wrapperStyle={{}} wrapperClass="" visible={true} outerCircleColor="" innerCircleColor="" barColor="" ariaLabel='circles-with-bar-loading'/> */}
                 </div>
                 :
-                <Page /> 
+                <Routes>
+                    <Route path={'/'} element={<Page />}/>
+                    <Route path={location} element={<Navigate to={'/'} />}/>
+                    {/* <Page />  */}
+                </Routes>
                 }
         </Router>
     )

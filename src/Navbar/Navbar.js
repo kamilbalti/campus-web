@@ -12,15 +12,16 @@ const Navbar = ({name, closeCheck, setCloseCheck}) => {
         dispatch(setUserDetail(false))
         signOut(auth)
     }
+    let logoName = (userDetail?.name?.trim()[0])?.toUpperCase() + userDetail?.status[0]
     return(
         <div className={closeCheck == true ? 'NavbarMainDiv NavbarMainDiv2' :'NavbarMainDiv'}>
             <div className='NavbarRow'>
             <TbMenu2 className={closeCheck ? "showIcon" : 'hideIcon'} onClick={() => setCloseCheck(false)}/>
-            <p>{name}</p>
+            {/* <p>{name}</p> */}
             </div>
             <div className='NavbarRow'>
             <button onClick={() => logOut()} className='LogOutBut'>Log Out</button>
-            <div onClick={() => setCloseCheck("profile")} className='userLogo'>{(userDetail?.name[0])?.toUpperCase() + userDetail?.status[0]}</div>
+            <div onClick={() => setCloseCheck("profile")} className='userLogo'>{logoName}</div>
             </div>
         </div>
     )

@@ -1,24 +1,61 @@
 .MainPageMainDiv{
     position: fixed;
+    /* background-color: ; */
+    /* background-color: rgb(237, 242, 247);    */
+    background-color: rgb(244, 245, 247);   
+    /* background: inherit; */
+    /* background-image: url('https://img.freepik.com/free-vector/student-campus-flat-composition-with-university-building-background-vector-illustration_1284-81556.jpg?w=996&t=st=1695639005~exp=1695639605~hmac=50eadb5e44d0397cb6b26cfedc9488cd444aaaaa3b3d17d7b2941743caf93b8b');
+    background-size: 100% 100%;
+    background-repeat: none;   */
     top: 10%;
     right: 0;
     width: 70%;
     height: 90vh;
-    padding: 30px;
+    padding: 20px;
     transition: 0.5s ease;
     overflow-y: auto;
+}
+@media screen and (max-width: 1000px) {
+    .MainPageMainDiv{
+        width: 50%;
+        padding: 10px;
+    }
+}
+@media screen and (max-width: 1000px){
+    .MainPageMainDiv{
+        width: 60%;
+    }
+    .AllFeaturesDiv2{
+        /* margin-left: -40%; */
+    }
+}
+@media screen and (max-width: 800px){
+    .MainPageMainDiv{
+        width: 50%;
+    }
+    .AllFeaturesDiv2{
+        /* margin-left: -50%; */
+    }
 }
 .MainPageDiv2{
     width: 100%;
 }
 .postJobDiv{
-    background-color: black;
+    /* background-color: rgb(237, 242, 247); */
+    /* background-color: rgb(220, 220, 220); */
+    background-color: white;
+    border: 1px solid rgb(220, 220, 220);
+    border-radius: 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-evenly;
     justify-self: center;
+    margin: auto;
     margin-top: auto;
     width: 100%;
+    max-width: 850px;
+    height: 100%;
     color: white;
     padding: 10px;
 }
@@ -31,24 +68,33 @@
 }
 .postJobInput{
     color: black;
-    font-size: 12px;
-    padding: 8px;
+    font-size: 16px;
+    padding: 12px;
     width: 100%;
+    border-radius: 20px;
 }
 .postJobText{
     width: 100%;
     height: 200px;
+    font-size: 16px;
+    border-radius: 20px;
     resize: none;
     overflow: hidden;
     padding: 20px;
 }
 .postButton{
-    background-color: gray;
+    background-color: #0B666A;
     color: white;
     font-weight: bold;
     margin-top: 5px;
     padding: 10px 20px;
     border: none;
+    cursor: pointer;
+    border-radius: 10px;
+}
+.postButton:hover{
+    background-color: #374259;
+    color: white;
 }
 .previousJobMainDiv{
     display: flex;
@@ -59,7 +105,11 @@
 .previousJobBox{
     transition: 0.7s ease; 
     margin: 1%;
-    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 40px;
+    border: 1px solid rgb(220, 220, 220);
+    /* background-color: rgb(237, 242, 247); */
+    background-color: white;
+    color-scheme: light;
     color: black;
     width: 48%;
     height: 300px;
@@ -86,7 +136,7 @@
 }
 @media screen and (max-width: 600px){
     .MainPageMainDiv{
-        padding: 20px 10px;
+        padding: 5px;
         width: 100%;
     }
     .postButton{

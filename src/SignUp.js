@@ -19,12 +19,12 @@ const SignUp = () => {
     // const [ name, setName ] = useState("")
     const [ status, setStatus ] = useState("Student")
     const [ edu, setEdu ] = useState('Matric')
-    const [ exp, setExp ] = useState(status == "Student"? 0 :"")
+    const [ exp, setExp ] = useState(status !== "Student"? 0 :"")
     const navigate = useNavigate()
     const [ AllUsersData, setAllUsersData ] = useState([])
     const [ check, setCheck ] = useState(false)
     const [ index, setIndex ] = useState(false)
-    const [reqCheck, setReqCheck] = useState({name: false, email: false, password: false, passlength: false, emaillength: false, exp: false})
+    const [reqCheck, setReqCheck] = useState({name: false, email: false, password: false, passlength: false, emaillength: false, exp: false, invEmail: false})
     const [err, setErr] = useState(false)
     const validationSchema = Yup.object().shape({
         email: Yup.string()
@@ -86,6 +86,8 @@ const SignUp = () => {
         }
         else if(formik.values.email.length < 8)
         temp.emaillength = true
+        else if(!formik.values.email.includes("@") || !formik.values.email.includes(".com"))
+        temp.invEmail = true
     if(formik.values.password == "") {
         temp.password = true;
         setReqCheck(temp)
@@ -96,9 +98,17 @@ const SignUp = () => {
         setReqCheck(temp)
         setErr(false)
     }
+    if(formik.values.name == "") {
+        temp.name = true;
+        setReqCheck(temp)
+        setErr(false)
+    }
+    else{
+        setNext(true)
+    }
     if(exp == "" && exp.length == 0)
     temp.exp = true
-    else if(!temp.email && !temp.emaillength && !temp.password && !temp.passlength){
+    else if(!temp.email && !temp.emaillength && !temp.invEmail && !temp.password && !temp.passlength && !temp.name){
         // if((temp.exp && status !== 'Student') || !temp.exp )
         
         // let tempUserDetail = {name, status, email, password}
@@ -120,23 +130,23 @@ const SignUp = () => {
             dispatch(setUserDetail(false))
         })}
     }
-    const nextFunc = () => {
-        let temp = {...reqCheck}
-        setNext(false)
-        if(formik.values.name == "") {
-            temp.name = true;
-            setReqCheck(temp)
-            setErr(false)
-        }
-        else{
-            setNext(true)
-        }
-    }
+    // const nextFunc = () => {
+        // let temp = {...reqCheck}
+        // setNext(false)
+        // if(formik.values.name == "") {
+        //     temp.name = true;
+        //     setReqCheck(temp)
+        //     setErr(false)
+        // }
+        // else{
+        //     setNext(true)
+        // }
+    // }
     const changeExp = (e) => {
         if(status == 'Student'){
-        if(e.target.value == "")
-            setExp(0) 
-        else if(e.target.value >= 0)
+        // if(e.target.value == "")
+        //     setExp(0) 
+        if(e.target.value >= 0)
             setExp(e.target.value)
         let temp = {...reqCheck}
         if(check){
@@ -149,7 +159,8 @@ const SignUp = () => {
         <div className="signUpMainDiv">
             <>
                 {
-                    !next ? <form onSubmit={(e) => formik.handleSubmit(e)} className="signUpDiv">
+                    // !next ? 
+                    <form onSubmit={(e) => formik.handleSubmit(e)} className="signUpDiv">
                     <h1>Sign Up</h1>
                     <div className='signUpRowDiv'>
                     <input placeholder={'Name:'} name='name' value={formik.values.name} onChange={(e) => {
@@ -179,11 +190,11 @@ const SignUp = () => {
                         </select>
                     </div>
                     : false}
-                    <button className='signUpButton' type='submit' onClick={nextFunc}>Next</button>
-                    <p>Already have an account <Link to={'/'}>Sign in</Link></p>
-                    </form> :
-                    <form onSubmit={(e) => formik.handleSubmit(e)} className="signUpDiv">
-                    <h1>Sign Up</h1>
+                    {/* <button className='signUpButton' type='submit' onClick={nextFunc}>Next</button> */}
+                    {/* <p>Already have an account <Link to={'/'}>Sign in</Link></p> */}
+                    {/* </form> : */}
+                    {/* <form onSubmit={(e) => formik.handleSubmit(e)} className="signUpDiv"> */}
+                    {/* <h1>Sign Up</h1> */}
                     { status == "Student"?
                         <div className='signUpRowDiv'>
                             <input placeholder={'Experience:'} className='signUpTextInput' type='number' value={exp} onChange={(e) => changeExp(e)} />
@@ -196,12 +207,14 @@ const SignUp = () => {
                             let temp = {...reqCheck}
                             if(check){
                             temp.email = e.target.value.length == 0
-                            temp.emaillength = e.target.value.length < 8}
+                            temp.emaillength = e.target.value.length < 8
+                            temp.invEmail = !e.target.value.includes('@') || !e.target.value.includes('.com')
+                        }
                             setReqCheck(temp)
                             setErr(false)                        
                             formik.handleChange(e)}
                         } className='signUpTextInput'/>
-                    {reqCheck.email? <p>Required!</p> : reqCheck.emaillength? <p>Minimum 8 character required!</p> : false}
+                    {reqCheck.email? <p>Required!</p> : reqCheck.emaillength? <p>Minimum 8 character required!</p> : reqCheck.invEmail? <p>Invalid Email!</p> : false}
                 </div>
                 <div className='signUpRowDiv'>
                     <input placeholder={'Password:'} name='password' value={formik.values.password} onChange={(e) => {

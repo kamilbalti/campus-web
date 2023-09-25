@@ -9,8 +9,8 @@ import StudentApplied from "../StudentApplied"
 import AllUser from "../AllUsers"
 const MainPage = ({select, closeCheck, setSelect}) => {
     const [ title, setTitle ] = useState("")
-    const [ duration, setDuration ] = useState(1)
-    const [ salary, setSalary ] = useState(10)
+    const [ duration, setDuration ] = useState("")
+    const [ salary, setSalary ] = useState("")
     const [ description, setDescription ] = useState("")
     const [ tempInd, setTempInd ] = useState(false)
     const [ Applied, setApplied ] = useState([])
@@ -19,7 +19,7 @@ const MainPage = ({select, closeCheck, setSelect}) => {
     return(
         <div className={closeCheck == true ? "MainPageMainDiv MainPageDiv2" :"MainPageMainDiv"}>
             {select == false && select !== 0 ? 
-            <img width={"100%"} height={"99%"} src={'https://i.pinimg.com/originals/49/e5/8d/49e58d5922019b8ec4642a2e2b9291c2.png'}/> 
+            <img width={"100%"} height={"99%"} style={{border: '1px solid rgb(220, 220, 220)', maxWidth: '1000px', margin:'auto', display: 'flex', alignSelf: 'center'}} src={'https://i.pinimg.com/originals/49/e5/8d/49e58d5922019b8ec4642a2e2b9291c2.png'}/> 
             : userDetail?.status == "Student" ?
             (select == 0 ? 
             <AllJob select={select} setSelect={setSelect} appliedJob={appliedJob}/>
