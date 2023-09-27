@@ -56,10 +56,12 @@ const PreviousJob = ({ select, tempInd, setTempInd, setSelect, setTitle, setDura
         <div className="previousJobMainDiv">
             {PreviousJobData ? PreviousJobData.map((item, index) => 
                 <div onClick={() => index !== applyInd && deleteInd == false && setApplyInd(index)} className={applyInd == index && applyInd !== false ? "previousJobBox previousJobBox2" :"previousJobBox"}>
-                <h1>{item?.jobDetail?.title}</h1>
-                <h3>Duration: {item?.jobDetail?.duration} {item?.jobDetail?.duration == 1? "Day" : "Days"}</h3>
-                <h3>Budget: ${item?.jobDetail?.salary}</h3>
-                <h3>Student Applied: </h3>
+                <h1>{item?.jobDetail?.title.toUpperCase()}</h1>
+                <div>
+                    <h3>Duration: {item?.jobDetail?.duration} {item?.jobDetail?.duration == 1? "Day" : "Days"}</h3>
+                    <h3>Budget: ${item?.jobDetail?.salary}</h3>
+                    <h3>Student Applied: {item?.jobDetail?.apply?.length || 0}</h3>
+                </div>
                 {applyInd == index && applyInd !== false ? <h3>{item?.jobDetail?.description}</h3> : false}
                 <div className="previousJobButtonDiv">
                     <button onClick={() => deleteJob(index)} className="postButton">Delete</button>

@@ -1,6 +1,7 @@
 .signUpMainDiv{
     width: 100%;
     height: 100vh;
+    /* background-color:#6F4E37; */
     background-color: rgb(244, 245, 247);   
     /* background-image: url('https://img.freepik.com/free-vector/student-campus-flat-composition-with-university-building-background-vector-illustration_1284-81556.jpg?w=996&t=st=1695639005~exp=1695639605~hmac=50eadb5e44d0397cb6b26cfedc9488cd444aaaaa3b3d17d7b2941743caf93b8b'); */
     /* background-color: rgba(0, 0, 0, 0.2); */
@@ -11,19 +12,29 @@
     justify-content: center;
 }
 .signUpDiv{
-    box-shadow: 3px 3px 13px 10px rgba(0, 0, 0, 0.3);
     /* background-color: rgba(0, 0, 0, 0.7); */
     background-color: white;
     /* background-color: rgba(160, 255, 160, 0.9); */
-    border-radius: 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     padding: 25px;
     padding-bottom: 40px;
-    width: 350px;
+    width: 442px;
     min-width: 280px;
+    min-height: 450px;
     gap: 20px;
+}
+.signUpForm{
+    overflow: hidden;
+    border-radius: 40px;
+    box-shadow: 3px 3px 13px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 750px;
+    min-height: 450px;
 }
 .signUpRowDiv{
     display: flex;
@@ -40,8 +51,9 @@
 }
 .signUpTextInput{
     width: 100%;
-    padding: 10px;
-    
+    padding: 12px;
+    font-size: 16px; 
+    border-radius: 20px;
 }
 .signUpSelect{
     gap: 20px;
@@ -52,11 +64,17 @@
 }
 .signUpButton{
     cursor: pointer;
-    background-color: rgb(100, 100, 100);
+    background-color: rgba(11, 197, 234, 0.8);
     color: white;
     border: none;
     width: 100%;
+    font-size: 15px;
+    border-radius: 15px;
+    font-weight: bold;
     padding: 14px;
+}
+.signUpButton:hover{
+    background-color: rgb(21, 147, 255);
 }
 .signUpRow2{
     display: flex;

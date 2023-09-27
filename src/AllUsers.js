@@ -72,9 +72,11 @@ const AllUser = ({select, setSelect}) => {
             select == 1 ? item?.verify == false : select == 2 ? item?.verify == true : item?.block == true))?.map((item, index) =>
                 <div onClick={() => index !== applyInd && check && setApplyInd(item.uid)} className={applyInd == index && applyInd !== false ? "previousJobBox previousJobBox2" :"previousJobBox"}>
                     <h1>Name: {item?.name}</h1>
-                    <h3>Status: {item?.status}</h3>
-                    <h3>Email: {item?.email}</h3>
-                    <h3>Id: {item?.uid}</h3>
+                    <div>
+                        <h3>Status: {item?.status}</h3>
+                        <h3>Email: {item?.email}</h3>
+                        <h3>Id: {item?.uid}</h3>
+                    </div>
                     <div className="previousJobButtonDiv">
                     { item.block == true ? 
                     <button type="button" onClick={() => Unblock(item.uid)} className="postButton">Unblock</button>:

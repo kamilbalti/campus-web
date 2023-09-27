@@ -54,8 +54,11 @@ useEffect(() => {
         {appliedJob !== [] ? appliedJob?.map((item, index) => 
             <div onClick={() => setApplyInd(index)} className={"previousJobBox"}>
             <h1>{item?.title}</h1>
-            <h3>Duration: {item?.duration} {item?.duration == 1? "Day" : "Days"}</h3>
-            <h3>Budget: ${item?.salary}</h3>
+            <div>
+                <h3>Duration: {item?.duration} {item?.duration == 1? "Day" : "Days"}</h3>
+                <h3>Budget: ${item?.salary}</h3>
+            </div>
+            <button style={{opacity: 0}}>test</button>
             {/* <h3><b>Description: </b><i>
                 { applyInd !== index  && item.apply[uid]?.description.length >=1 ? item.apply[uid]?.description?.split("").filter((item, index) => 
                 index <= 110).map((item2, index2) => <>{item2}</>

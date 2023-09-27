@@ -76,7 +76,7 @@ const PostJob = ({ tempInd, setTempInd, setSelect, title, setTitle, duration, se
             </div>
             <div className="postJobChildDiv">
             {/* <h2 className="postJobHead">Salary : In Dollar($)</h2> */}
-            <input placeholder="Salary :" type="number" value={salary} onChange={(e) => e.target.value >= 10 ? setSalary(e.target.value) : false} className="postJobInput" />
+            <input placeholder="Salary :" type="number" value={salary} onChange={(e) => e.target.value >= 0 ? setSalary(e.target.value) : false} className="postJobInput" />
             </div>
             <div className="postJobChildDiv">
             {/* <h2 className="postJobHead">Description :</h2> */}

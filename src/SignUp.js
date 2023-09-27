@@ -160,8 +160,9 @@ const SignUp = () => {
             <>
                 {
                     // !next ? 
-                    <form onSubmit={(e) => formik.handleSubmit(e)} className="signUpDiv">
-                    <h1>Sign Up</h1>
+                    <form onSubmit={(e) => formik.handleSubmit(e)} className="signUpForm">
+                    <div className='signUpDiv'>
+                    <h1>REGISTER</h1>
                     <div className='signUpRowDiv'>
                     <input placeholder={'Name:'} name='name' value={formik.values.name} onChange={(e) => {
                             let temp = {...reqCheck}
@@ -228,8 +229,13 @@ const SignUp = () => {
                         }} type='password' className='signUpTextInput'/>
                     {reqCheck.password? <p>Required!</p> : reqCheck.passlength? <p>Minimum 8 character required!</p> : err ? <p>Account already exist</p> : false}
                 </div>
-                <button onClick={CreateUser} className='signUpButton' type='submit'>Sign Up</button>
+                <button onClick={CreateUser} className='signUpButton' type='submit'>Create User</button>
                 <p>Already have an account <Link to={'/'}>Sign in</Link></p>
+                </div>
+                <div style={{ backgroundColor: 'rgba(11, 197, 234, 0.8)', height:'608px', width: '307.5px', display: 'flex', alignItems:'center', justifyContent: 'center', color: 'white'}}>
+                    {/* <h1>Welcome Back To Campus Website</h1> */}
+                    <img width={'230px'} height={'230px'} src={`https://cdn-icons-png.flaticon.com/512/68/68286.png`}/>
+                </div>
                 </form>
                 }
             </>

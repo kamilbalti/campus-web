@@ -20,9 +20,11 @@ const StudentApplied = ({setSelect}) => {
             !item2?.jobDetail?.apply ? setSelect(false) : Object.values(item2?.jobDetail?.apply).map((item, index) => 
             <div onClick={() => index2 !== applyInd && setApplyInd(index2)} className={ applyInd == index2 && applyInd !== false ? "previousJobBox previousJobBox2" :"previousJobBox"}>
             <h1>Name: {item?.userDetail?.name}</h1>
-            <h3>Email: {item?.userDetail?.email}</h3>
-            <h3>Experience: {item?.userDetail?.exp} {item?.userDetail?.exp? "Years" : "Year"}</h3>
-            <h3>Education: {item?.userDetail?.edu}</h3>
+            <div>
+                <h3>Email: {item?.userDetail?.email}</h3>
+                <h3>Experience: {item?.userDetail?.exp} {item?.userDetail?.exp? "Years" : "Year"}</h3>
+                <h3>Education: {item?.userDetail?.edu}</h3>
+            </div>
             {/* <h3><b>Description: </b><i>
             { applyInd !== index ? item.description.split("").filter((item, index) => 
             index <= 110).map((item2, index2) => <>{item2}</>
