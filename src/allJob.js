@@ -2,6 +2,7 @@ import { onValue, ref, set } from "firebase/database"
 import { db } from "./firebase"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
+import StudentReq from "./studentReq"
 
 const AllJob = ({setSelect, appliedJob, select}) => {
     const {userDetail} = useSelector(e => e)
@@ -10,7 +11,10 @@ const AllJob = ({setSelect, appliedJob, select}) => {
     const [ applyInd, setApplyInd ] = useState(false)
     const [ applyText, setApplyText ] = useState("")
     const [check, setCheck] = useState(false)
+    const [streq, setStReq] = useState(false)
     const Apply = (indexes) => {
+        if(userDetail?.edu && userDetail?.exp)
+        {
         onValue(ref(db, "AllJobs/"),(data) =>{
             let tempUid = Object?.values(data?.val())
             [indexes?.index]?.job[indexes?.index2]?.jobDetail?.uid
@@ -21,6 +25,9 @@ const AllJob = ({setSelect, appliedJob, select}) => {
         })
         setSelect(1)
     }
+    else
+    setStReq(true) 
+}
     let descriptionPause = false;
     useEffect(() => {
         onValue(ref(db, "AllJobs/"),(data) =>{
@@ -51,7 +58,8 @@ const AllJob = ({setSelect, appliedJob, select}) => {
     })
     return(
         <div className="previousJobMainDiv">
-            {tempArr !== []? (tempArr.map((item, index) => 
+            {streq ? 
+            <StudentReq setStReq={setStReq}/> : tempArr !== []? (tempArr.map((item, index) => 
                 <div className={applyInd == index && applyInd !== false ? "previousJobBox previousJobBox2" :"previousJobBox"} onClick={() => applyInd !== index && setApplyInd(index)}>
                 <h1>{item?.jobDetail?.title?.toUpperCase()}</h1>
                 <div>

@@ -30,11 +30,11 @@ const Page = () => {
     //     })
     return(
         <>
-        {status === "Student"?
-        <StudentPage name={name} status={status} closeCheck={closeCheck} setCloseCheck={setCloseCheck} select={select} setSelect={setSelect}/>:
-        status === "Company" ?
+        {status === "Admin"?
         <AdminPage name={name} status={status} closeCheck={closeCheck} setCloseCheck={setCloseCheck} select={select} setSelect={setSelect}/>:
-        <CompanyPage name={name} status={status} closeCheck={closeCheck} setCloseCheck={setCloseCheck} select={select} setSelect={setSelect}/>
+        status === "Company" ?
+        <CompanyPage name={name} status={status} closeCheck={closeCheck} setCloseCheck={setCloseCheck} select={select} setSelect={setSelect}/>:
+        <StudentPage name={name} status={status} closeCheck={closeCheck} setCloseCheck={setCloseCheck} select={select} setSelect={setSelect}/>
     }
         </>
     )

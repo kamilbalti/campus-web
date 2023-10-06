@@ -21,20 +21,27 @@
     justify-content: center;
     padding: 25px;
     padding-bottom: 40px;
-    width: 442px;
+    width: 70%;
+    max-width: 442px;
     min-width: 280px;
     min-height: 450px;
     gap: 20px;
+    min-height: 500px;
+    /* overflow-y: scroll; */
 }
 .signUpForm{
     overflow: hidden;
     border-radius: 40px;
     box-shadow: 3px 3px 13px 10px rgba(0, 0, 0, 0.3);
+    background-color: white;
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 750px;
-    min-height: 450px;
+    width: 80%;
+    max-width: 750px;
+    min-width: 280px;
+    min-height: 500px;
+    overflow-y: hidden;
 }
 .signUpRowDiv{
     display: flex;
@@ -54,9 +61,11 @@
     padding: 12px;
     font-size: 16px; 
     border-radius: 20px;
+    border: 1px solid black;
+    /* appearance: none; */
 }
-.signUpSelect{
-    gap: 20px;
+.stReqSelect{
+    margin: 15px 0;
 }
 .signUpOption{
     padding: 100px !important;
@@ -104,3 +113,19 @@
         margin: 0;
     }
 }
+    @media screen and (max-width: 800px){
+        .signUpForm{
+            width: 60%;
+            overflow: hidden;
+            flex-direction: column;
+            background-color: white;
+        }   
+        .signUpDiv{
+            width: 100%;
+        }
+    }
+    @media screen and (max-width: 600px){
+        .signUpForm{
+            width: 75%;
+        }
+    }

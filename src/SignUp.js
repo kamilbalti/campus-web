@@ -1,4 +1,3 @@
-// import * as Yup from 'yup'
 import {getAuth, createUserWithEmailAndPassword} from 'firebase/auth'
 import { onValue, ref, set } from 'firebase/database'
 import './SignUp.css'
@@ -10,16 +9,12 @@ import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
+import StudentReq from './studentReq';
 const SignUp = () => {
     const dispatch = useDispatch() 
     const auth = getAuth(app);
     const [ next, setNext ] = useState(false)
-    // const [email, setEmail] = useState("")
-    // const [password, setPassword] = useState("")
-    // const [ name, setName ] = useState("")
     const [ status, setStatus ] = useState("Student")
-    const [ edu, setEdu ] = useState('Matric')
-    const [ exp, setExp ] = useState(status !== "Student"? 0 :"")
     const navigate = useNavigate()
     const [ AllUsersData, setAllUsersData ] = useState([])
     const [ check, setCheck ] = useState(false)
@@ -86,7 +81,7 @@ const SignUp = () => {
         }
         else if(formik.values.email.length < 8)
         temp.emaillength = true
-        else if(!formik.values.email.includes("@") || !formik.values.email.includes(".com"))
+        else if(!formik.values.email.includes("@") || !formik.values.email.includes(".") && !formik?.values?.email[formik?.values?.email.length-1] !== '.')
         temp.invEmail = true
     if(formik.values.password == "") {
         temp.password = true;
@@ -106,8 +101,9 @@ const SignUp = () => {
     else{
         setNext(true)
     }
-    if(exp == "" && exp.length == 0)
-    temp.exp = true
+    if(temp.email)
+    temp = temp
+    // temp.exp = true
     else if(!temp.email && !temp.emaillength && !temp.invEmail && !temp.password && !temp.passlength && !temp.name){
         // if((temp.exp && status !== 'Student') || !temp.exp )
         
@@ -117,13 +113,15 @@ const SignUp = () => {
             let userDetail = { name: formik.values.name, status, 
             email: formik.values.email, password: formik.values.password, 
             uid: res?.user?.uid, block: false, verify: false,
-            exp: status == "Student"  ? exp : false, edu: status == "Student"  ? edu : false 
+            // exp: status == "Student"  ? exp : false, edu: status == "Student"  ? edu : false 
         }
         dispatch(setUserDetail(userDetail))
             await set(ref(db, 'users/' + userId), {
                 userDetail
+            }).then(() => {
+
+                navigate('/')
             })
-            navigate('/')
         }).catch((err) => {
             setErr(err)
               // alert(err)
@@ -142,19 +140,19 @@ const SignUp = () => {
         //     setNext(true)
         // }
     // }
-    const changeExp = (e) => {
-        if(status == 'Student'){
-        // if(e.target.value == "")
-        //     setExp(0) 
-        if(e.target.value >= 0)
-            setExp(e.target.value)
-        let temp = {...reqCheck}
-        if(check){
-            temp.exp = exp == "" && exp !== 0 
-        }
-        setReqCheck(temp)}
-        setErr(false)
-    }
+    // const changeExp = (e) => {
+    //     if(status == 'Student'){
+    //     // if(e.target.value == "")
+    //     //     setExp(0) 
+    //     if(e.target.value >= 0)
+    //         setExp(e.target.value)
+    //     let temp = {...reqCheck}
+    //     if(check){
+    //         temp.exp = exp == "" && exp !== 0 
+    //     }
+    //     setReqCheck(temp)}
+    //     setErr(false)
+    // }
     return(
         <div className="signUpMainDiv">
             <>
@@ -178,38 +176,17 @@ const SignUp = () => {
                     <select className='signUpSelect signUpTextInput' value={status} onChange={(e) => setStatus(e.target.value)}>
                         <option className='signUpOption'>Student</option>
                         <option className='signUpOption'>Company</option>
-                        {index == false ? <option className='signUpOption'>Admin</option> : false}
+                        {/* {index !== false ? <option className='signUpOption'>Admin</option> : false} */}
                     </select>
-                </div>{status == 'Student' ?
-                    // <>
-                    <div className='signUpRowDiv'>
-                        <select className='signUpTextInput signUpSelect' value={edu} onChange={(e) => setEdu(e.target.value)}>
-                            <option className='signUpOption'>Matric</option>
-                            <option className='signUpOption'>Inter</option>
-                            <option className='signUpOption'>Bachelor</option>
-                            <option className='signUpOption'>Master</option>
-                        </select>
-                    </div>
-                    : false}
-                    {/* <button className='signUpButton' type='submit' onClick={nextFunc}>Next</button> */}
-                    {/* <p>Already have an account <Link to={'/'}>Sign in</Link></p> */}
-                    {/* </form> : */}
-                    {/* <form onSubmit={(e) => formik.handleSubmit(e)} className="signUpDiv"> */}
-                    {/* <h1>Sign Up</h1> */}
-                    { status == "Student"?
-                        <div className='signUpRowDiv'>
-                            <input placeholder={'Experience:'} className='signUpTextInput' type='number' value={exp} onChange={(e) => changeExp(e)} />
-                        {reqCheck.exp? <p>Required!</p> : false}
-                        </div>
-                        // </>
-                    : false}
+                </div>
+                {/* <StudentReq /> */}
                     <div className='signUpRowDiv'>
                     <input placeholder={'Email:'} name='email' value={formik.values.email} onChange={(e) => {
                             let temp = {...reqCheck}
                             if(check){
                             temp.email = e.target.value.length == 0
                             temp.emaillength = e.target.value.length < 8
-                            temp.invEmail = !e.target.value.includes('@') || !e.target.value.includes('.com')
+                            temp.invEmail = !e.target.value.includes('@') || !e.target.value.includes('.') || formik?.values?.email[formik?.values?.email.length-1] !== '.'
                         }
                             setReqCheck(temp)
                             setErr(false)                        
@@ -232,8 +209,7 @@ const SignUp = () => {
                 <button onClick={CreateUser} className='signUpButton' type='submit'>Create User</button>
                 <p>Already have an account <Link to={'/'}>Sign in</Link></p>
                 </div>
-                <div style={{ backgroundColor: 'rgba(11, 197, 234, 0.8)', height:'608px', width: '307.5px', display: 'flex', alignItems:'center', justifyContent: 'center', color: 'white'}}>
-                    {/* <h1>Welcome Back To Campus Website</h1> */}
+                <div style={{ backgroundColor: 'rgba(11, 197, 234, 0.8)', height:'500px', width: '307.5px', display: 'flex', alignItems:'center', justifyContent: 'center', color: 'white'}}>
                     <img width={'230px'} height={'230px'} src={`https://cdn-icons-png.flaticon.com/512/68/68286.png`}/>
                 </div>
                 </form>
