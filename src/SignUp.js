@@ -19,6 +19,7 @@ const SignUp = () => {
     const [ AllUsersData, setAllUsersData ] = useState([])
     const [ check, setCheck ] = useState(false)
     const [ index, setIndex ] = useState(false)
+    const [ wait, setWait ] = useState(false)
     const [reqCheck, setReqCheck] = useState({name: false, email: false, password: false, passlength: false, emaillength: false, exp: false, invEmail: false})
     const [err, setErr] = useState(false)
     const validationSchema = Yup.object().shape({
@@ -70,6 +71,8 @@ const SignUp = () => {
 
 
     const CreateUser = () => {
+        if(!wait){
+        setWait(true)
         setCheck(true)
         // alert(true)
         // setExp(0)
@@ -116,6 +119,7 @@ const SignUp = () => {
             // exp: status == "Student"  ? exp : false, edu: status == "Student"  ? edu : false 
         }
         dispatch(setUserDetail(userDetail))
+        setWait(false)
             await set(ref(db, 'users/' + userId), {
                 userDetail
             }).then(() => {
@@ -124,9 +128,10 @@ const SignUp = () => {
             })
         }).catch((err) => {
             setErr(err)
+            setWait(false)
               // alert(err)
             dispatch(setUserDetail(false))
-        })}
+        })}}
     }
     // const nextFunc = () => {
         // let temp = {...reqCheck}
@@ -186,7 +191,7 @@ const SignUp = () => {
                             if(check){
                             temp.email = e.target.value.length == 0
                             temp.emaillength = e.target.value.length < 8
-                            temp.invEmail = !e.target.value.includes('@') || !e.target.value.includes('.') || formik?.values?.email[formik?.values?.email.length-1] !== '.'
+                            temp.invEmail = !e.target.value.includes('@') || !e.target.value.includes('.') || e.target.value[e.target.value.length-1] == '.'
                         }
                             setReqCheck(temp)
                             setErr(false)                        
@@ -209,7 +214,7 @@ const SignUp = () => {
                 <button onClick={CreateUser} className='signUpButton' type='submit'>Create User</button>
                 <p>Already have an account <Link to={'/'}>Sign in</Link></p>
                 </div>
-                <div style={{ backgroundColor: 'rgba(11, 197, 234, 0.8)', height:'500px', width: '307.5px', display: 'flex', alignItems:'center', justifyContent: 'center', color: 'white'}}>
+                <div className='bgBlueLock' style={{ backgroundColor: 'rgba(11, 197, 234, 0.8)', height:'575px', width: '307.5px', display: 'flex', alignItems:'center', justifyContent: 'center', color: 'white'}}>
                     <img width={'230px'} height={'230px'} src={`https://cdn-icons-png.flaticon.com/512/68/68286.png`}/>
                 </div>
                 </form>

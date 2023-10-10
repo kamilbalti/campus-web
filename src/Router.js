@@ -10,6 +10,7 @@ import { getAuth, onAuthStateChanged, signOut } from "firebase/auth"
 import { setUserDetail } from "./Redux-Toolkit/BazarSlice"
 import { useEffect, useState } from "react"
 import { CirclesWithBar, ColorRing } from "react-loader-spinner"
+import StudentReq from "./studentReq"
 const MyRouter = () => {
     const auth = getAuth();
     const {userDetail} = useSelector(e => e)
@@ -49,6 +50,7 @@ const MyRouter = () => {
                 :
                 <Routes>
                     <Route path={'/'} element={<Page />}/>
+                    <Route path={'/requirement'} element={<StudentReq/>} />
                     <Route path={location} element={<Navigate to={'/'} />}/>
                     {/* <Page />  */}
                 </Routes>

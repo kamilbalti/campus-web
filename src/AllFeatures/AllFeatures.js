@@ -9,7 +9,8 @@ const AllFeatures = ({status, closeCheck, setCloseCheck, setSelect, select}) => 
     [[
         "Name: " +userDetail?.name, 
         "Email: " +userDetail?.email, 
-        "Status: " +userDetail?.status
+        "Status: " +userDetail?.status,
+        "Uid:" + userDetail?.uid
     ]] 
     : [
         ["All Jobs", "Jobs Applied"], ["Post Jobs", "Previous Jobs", "Student Applied"], 

@@ -109,7 +109,7 @@ const SignIn = () => {
                 <button className='signUpButton' type='submit'>Log In</button>
                 <p>Don't have an account <Link to={'/signUp'}>Create One</Link></p>
                 </div>
-                <div style={{ backgroundColor: 'rgba(11, 197, 234, 0.8)', height:'500px', width: '307.5px', display: 'flex', alignItems:'center', justifyContent: 'center', color: 'white'}}>
+                <div className='bgBlueLock' style={{ backgroundColor: 'rgba(11, 197, 234, 0.8)', height:'420px', width: '307.5px', display: 'flex', alignItems:'center', justifyContent: 'center', color: 'white'}}>
                     {/* <h1>Welcome Back To Campus Website</h1> */}
                     <img width={'150px'} height={'130px'} src={`https://cdn-icons-png.flaticon.com/512/81/81052.png`}/>
                 </div>

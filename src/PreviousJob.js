@@ -60,7 +60,7 @@ const PreviousJob = ({ select, tempInd, setTempInd, setSelect, setTitle, setDura
                 <div>
                     <h3>Duration: {item?.jobDetail?.duration} {item?.jobDetail?.duration == 1? "Day" : "Days"}</h3>
                     <h3>Budget: ${item?.jobDetail?.salary}</h3>
-                    <h3>Student Applied: {item?.jobDetail?.apply?.length || 0}</h3>
+                    <h3>Student Applied: { item?.jobDetail?.apply ? Object.values(item?.jobDetail?.apply)?.length : 0}</h3>
                 </div>
                 {applyInd == index && applyInd !== false ? <h3>{item?.jobDetail?.description}</h3> : false}
                 <div className="previousJobButtonDiv">

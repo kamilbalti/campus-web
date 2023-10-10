@@ -24,9 +24,8 @@
     width: 70%;
     max-width: 442px;
     min-width: 280px;
-    min-height: 450px;
+    min-height: 420px;
     gap: 20px;
-    min-height: 500px;
     /* overflow-y: scroll; */
 }
 .signUpForm{
@@ -40,7 +39,7 @@
     width: 80%;
     max-width: 750px;
     min-width: 280px;
-    min-height: 500px;
+    min-height: 420px;
     overflow-y: hidden;
 }
 .signUpRowDiv{
@@ -66,6 +65,8 @@
 }
 .stReqSelect{
     margin: 15px 0;
+    /* padding-right: 30px;  */
+    /* padding: 12px 24px; */
 }
 .signUpOption{
     padding: 100px !important;

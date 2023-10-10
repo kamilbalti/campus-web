@@ -3,8 +3,9 @@ import { useSelector } from "react-redux"
 import { setUserDetail } from "./Redux-Toolkit/BazarSlice"
 import { ref, set } from "firebase/database"
 import { db } from "./firebase"
+import { Navigate } from "react-router"
 
-const StudentReq = ({setStReq}) => {
+const StudentReq = () => {
     const [ edu, setEdu ] = useState('Matric')
     const {userDetail} = useSelector(e => e)
     const status = userDetail?.status
@@ -13,7 +14,8 @@ const StudentReq = ({setStReq}) => {
     const [check, setCheck] = useState(false)
     const changeExp = (e) => {
         if(status == 'Student'){
-        if(e.target.value >= 0)
+        if(e.target.value.length <= 2)
+        if((e.target.value >= 0 && e.target.value <= 99))
             setExp(e.target.value)
         if(check){
             setExpReq(e.target.value == "")
@@ -31,15 +33,17 @@ const StudentReq = ({setStReq}) => {
             setUserDetail(tempdata)
             set(ref(db, 'users/' + tempdata?.uid), {
                 userDetail: tempdata
-            }).then(() => {
-                setStReq(false)
-            })
+            }).then(() => 
+                // alert('yes')
+                <Navigate to={'/new'} />
+                // setStReq(false)
+            )
         }
     }
 
 
     return(
-        <div>
+        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh'}}>
 
         {status == 'Student' ?
                     <div style={{border: '1px solid black', backgroundColor: "white", boxShadow: '3px 3px 13px 10px rgba(0, 0, 0, 0.3)', padding: '30px', borderRadius: '50px'}}>
@@ -53,7 +57,7 @@ const StudentReq = ({setStReq}) => {
                         </select>
                     </div>
                         <div className='signUpRowDiv'>
-                            <input placeholder={'Experience:'} className='signUpTextInput stReqSelect' type='number' value={exp} onChange={(e) => changeExp(e)} />
+                            <input placeholder={'Experience:'} className='signUpTextInput stReqSelect' type='input' value={exp} onChange={(e) => changeExp(e)} />
                         {expReq? <p style={{marginBottom: '20px'}}>Required!</p> : false}
                         </div>
                         <button className="LogOutBut" onClick={submit}>Submit</button>
