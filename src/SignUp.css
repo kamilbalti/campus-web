@@ -117,6 +117,7 @@
     @media screen and (max-width: 800px){
         .signUpForm{
             width: 60%;
+            height: 65vh;
             overflow: hidden;
             flex-direction: column;
             background-color: white;
