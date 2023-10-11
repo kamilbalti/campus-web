@@ -32,23 +32,6 @@
     background-color: rgb(244, 245, 247);
     color: black;
 }
-@media screen and (max-width: 1000px){
-    .AllFeaturesMainDiv{
-        width: 40%;
-    }
-    .AllFeaturesDiv2{
-        margin-left: -40%;
-    }
-}
-@media screen and (max-width: 800px){
-    .AllFeaturesMainDiv{
-        width: 50%;
-    }
-    .AllFeaturesDiv2{
-        margin-left: -50%;
-    }
-    
-}
 .closeButtonDiv{
     font-size: 20px;
     font-weight: bold;
@@ -69,14 +52,29 @@
     position: fixed;
     right: 0;
 }
+@media screen and (max-width: 1000px){
+    .AllFeaturesMainDiv{
+        width: 40%;
+    }
+    .AllFeaturesDiv2{
+        margin-left: -40%;
+    }
+}
+@media screen and (max-width: 800px){
+    .AllFeaturesMainDiv{
+        width: 50%;
+    }
+    .AllFeaturesDiv2{
+        margin-left: -50%;
+    }
+    
+}
 @media screen and (max-width: 600px){
     .AllFeaturesMainDiv{
         z-index: 20;
         overflow: auto;
-        /* display: none; */
-        /* display: none; */
         position: fixed;
-        width: 100%;
+        width: 100% ;
     }
     .AllFeaturesDiv2{
         margin-left: -100%;

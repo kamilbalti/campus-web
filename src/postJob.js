@@ -71,7 +71,8 @@ const PostJob = ({ tempInd, setTempInd, setSelect, title, setTitle, duration, se
         // index: tempInd,
         salary,
         title,
-        uid
+        uid,
+        apply: false
     }
         set(ref(db, "AllJobs/" + uid + "/job/" + tempInd),{
             jobDetail: tempData,

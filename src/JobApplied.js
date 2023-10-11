@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 
 const JobApplied = ({ closeCheck, select, appliedJob, setSelect, prevApplied, setPrevApplied }) => {
+    const [emptPage, setEmptPage] = useState(false)
     const [applyInd, setApplyInd] = useState(false)
     // const [ tempArr, setTempArr ] = useState(false)
     const [tempApplied, setTempApplied] = useState([])
@@ -24,7 +25,9 @@ const JobApplied = ({ closeCheck, select, appliedJob, setSelect, prevApplied, se
                 })
             // console.log(appliedJob)
             if (appliedJob.length == 0)
-                setSelect(false)
+                setEmptPage(true)
+            else
+            setEmptPage(false)
         })
     }, [select, closeCheck])
     useEffect(() => {
@@ -50,6 +53,8 @@ const JobApplied = ({ closeCheck, select, appliedJob, setSelect, prevApplied, se
     // },[tempArr])
 
     return (
+        emptPage? 
+        <img width={"100%"} height={"99%"} style={{border: '1px solid rgb(220, 220, 220)', maxWidth: '1000px', margin:'auto', display: 'flex', alignSelf: 'center'}} src={'https://i.pinimg.com/originals/49/e5/8d/49e58d5922019b8ec4642a2e2b9291c2.png'}/> : 
         <div className="previousJobMainDiv">
             {appliedJob !== [] ? appliedJob?.map((item, index) =>
                 <div onClick={() => setApplyInd(index)} className={"previousJobBox"}>

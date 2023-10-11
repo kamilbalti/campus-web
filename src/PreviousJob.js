@@ -4,6 +4,7 @@ import { db } from "./firebase"
 import { useSelector } from "react-redux"
 
 const PreviousJob = ({ select, tempInd, setTempInd, setSelect, setTitle, setDuration, setSalary, setDescription}) => {
+    const [emptPage, setEmptPage] = useState(false)
     const {userDetail} = useSelector(e => e)
     const [applyInd, setApplyInd] = useState(false)
     const [ PreviousJobData, setPreviousJobData ] = useState([])
@@ -44,15 +45,22 @@ const PreviousJob = ({ select, tempInd, setTempInd, setSelect, setTitle, setDura
         })
     },[select])
     useEffect(() => {
+        setEmptPage(false)
         console.log(PreviousJobData)
-        if(PreviousJobData == false){
-            setSelect(false)
+        if(PreviousJobData != false || PreviousJobData.length != 0 && PreviousJobData.length !== undefined || PreviousJobData != []){
+            setEmptPage(false)
+            // setSelect(f  alse)
+            console.log(PreviousJobData.length, ' prevData')
         }
         else{
+            setEmptPage(true)
             setSelect(1)
+            console.log(PreviousJobData, ' prevDatae')
         }
     },[PreviousJobData])
     return(
+        emptPage? 
+        <img width={"100%"} height={"99%"} style={{border: '1px solid rgb(220, 220, 220)', maxWidth: '1000px', margin:'auto', display: 'flex', alignSelf: 'center'}} src={'https://i.pinimg.com/originals/49/e5/8d/49e58d5922019b8ec4642a2e2b9291c2.png'}/> : 
         <div className="previousJobMainDiv">
             {PreviousJobData ? PreviousJobData.map((item, index) => 
                 <div onClick={() => index !== applyInd && deleteInd == false && setApplyInd(index)} className={applyInd == index && applyInd !== false ? "previousJobBox previousJobBox2" :"previousJobBox"}>

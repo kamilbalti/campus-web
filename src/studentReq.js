@@ -3,9 +3,11 @@ import { useSelector } from "react-redux"
 import { setUserDetail } from "./Redux-Toolkit/BazarSlice"
 import { ref, set } from "firebase/database"
 import { db } from "./firebase"
-import { Navigate } from "react-router"
+import { Navigate, Route, Router, Routes, useNavigate } from "react-router"
+import { Link } from "react-router-dom"
 
 const StudentReq = () => {
+    const navigate = useNavigate()
     const [ edu, setEdu ] = useState('Matric')
     const {userDetail} = useSelector(e => e)
     const status = userDetail?.status
@@ -33,10 +35,17 @@ const StudentReq = () => {
             setUserDetail(tempdata)
             set(ref(db, 'users/' + tempdata?.uid), {
                 userDetail: tempdata
-            }).then(() => 
-                // alert('yes')
-                <Navigate to={'/new'} />
-                // setStReq(false)
+            })
+            .then(() =>{
+            navigate('/')
+            // alert('test')
+            // <Router>
+            //     <Routes>
+            //         <Route path={'/'} element={<Navigate to={'/'} />}/>
+            //     </Routes>
+            // </Router>
+            }
+            // setStReq(false)
             )
         }
     }

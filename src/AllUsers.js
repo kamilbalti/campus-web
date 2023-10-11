@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { db } from "./firebase"
 
 const AllUser = ({select, setSelect}) => {
+    const [emptPage, setEmptPage] = useState(false)
     const [ AllUsersData, setAllUsersData ] = useState([])
     const [ applyInd, setApplyInd ] = useState(false)
     const [ check, setCheck ] = useState(false)
@@ -15,15 +16,19 @@ const AllUser = ({select, setSelect}) => {
             setAllUsersData(temp)
         })
     },[])
-    useEffect(() => {
-        onValue(ref(db,"users/"),(data) => {
+    // useEffect(() => {
+        //     setSelect(select)
+        // },[select])
+        useEffect(() => {
+            setEmptPage(false)
+            onValue(ref(db,"users/"),(data) => {
             let temp = [...AllUsersData]
             data.val() && Object.values(data.val()).map((item,index) => item?.userDetail?.status !== "Admin" &&
             temp.push(item?.userDetail)
             )
         let index = temp.findIndex((item, index) =>  
-        select == 1 ? item?.verify == false : select == 2 ? item?.verify == true : select == 3 ? item?.block == true: true)
-        index == -1 ? setSelect(false) : setSelect(select)
+        select == 1 ? item?.verify == false : select == 2 ? item?.verify == true : select == 3 ? item?.block == true: item == item)
+        index == -1 ? setEmptPage(true) : setSelect(select) && setEmptPage(false)
         })
     },[select, check, AllUsersData])
     const block = (uid) => {
@@ -67,6 +72,8 @@ const AllUser = ({select, setSelect}) => {
         setCheck(false)
     }
     return(
+        emptPage? 
+        <img width={"100%"} height={"99%"} style={{border: '1px solid rgb(220, 220, 220)', maxWidth: '1000px', margin:'auto', display: 'flex', alignSelf: 'center'}} src={'https://i.pinimg.com/originals/49/e5/8d/49e58d5922019b8ec4642a2e2b9291c2.png'}/> : 
         <div className="previousJobMainDiv">
             { AllUsersData.filter((item, index) => (select == 0? item == item : 
             select == 1 ? item?.verify == false : select == 2 ? item?.verify == true : item?.block == true))?.map((item, index) =>

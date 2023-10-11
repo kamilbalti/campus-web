@@ -65,6 +65,7 @@
 }
 .postJobInput{
     color: black;
+    border: 1px solid black;
     font-size: 16px;
     padding: 10px;
     width: 100%;

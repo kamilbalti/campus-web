@@ -18,6 +18,7 @@ const Page = () => {
     let status = userDetail?.status
     const dispatch = useDispatch()
     const [ select, setSelect ] = useState(0)
+    const [ emptPage, setEmptPage ] = useState(false)
     const [ closeCheck, setCloseCheck ] = useState(false)
     //     onAuthStateChanged(auth, (user) => {
     //         if(user){
@@ -31,10 +32,10 @@ const Page = () => {
     return(
         <>
         {status === "Admin"?
-        <AdminPage name={name} status={status} closeCheck={closeCheck} setCloseCheck={setCloseCheck} select={select} setSelect={setSelect}/>:
+        <AdminPage emptPage={emptPage} setEmptPage={setEmptPage} name={name} status={status} closeCheck={closeCheck} setCloseCheck={setCloseCheck} select={select} setSelect={setSelect}/>:
         status === "Company" ?
-        <CompanyPage name={name} status={status} closeCheck={closeCheck} setCloseCheck={setCloseCheck} select={select} setSelect={setSelect}/>:
-        <StudentPage name={name} status={status} closeCheck={closeCheck} setCloseCheck={setCloseCheck} select={select} setSelect={setSelect}/>
+        <CompanyPage emptPage={emptPage} setEmptPage={setEmptPage} name={name} status={status} closeCheck={closeCheck} setCloseCheck={setCloseCheck} select={select} setSelect={setSelect}/>:
+        <StudentPage emptPage={emptPage} setEmptPage={setEmptPage} name={name} status={status} closeCheck={closeCheck} setCloseCheck={setCloseCheck} select={select} setSelect={setSelect}/>
     }
         </>
     )
