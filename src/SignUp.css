@@ -45,9 +45,50 @@
 .signUpRowDiv{
     display: flex;
     flex-direction: column;
-    color: red;
+    /* color: red; */
     width: 100%;
     gap: 13px;
+}
+.signUpPassDiv{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding-right: 10px;
+    /* padding: 0 10px; */
+    border: 1px solid rgb(150, 150, 150);
+    /* border: 1px solid black; */
+    border-radius: 20px;
+    gap: 0;
+    /* outline: auto; */
+}
+.signUpPassInput:hover > input:hover {
+    border: 2px solid rgba(11, 197, 234, 0.8) !important;
+    background-color: yellow !important;
+}
+.signUpPassDiv:hover{   
+    border: 1px solid rgb(50, 50, 50);
+}
+/* .signUpPassInput:focus{
+} */
+.signUpPassIcon{
+    font-size: 24px;
+    margin: 0;
+    padding: 3px 5px 1px 5px;
+    color: rgb(150, 150, 150);
+    /* width: 100px; */
+    cursor: pointer;
+    /* width: 30px; */
+    border-radius: 100%;
+    border: 0 !important;
+    outline: none;
+    background-color: white;
+}
+.signUpPassIcon:hover{
+background-color: rgb(230, 230, 230);
+}
+.signUpPassIcon:focus{
+    background-color: rgb(210, 210, 210);
 }
 .signUpIntroName{
     width: 200px;
@@ -60,8 +101,30 @@
     padding: 12px;
     font-size: 16px; 
     border-radius: 20px;
-    border: 1px solid black;
-    /* appearance: none; */
+    border: 1px solid rgb(150, 150, 150);
+}
+.signUpTextInput:focus{
+    outline: none;
+    border: 2px solid rgba(11, 197, 234, 0.8) !important;
+    width: 99.9%;
+    padding: 11px;
+}
+.signUpTextInput:hover{
+    border: 1px solid rgb(50, 50, 50);
+}
+.signUpPassInput{
+    border: 0;
+    outline: none;
+}
+.signUpPassInput:hover{
+    border: 0;
+}
+.signUpPassInput:focus{
+    border: none !important;
+    padding: 11px;
+}
+.signUpBorder{
+    border: 2px solid rgba(11, 197, 234, 0.8) !important;
 }
 .stReqSelect{
     margin: 15px 0;
@@ -94,10 +157,33 @@
     padding: 10px;
     margin: 0 10px;
 }
+.signInImage{
+    background-color: rgba(11, 197, 234, 0.8);
+    height: 420px;
+    width: 307.5px;
+    display: flex; 
+    align-items:center;
+    justify-content: center; 
+    color: white
+}
+.signUpImage{
+    background-color: rgba(11, 197, 234, 0.8);
+    height: 575px;
+    width: 307.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white
+}
 @media screen and (max-width: 600px){
     .signUpRowDiv{
         display: flex;
         flex-direction: column;
+    }
+    .signUpPassDiv{
+        display: flex;
+        flex-direction: row;
+        padding-right: 7px;
     }
     .signUpDiv{
         width: 280px;
@@ -115,9 +201,12 @@
     }
 }
     @media screen and (max-width: 800px){
+        .bgBlueLock{
+            display: none;
+        }
         .signUpForm{
             width: 60%;
-            height: 65vh;
+            /* height: 65vh; */
             overflow: hidden;
             flex-direction: column;
             background-color: white;

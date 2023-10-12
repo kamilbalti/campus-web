@@ -7,11 +7,14 @@ import { setUserDetail } from './Redux-Toolkit/BazarSlice';
 import { onValue, ref } from 'firebase/database';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
+import {BsFillEyeFill, BsFillEyeSlashFill} from 'react-icons/bs'
 import * as Yup from 'yup'
 const SignIn = () => {
+    const [passType, setPassType] = useState('password')
     const auth = getAuth();
-    const [reqCheck, setReqCheck] = useState({name: false, email: false, password: false, passlength: false, emaillength: false, exp: false})
+    const [reqCheck, setReqCheck] = useState({name: false, email: false, password: false})
     const [err, setErr] = useState(false)
+    const [ passBorder, setPassBorder ] = useState(false)
     const [ check, setCheck ] = useState(false)
     const validationSchema = Yup.object().shape({
         email: Yup.string()
@@ -41,19 +44,12 @@ const SignIn = () => {
                 setErr(false)
                 setReqCheck(temp)
             }
-            else if(formik.values.email.length < 8)
-            temp.emaillength = true
         if(formik.values.password == "") {
             temp.password = true;
             setErr(false)
             setReqCheck(temp)
         }
-        else if(formik.values.password.length < 8){
-            temp.passlength = true
-            setErr(false)
-            setReqCheck(temp)
-        }
-        else if(!temp.email && !temp.emaillength && !temp.password && !temp.passlength)
+        else if(!temp.email && !temp.password)
         signInWithEmailAndPassword(auth, formik.values.email, formik.values.password).then(() => {
             onAuthStateChanged(auth, (user) => {
                 if(user){
@@ -87,30 +83,36 @@ const SignIn = () => {
                             let temp = {...reqCheck}
                             if(check){
                             temp.email = e.target.value.length == 0
-                            temp.emaillength = e.target.value.length < 8}
+                        }
                             setReqCheck(temp)
                             setErr(false)                        
                             formik.handleChange(e)}} className='signUpTextInput'/>
                     {reqCheck.email? <p>Required!</p> : reqCheck.emaillength? <p>Minimum 8 character required!</p> : false}
                 </div>
                 <div className='signUpRowDiv'>
-                    <input placeholder='Password' name="password" value={formik.values.password} onChange={(e) => {
+                    <div className={passBorder ? 'signUpPassDiv signUpBorder':'signUpPassDiv'}>
+                    <input onFocus={() => setPassBorder(true)} onBlur={() => setPassBorder(false)} placeholder='Password' name="password" value={formik.values.password} onChange={(e) => {
                         let temp = {...reqCheck}
                         if(check){
                         temp.password = e.target.value.length == 0
-                        temp.passlength = e.target.value.length < 8}
+                    }
                         setReqCheck(temp)
                         setErr(false)                                                
                         formik.handleChange(e)
-                        }} type='password' className='signUpTextInput'/>
+                        }} type={passType} className={`signUpTextInput signUpPassInput`}/>
+                        <button type='button' className='signUpPassIcon' onClick={() => passType == 'password'? setPassType('text'): setPassType('password')}>
+                            {passType == 'password' ?
+                            <BsFillEyeSlashFill /> : <BsFillEyeFill /> }
+                        </button>
+                    </div>
+
                     {reqCheck.password? <p>Required!</p> : reqCheck.passlength? <p>Minimum 8 character required!</p> : err && !reqCheck.email && !reqCheck.emaillength? 
                     <p>Invalid Email or Password</p> : false}
                 </div>
                 <button className='signUpButton' type='submit'>Log In</button>
                 <p>Don't have an account <Link to={'/signUp'}>Create One</Link></p>
                 </div>
-                <div className='bgBlueLock' style={{ backgroundColor: 'rgba(11, 197, 234, 0.8)', height:'420px', width: '307.5px', display: 'flex', alignItems:'center', justifyContent: 'center', color: 'white'}}>
-                    {/* <h1>Welcome Back To Campus Website</h1> */}
+                <div className='bgBlueLock signInImage'>
                     <img width={'150px'} height={'130px'} src={`https://cdn-icons-png.flaticon.com/512/81/81052.png`}/>
                 </div>
             </form>
