@@ -7,7 +7,7 @@ import { setUserDetail } from './Redux-Toolkit/BazarSlice';
 import { onValue, ref } from 'firebase/database';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
-import {BsFillEyeFill, BsFillEyeSlashFill} from 'react-icons/bs'
+import {BsFillEyeFill, BsFillEyeSlashFill} from 'react-icons/bs';
 import * as Yup from 'yup'
 const SignIn = () => {
     const [passType, setPassType] = useState('password')
@@ -55,24 +55,29 @@ const SignIn = () => {
                 if(user){
                     const uid = user.uid
                     onValue(ref(db, "users/" + uid + "/userDetail"), (data) => {
-                        (data.val()?.block == true)?
-                        alert("You are Blocked by the Admin"): 
-                        dispatch(setUserDetail(data.val()))
+                        (data.val()?.block != true)?
+                        dispatch(setUserDetail(data.val())) : 
+                        alert("You are Blocked by the Admin") && 
+                        dispatch(setUserDetail(false))
                     })
+                    formik.values.email = ""
+                    formik.values.password = ""
                 }
             })
-            formik.values.email = ""
-            formik.values.password = ""
             // navigate('/')
         }).catch((err) => setErr(err))
     }
-    // let check = true
-    // const sendMail = () => {
-    //     check = false
-    //     sendPasswordResetEmail(auth, formik.values.email);
-    //     alert('Password Reset Email Send')
-    //     check = true
-    // }
+    let check2 = true
+    const sendMail = () => {
+        check2 = false
+        sendPasswordResetEmail(auth, formik.values.email)
+        .then(() =>{
+        alert('Successful You are Navigating to Your Gmail') 
+        window.location = 'https://mail.google.com/mail/u/0/#inbox'
+        })
+        .catch((err) => alert('UnSuccessful Please Provide The Right And Complete Email' + err))
+        check2 = true
+    }
     return(
         <div className="signUpMainDiv">
             <form onSubmit={(e)=>formik.handleSubmit(e)} className="signUpForm">
@@ -87,7 +92,7 @@ const SignIn = () => {
                             setReqCheck(temp)
                             setErr(false)                        
                             formik.handleChange(e)}} className='signUpTextInput'/>
-                    {reqCheck.email? <p>Required!</p> : reqCheck.emaillength? <p>Minimum 8 character required!</p> : false}
+                    {reqCheck.email? <p className='signUpError'>Required!</p> : reqCheck.emaillength? <p className='signUpError'>Minimum 8 character required!</p> : false}
                 </div>
                 <div className='signUpRowDiv'>
                     <div className={passBorder ? 'signUpPassDiv signUpBorder':'signUpPassDiv'}>
@@ -105,10 +110,10 @@ const SignIn = () => {
                             <BsFillEyeSlashFill /> : <BsFillEyeFill /> }
                         </button>
                     </div>
-
-                    {reqCheck.password? <p>Required!</p> : reqCheck.passlength? <p>Minimum 8 character required!</p> : err && !reqCheck.email && !reqCheck.emaillength? 
-                    <p>Invalid Email or Password</p> : false}
+                    {reqCheck.password? <p className='signUpError'>Required!</p> : reqCheck.passlength? <p className='signUpError'>Minimum 8 character required!</p> : err && !reqCheck.email && !reqCheck.emaillength? 
+                    <p className='signUpError'>Invalid Email or Password</p> : false}
                 </div>
+                <p style={{width: '100%', display: 'flex', justifyContent: 'flex-end', paddingRight: '15px', marginBottom: '-20px'}}><Link onClick={() => sendMail()}>Forgot Password</Link></p>
                 <button className='signUpButton' type='submit'>Log In</button>
                 <p>Don't have an account <Link to={'/signUp'}>Create One</Link></p>
                 </div>

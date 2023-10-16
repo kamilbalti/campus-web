@@ -15,7 +15,7 @@ const AllJob = ({setSelect, appliedJob, select}) => {
     const [check, setCheck] = useState(false)
     const [streq, setStReq] = useState(false)
     const [ emptCheck, setEmptCheck ] = useState([])
-    useEffect(() => {setSelect(0)},[select])
+    // useEffect(() => {setSelect(0)},[select])
     const Apply = (indexes) => {
         if(userDetail?.edu && userDetail?.exp)
         {

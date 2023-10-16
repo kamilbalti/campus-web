@@ -17,7 +17,7 @@ const StudentReq = () => {
     const changeExp = (e) => {
         if(status == 'Student'){
         if(e.target.value.length <= 2)
-        if((e.target.value >= 0 && e.target.value <= 99))
+        if((e.target.value >= 0 && e.target.value <= 99) && !e.target.value.includes('-')  && !e.target.value.includes('*') && !e.target.value.includes('/') && !e.target.value.includes('+')  && !e.target.value.includes('e'))
             setExp(e.target.value)
         if(check){
             setExpReq(e.target.value == "")
@@ -66,7 +66,7 @@ const StudentReq = () => {
                         </select>
                     </div>
                         <div className='signUpRowDiv'>
-                            <input placeholder={'Experience:'} className='signUpTextInput stReqSelect' type='input' value={exp} onChange={(e) => changeExp(e)} />
+                            <input placeholder={'Experience:'} className='signUpTextInput stReqSelect' type='number' value={exp} onChange={(e) => changeExp(e)} />
                         {expReq? <p style={{marginBottom: '20px'}}>Required!</p> : false}
                         </div>
                         <button className="LogOutBut" onClick={submit}>Submit</button>

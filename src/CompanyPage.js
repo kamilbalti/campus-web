@@ -4,9 +4,11 @@ import Navbar from "./Navbar/Navbar"
 const CompanyPage = ({name, closeCheck, setCloseCheck, status, select, setSelect, emptPage, setEmptPage}) => {
     return(
         <div className="AppMainDiv">
-            <Navbar closeCheck={closeCheck} name={name} setCloseCheck={setCloseCheck}/>
             <AllFeatures select={select} closeCheck={closeCheck} setCloseCheck={setCloseCheck} status={status} setSelect={setSelect}/>
-            <MainPage emptPage={emptPage} setEmptPage={setEmptPage} setSelect={setSelect} select={select} closeCheck={closeCheck}/>
+            <div className={closeCheck == true ? "AppChildDiv MainPageDiv2" : "AppChildDiv"}>
+                <Navbar closeCheck={closeCheck} name={name} setCloseCheck={setCloseCheck}/>
+                <MainPage emptPage={emptPage} setEmptPage={setEmptPage} setSelect={setSelect} select={select} closeCheck={closeCheck}/>
+            </div>
         </div>
     )
 }

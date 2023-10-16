@@ -23,7 +23,8 @@ const MyRouter = () => {
                 onValue(ref(db, "users/" + uid + "/userDetail"), (data) => {
                    data.val() && 
                    data.val()?.block == true ?
-                   dispatch(setUserDetail(false))
+                   signOut(auth) &&
+                   setTimeout(() => dispatch(setUserDetail(data.val())),100)
                 :
                    dispatch(setUserDetail(data.val())) 
                 })

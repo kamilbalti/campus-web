@@ -84,7 +84,7 @@ const SignUp = () => {
         index2 == -1 ? 
         temp2.exist = false : temp2.exist = true
         setReqCheck(temp2)
-        console.log(temp2.exist)
+        // console.log(temp2.exist)
         })
     }
     useEffect(() => {
@@ -161,7 +161,7 @@ const SignUp = () => {
         else{
             setWait(false)
         }
-        console.log(wait)
+        // console.log(wait)
     }
     // const nextFunc = () => {
     // let temp = {...reqCheck}
@@ -194,7 +194,7 @@ const SignUp = () => {
                 {
                     // !next ? 
                     <form onSubmit={(e) => formik.handleSubmit(e)} className="signUpForm">
-                        <div className='signUpDiv'>
+                        <div className='signUpDiv signUpChildDiv'>
                             <h1>REGISTER</h1>
                             <div className='signUpRowDiv'>
                                 <input placeholder={'Name:'} name='name' value={formik.values.name} onChange={(e) => {
@@ -205,7 +205,7 @@ const SignUp = () => {
                                     setErr(false)
                                     formik.handleChange(e)
                                 }} className='signUpTextInput' />
-                                {reqCheck.name ? <p>Required!</p> : false}
+                                {reqCheck.name ? <p className="signUpError">Required!</p> : false}
                             </div>
                             <div className='signUpRowDiv'>
                                 <select className='signUpSelect signUpTextInput' value={status} onChange={(e) => setStatus(e.target.value)}>
@@ -230,7 +230,7 @@ const SignUp = () => {
                                     formik.handleChange(e)
                                 }
                                 } className='signUpTextInput' />
-                                {reqCheck.email ? <p>Required!</p> : reqCheck.emaillength ? <p>Minimum 8 character required!</p> : false}
+                                {reqCheck.email ? <p className="signUpError">Required!</p> : reqCheck.emaillength ? <p className="signUpError">Minimum 8 character required!</p> : false}
                             </div>
                             <div className='signUpRowDiv'>
                                 <div className={passBorder ? 'signUpPassDiv signUpBorder' : 'signUpPassDiv'}>
@@ -249,7 +249,7 @@ const SignUp = () => {
                                             <BsFillEyeSlashFill /> : <BsFillEyeFill />}
                                     </button>
                                 </div>
-                                {reqCheck?.exist ? <p>Account already in used</p> : reqCheck.password ? <p>Required!</p> : reqCheck.passlength ? <p>Minimum 8 character required!</p> : reqCheck.invEmail ? <p>Invalid Email!</p> : err ? <p>Invalid Email</p> : false}
+                                {reqCheck?.exist ? <p className="signUpError">Account already in used</p> : reqCheck.password ? <p className="signUpError">Required!</p> : reqCheck.passlength ? <p className="signUpError">Minimum 8 character required!</p> : reqCheck.invEmail ? <p className="signUpError">Invalid Email!</p> : err ? <p className="signUpError">Invalid Email</p> : false}
                             </div>
                             <button disabled={wait} onClick={CreateUser} className='signUpButton' type='submit'>Create User</button>
                             <p>Already have an account <Link to={'/'}>Sign in</Link></p>

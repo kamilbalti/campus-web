@@ -18,15 +18,20 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     padding: 25px;
+    height: 100%;
     padding-bottom: 40px;
     width: 70%;
     max-width: 442px;
     min-width: 280px;
-    min-height: 420px;
+    min-height: 455px;
     gap: 20px;
     /* overflow-y: scroll; */
+}
+.signUpChildDiv{
+    height: 575px;
+    /* min-height: auto; */
 }
 .signUpForm{
     overflow: hidden;
@@ -159,12 +164,12 @@ background-color: rgb(230, 230, 230);
 }
 .signInImage{
     background-color: rgba(11, 197, 234, 0.8);
-    height: 420px;
+    height: 455px;
     width: 307.5px;
     display: flex; 
     align-items:center;
     justify-content: center; 
-    color: white
+    color: white;
 }
 .signUpImage{
     background-color: rgba(11, 197, 234, 0.8);
@@ -174,6 +179,9 @@ background-color: rgb(230, 230, 230);
     align-items: center;
     justify-content: center;
     color: white
+}
+.signUpError{
+    color: red;
 }
 @media screen and (max-width: 600px){
     .signUpRowDiv{

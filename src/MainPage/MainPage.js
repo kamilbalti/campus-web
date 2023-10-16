@@ -16,9 +16,11 @@ const MainPage = ({select, closeCheck, setSelect, emptPage, setEmptPage}) => {
     const [ Applied, setApplied ] = useState([])
     const {userDetail} = useSelector(e => e)
     let appliedJob = [];
-    console.log(emptPage, 'emptPage')
+    // console.log(emptPage, 'emptPage')
     return(
-        <div className={closeCheck == true ? "MainPageMainDiv MainPageDiv2" :"MainPageMainDiv"}>
+        <div className={
+            // closeCheck == true ? "MainPageMainDiv MainPageDiv2" :
+        "MainPageMainDiv"}>
             {userDetail?.status == "Student" ?
             (select == 0 ? 
             <AllJob select={select} emptPage={emptPage} setEmptPage={setEmptPage} setSelect={setSelect} appliedJob={appliedJob}/>

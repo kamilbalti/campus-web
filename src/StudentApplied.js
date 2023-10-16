@@ -63,7 +63,7 @@ const StudentApplied = ({ setSelect}) => {
                         <h1>Name: {item?.userDetail?.name}</h1>
                         <div>
                         <h2>Title of job: {item2?.jobDetail?.title}</h2>
-                        <h2>No of job by time: {index2 + 1}</h2>
+                        <h2>Job No: {index2 + 1}</h2>
                         </div>
                         <div>
                             <h3>Email: {item?.userDetail?.email}</h3>

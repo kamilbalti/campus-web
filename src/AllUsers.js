@@ -28,7 +28,7 @@ const AllUser = ({select, setSelect}) => {
             )
         let index = temp.findIndex((item, index) =>  
         select == 1 ? item?.verify == false : select == 2 ? item?.verify == true : select == 3 ? item?.block == true: item == item)
-        index == -1 ? setEmptPage(true) : setSelect(select) && setEmptPage(false)
+        index == -1 ? setEmptPage(true) : setEmptPage(false)
         })
     },[select, check, AllUsersData])
     const block = (uid) => {
