@@ -60,7 +60,9 @@ const PostJob = ({ tempInd, setTempInd, setSelect, title, setTitle, duration, se
                 duration,
                 salary,
                 description,
-                uid
+                uid,
+                verify: true,
+                block: false,
             })
         // setIndex(index+1)
     }}

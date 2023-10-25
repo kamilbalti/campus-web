@@ -3,30 +3,49 @@ import { useSelector } from "react-redux"
 import { db } from "./firebase"
 import { useEffect, useState } from "react"
 
-const StudentApplied = ({ setSelect}) => {
+const StudentApplied = ({ setSelect, select}) => {
+    let tempAllUsersData = []
     const [emptPage, setEmptPage] = useState(false)
     const { userDetail } = useSelector(e => e)
     const [applyInd, setApplyInd] = useState(false)
     const [PreviousJobData, setPreviousJobData] = useState([])
     const [loading, setLoading] = useState(true)
     const [check, setCheck] = useState()
+    let tempData = []
     // const [ data, setData ] = useState(false)
     const uid = userDetail?.uid
-    let temp = [...PreviousJobData]
+    let temp = []
     useEffect(() => {
-
+        onValue(ref(db,"users/"),(data) => {
+            let tempUsers = [...tempAllUsersData]
+            data.val() && Object.values(data.val()).map((item,index) => {item?.userDetail?.status !== "Admin" &&
+                tempUsers.push(item?.userDetail)
+            })
+                tempAllUsersData = tempUsers    
+        })
+    },[userDetail, select])
+    useEffect(() => {
         try {
             onValue(ref(db, "AllJobs/" + uid + "/job/"), (data) => {
                return data.val()?.map((item, index) => {
-                    if (item?.jobDetail?.apply)
-                        temp.push(item)
+                   if (item?.jobDetail?.apply)
+                   temp.push(item)
+                    item?.jobDetail?.apply && Object.values(item?.jobDetail?.apply)?.map((item2, index2) => {
+                        let tempUid = item2?.userDetail?.uid
+                        // console.log(item2?.userDetail?.uid, ' ITem2')
+                        let tempUser = tempAllUsersData.find((item3) => item3?.uid == tempUid)
+                        if(tempUser?.block == false && tempUser?.verify == true)
+                            tempData.push(item2)
+                        })
                 })
             })
-            setPreviousJobData(temp)
-            if(temp.length == 0)
-            setEmptPage(true)
-            else
-            setEmptPage(false)
+            setPreviousJobData(tempData)
+            // setTimeout(() => {
+                if(tempData?.length == 0)
+                    setEmptPage(true)
+                else if(tempData?.length != 0)
+                    setEmptPage(false)
+            // },500)
             // console.log("useeffect called")
             setCheck(true)
             // setLoading(false)
@@ -36,51 +55,51 @@ const StudentApplied = ({ setSelect}) => {
         }
         // return ()=>sub
         // console.log(check)
-    }, [])
+    },[userDetail, select])
 
     // useEffect(() => {
+    //     // setTimeout(() => {
+    //     // console.log(PreviousJobData == [], " JO Data2 ")
+    //     if(PreviousJobData?.length == 0)
+    //         setEmptPage(true)
+    //     // else 
+    //     else if(PreviousJobData?.length != 0)
+    //         setEmptPage(false)
+    //     else setEmptPage(false)
+    // // },500)
+    // },[PreviousJobData])
     // }, [check])
     // console.log(check, temp,PreviousJobData)
     //     if(PreviousJobData != temp) {
-    //         console.log(PreviousJobData, " new Data")
+            // console.log(PreviousJobData, " new Data")
     //     }
+    // useEffect(() =>{
+    //     console.log(temp, ' TeMPData')
     // }, [temp])
     return (
-        emptPage? 
+            emptPage? 
         <img width={"100%"} height={"99%"} style={{border: '1px solid rgb(220, 220, 220)', maxWidth: '1000px', margin:'auto', display: 'flex', alignSelf: 'center'}} src={'https://i.pinimg.com/originals/49/e5/8d/49e58d5922019b8ec4642a2e2b9291c2.png'}/> : 
         <div className="previousJobMainDiv">
             <>
             {
-                !!temp?.length && temp.map((item2, index2) => (
-                // item2?.jobDetail?.apply == undefined ? setSelect(false) : 
+                !!PreviousJobData?.length && PreviousJobData.map((item2, index2) => (
                 <>
-                    
-                    {/* <h1>Hello world</h1> */}
-                    {/* <h1>{item2?.jobDetail?.title} at {index2}</h1> */}
-                    {
-                    item2?.jobDetail?.apply && Object.values(item2?.jobDetail?.apply).map((item, index) =>
                     <div onClick={() => index2 !== applyInd && setApplyInd(index2)} className={"previousJobBox"}>
-                        <h1>Name: {item?.userDetail?.name}</h1>
+                        <h1>Name: {item2?.userDetail?.name}</h1>
+                        {/* <div> */}
+                        {/* <h2>Title of job: {item2?.jobDetail?.title}</h2> */}
+                        {/* <h2>Job No: {item2?.userDetail?.index + 1}</h2>
+                        </div> */}
                         <div>
-                        <h2>Title of job: {item2?.jobDetail?.title}</h2>
-                        <h2>Job No: {index2 + 1}</h2>
+                            <h3>Email: {item2?.userDetail?.email}</h3>
+                            <h3>Experience: {item2?.userDetail?.exp} {item2?.userDetail?.exp ? "Years" : "Year"}</h3>
+                            <h3>Education: {item2?.userDetail?.edu}</h3>
                         </div>
-                        <div>
-                            <h3>Email: {item?.userDetail?.email}</h3>
-                            <h3>Email: {item?.userDetail?.email}</h3>
-                            <h3>Experience: {item?.userDetail?.exp} {item?.userDetail?.exp ? "Years" : "Year"}</h3>
-                            <h3>Education: {item?.userDetail?.edu}</h3>
-                        </div>
-                        {/* <button></button> */}
-                        {/* <h3><b>Description: </b><i>
-            { applyInd !== index ? item.description.split("").filter((item, index) => 
-            index <= 110).map((item2, index2) => <>{item2}</>
-            ) : item.description
-            } {item.description.length > 110 && applyInd !== index ? "..." : ""} </i></h3> */}
-                    </div>)}
+                    </div>
                 </>
                 )) }
             </>
-        </div>)
+        </div>
+        )
 }
 export default StudentApplied

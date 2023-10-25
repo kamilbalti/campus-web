@@ -5,6 +5,7 @@ import { ref, set } from "firebase/database"
 import { db } from "./firebase"
 import { Navigate, Route, Router, Routes, useNavigate } from "react-router"
 import { Link } from "react-router-dom"
+import { BiArrowBack } from 'react-icons/bi'
 
 const StudentReq = () => {
     const navigate = useNavigate()
@@ -15,14 +16,12 @@ const StudentReq = () => {
     const [expReq, setExpReq] = useState(false)
     const [check, setCheck] = useState(false)
     const changeExp = (e) => {
-        if(status == 'Student'){
-        if(e.target.value.length <= 2)
+        if(status == 'Student' && e.target.value.length <= 2)
         if((e.target.value >= 0 && e.target.value <= 99) && !e.target.value.includes('-')  && !e.target.value.includes('*') && !e.target.value.includes('/') && !e.target.value.includes('+')  && !e.target.value.includes('e'))
             setExp(e.target.value)
         if(check){
             setExpReq(e.target.value == "")
         }
-    }
     }
     const submit = () => {
         setCheck(true)
@@ -56,13 +55,18 @@ const StudentReq = () => {
 
         {status == 'Student' ?
                     <div style={{border: '1px solid black', backgroundColor: "white", boxShadow: '3px 3px 13px 10px rgba(0, 0, 0, 0.3)', padding: '30px', borderRadius: '50px'}}>
-                    <h1>Before apply you have to fill this</h1>
+                    <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '10px'}}>
+                        <div style={{cursor: 'pointer'}} onClick={() => navigate('/')}>
+                            <BiArrowBack />
+                        </div>
+                        <h1>Before apply you have to fill this</h1>
+                    </div>
                     <div className='signUpRowDiv'>
                         <select className='signUpTextInput stReqSelect' value={edu} onChange={(e) => setEdu(e.target.value)}>
-                            <option className='signUpOption'>Matric</option>
-                            <option className='signUpOption'>Inter</option>
-                            <option className='signUpOption'>Bachelor</option>
-                            <option className='signUpOption'>Master</option>
+                            <option className='signUpOption stReqOption'>Matric</option>
+                            <option className='signUpOption stReqOption'>Inter</option>
+                            <option className='signUpOption stReqOption'>Bachelor</option>
+                            <option className='signUpOption stReqOption'>Master</option>
                         </select>
                     </div>
                         <div className='signUpRowDiv'>

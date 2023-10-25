@@ -3,8 +3,10 @@ import './AllFeatures.css'
 import { AiOutlineClose } from 'react-icons/ai'
 import { useSelector } from 'react-redux'
 import imgSrc from '../campus_image.png'
+import { useNavigate } from 'react-router'
 
 const AllFeatures = ({ status, closeCheck, setCloseCheck, setSelect, select }) => {
+    const navigate = useNavigate()
     const { userDetail } = useSelector(e => e)
     // const [edit, setEdit] = useState(false)
     const arr = closeCheck == "profile" ?
@@ -25,6 +27,8 @@ const AllFeatures = ({ status, closeCheck, setCloseCheck, setSelect, select }) =
         setCloseCheck(true)
     }
     const changeSelect = (index) => {
+        if(userDetail?.status == 'Admin')
+        navigate('/')
         if (select !== index && closeCheck !== 'profile')
             setSelect(index);
 

@@ -11,13 +11,13 @@ import { onValue,ref, } from 'firebase/database';
 import { db } from './firebase';
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
-const Page = () => {
+const Page = ({num}) => {
     const {userDetail} = useSelector(e => e)
     const auth = getAuth()
     let name = userDetail?.name;
     let status = userDetail?.status
     const dispatch = useDispatch()
-    const [ select, setSelect ] = useState(0)
+    const [ select, setSelect ] = useState(num)
     const [ emptPage, setEmptPage ] = useState(false)
     const [ closeCheck, setCloseCheck ] = useState(false)
     //     onAuthStateChanged(auth, (user) => {

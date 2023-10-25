@@ -101,12 +101,16 @@ background-color: rgb(230, 230, 230);
     font-size: 20px;
     color: rgb(80, 80, 80);
 }
+.stReqSelect{
+    margin: 15px 0;
+}
 .signUpTextInput{
     width: 100%;
     padding: 12px;
     font-size: 16px; 
     border-radius: 20px;
     border: 1px solid rgb(150, 150, 150);
+    cursor: auto;
 }
 .signUpTextInput:focus{
     outline: none;
@@ -131,10 +135,8 @@ background-color: rgb(230, 230, 230);
 .signUpBorder{
     border: 2px solid rgba(11, 197, 234, 0.8) !important;
 }
-.stReqSelect{
-    margin: 15px 0;
-    /* padding-right: 30px;  */
-    /* padding: 12px 24px; */
+.stReqOption{
+    cursor: pointer !important;
 }
 .signUpOption{
     padding: 100px !important;

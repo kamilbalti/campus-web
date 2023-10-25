@@ -3,9 +3,10 @@ import { db } from "./firebase"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import StudentReq from "./studentReq"
-import { Navigate } from "react-router"
+import { Navigate, useNavigate } from "react-router"
 
-const AllJob = ({setSelect, appliedJob, select}) => {
+const AllJob = ({setSelect, select}) => {
+    // const [ AllUsersData, setAllUsersData ] = useState([])
     const [emptPage, setEmptPage] = useState(false)
     const {userDetail} = useSelector(e => e)
     const uid = userDetail?.uid
@@ -14,16 +15,24 @@ const AllJob = ({setSelect, appliedJob, select}) => {
     const [ applyText, setApplyText ] = useState("")
     const [check, setCheck] = useState(false)
     const [streq, setStReq] = useState(false)
-    const [ emptCheck, setEmptCheck ] = useState([])
-    // useEffect(() => {setSelect(0)},[select])
+    const navigate = useNavigate()
+    let tempAllUsersData = []
+    useEffect(() => {
+        onValue(ref(db,"users/"),(data) => {
+            let temp = [...tempAllUsersData]
+            data.val() && Object.values(data.val()).map((item,index) => {item?.userDetail?.status !== "Admin" &&
+                temp.push(item?.userDetail)
+            })
+                tempAllUsersData = temp    
+        })
+    },[select])
     const Apply = (indexes) => {
         if(userDetail?.edu && userDetail?.exp)
         {
             setStReq(false)
         onValue(ref(db, "AllJobs/"),(data) =>{
-            let tempUid = Object?.values(data?.val())
+            let tempUid = data.val() && Object?.values(data?.val())
             [indexes?.index]?.job[indexes?.index2]?.jobDetail?.uid
-            // console.log(tempUid)
             set(ref(db, "AllJobs/" + tempUid + '/job/' + indexes?.index2 + '/jobDetail/apply/' + uid),{
                     userDetail
             })
@@ -34,38 +43,56 @@ const AllJob = ({setSelect, appliedJob, select}) => {
     setStReq(true) 
 }
     let descriptionPause = false;
-    useEffect(() => {
-        let tempEmpt = []
-        onValue(ref(db, "AllJobs/"),(data) =>{
-            data?.val() && (Object?.values(data?.val()))?.map((item, index) => 
+    useEffect(() => {   
+        onValue(ref(db, "AllJobs/"),(data) => {
+            data?.val() && (Object?.values(data?.val()))?.map((item, index) => {
+            let tempUid = Object.values(item?.job)[0]?.jobDetail?.uid
+            let tempUser = tempAllUsersData.find((item) => item?.uid == tempUid)
+            console.log(tempUser, " TempData")
+            if(Object.values(item?.job)?.hasOwnProperty(0) && 
+                tempUser.block == false && 
+                tempUser.verify == true){ 
             item?.job?.map((item2, index2) => {
                 let temp = {...item2}
                 temp.indexes = {index, index2}
-            if(!item2?.jobDetail?.apply?.hasOwnProperty(uid)){
-                setTempArr((tempArr => [...tempArr,(temp)]))
-                tempEmpt.push('true')
+            if(!item2?.jobDetail?.apply?.hasOwnProperty(uid) &&
+                tempUser.block == false && 
+                tempUser.verify == true
+             ){
+                setTempArr( tempArr && (tempArr => [...tempArr,(temp)]))
             }
             else{
-                    tempEmpt.push('false')
-                }
-            }
-            ))
-                !data.val() || data.val() == [] && setSelect(false)
+                if(tempArr.length == 0)
+                setEmptPage(true)
+                else
+                setEmptPage(false)
+        }
+    }
+    )}
+            else
+                if(tempArr.length == 0)
+                setEmptPage(true)
+                else
+                setEmptPage(false)
+        })
             })
-            setEmptCheck(tempEmpt)
-    },[select])
+    },[])
 
 
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         if(tempArr.length > 0 || tempArr == []) 
+    //             setEmptPage(false)
+    //         else 
+    //             setEmptPage(true)
+    // },100)
     useEffect(() => {
-        setTimeout(() => {
-            if(emptCheck.includes('true')){
-            setEmptPage(false)
-        }
-        else{
+        if(tempArr.length == 0) 
             setEmptPage(true)
-        }
-    },300)
-    },[emptCheck])
+        else 
+            setEmptPage(false)
+    },[tempArr])
+    // },[])
     useEffect(() => {
         setApplyText("")
     },[applyInd])
@@ -74,16 +101,25 @@ const AllJob = ({setSelect, appliedJob, select}) => {
         if( temp.length > 49 && applyText )
         descriptionPause = true
         else descriptionPause = false
-    })
+    },[applyText])
+    useEffect(() => {
+        if(streq)
+        navigate('/requirement')
+    //     setEmptPage(true)
+    //     else setEmptPage(false)
+    },[streq])
     return(
         emptPage? 
         <img width={"100%"} height={"99%"} style={{border: '1px solid rgb(220, 220, 220)', maxWidth: '1000px', margin:'auto', display: 'flex', alignSelf: 'center'}} src={'https://i.pinimg.com/originals/49/e5/8d/49e58d5922019b8ec4642a2e2b9291c2.png'}/> : 
         <div className="previousJobMainDiv">
             {streq ? 
             <Navigate to={'requirement'}/> : 
-            tempArr != []
-             ? tempArr.map((item, index) => 
-                <div className={applyInd == index && applyInd !== false ? "previousJobBox previousJobBox2" :"previousJobBox"} onClick={() => applyInd !== index && setApplyInd(index)}>
+            // {
+                tempArr != []
+             ? tempArr?.map((item, index) => 
+                <div className={
+                    // applyInd == index && applyInd !== false ? "previousJobBox previousJobBox2" :
+                    "previousJobBox"} onClick={() => applyInd !== index && setApplyInd(index)}>
                 <h1>{item?.jobDetail?.title?.toUpperCase()}</h1>
                 <div>
                 <h3>Duration: {item?.jobDetail?.duration} {item?.jobDetail?.duration == 1? "Day" : "Days"}</h3>
@@ -94,7 +130,7 @@ const AllJob = ({setSelect, appliedJob, select}) => {
                 </div>
                 <button className="postButton" onClick={() => Apply(item.indexes)}>Apply</button>
                 </div>
-            ) : setSelect(false)}
+            ) : false}
         </div>
     )
 }

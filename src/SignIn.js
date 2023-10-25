@@ -5,11 +5,12 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { setUserDetail } from './Redux-Toolkit/BazarSlice';
 import { onValue, ref } from 'firebase/database';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import {BsFillEyeFill, BsFillEyeSlashFill} from 'react-icons/bs';
 import * as Yup from 'yup'
 const SignIn = () => {
+    const {userDetail} = useSelector(e => e)
     const [passType, setPassType] = useState('password')
     const auth = getAuth();
     const [reqCheck, setReqCheck] = useState({name: false, email: false, password: false})
@@ -37,7 +38,9 @@ const SignIn = () => {
         }
         })
     const LogIn = (e) => {
+            if(!check)
             setCheck(true)
+            if(check){
             let temp = {...reqCheck}
             if(formik.values.email == "") {
                 temp.email = true;
@@ -50,22 +53,56 @@ const SignIn = () => {
             setReqCheck(temp)
         }
         else if(!temp.email && !temp.password)
-        signInWithEmailAndPassword(auth, formik.values.email, formik.values.password).then(() => {
-            onAuthStateChanged(auth, (user) => {
+        signInWithEmailAndPassword(auth, formik.values.email, formik.values.password).then((user) => {
+            // onAuthStateChanged(auth, (user) => {
                 if(user){
                     const uid = user.uid
                     onValue(ref(db, "users/" + uid + "/userDetail"), (data) => {
-                        (data.val()?.block != true)?
-                        dispatch(setUserDetail(data.val())) : 
-                        alert("You are Blocked by the Admin") && 
-                        dispatch(setUserDetail(false))
-                    })
+                        // if(window.location.pathname == '/' && data.val()?.block == true)
+                        // window.location.pathname = '/'
+                        if(data.val()?.status == 'Admin')
+                        dispatch(setUserDetail(data.val()))
+                            // alert('test')
+                        else if(data.val()) 
+                        if(data.val()?.block == true && data.val()?.verify){
+                        alert("You are Blocked by the Admin1") 
+                        signOut(auth)
+                        .then(() =>
+                        // setTimeout(() => {
+                            dispatch(setUserDetail(false))
+                            // }, 2000)}
+                            ).catch(() => 
+                            dispatch(setUserDetail(false))
+                        )
+                        }
+                        else if( data.val() && data.val()?.verify != true){
+                            alert("You are not Verified Please Contact with the Admin") 
+                            signOut(auth)
+                            .then(() =>
+                            // setTimeout(() => {
+                                dispatch(setUserDetail(false))
+                                // },2000)
+                                ).catch(() => 
+                                dispatch(setUserDetail(false))
+                            )
+                        }
+                        else{
+                            dispatch(setUserDetail(data.val()))
+                        }
+                        })
+
+
+                        // dispatch(setUserDetail(data.val())) : 
+                        // dispatch(setUserDetail(false))
+                    if(userDetail != false){
                     formik.values.email = ""
                     formik.values.password = ""
                 }
-            })
+                setCheck(false)
+            }
+            // })
             // navigate('/')
-        }).catch((err) => setErr(err))
+        }).catch((err) => setErr(err))}
     }
     let check2 = true
     const sendMail = () => {
@@ -75,7 +112,7 @@ const SignIn = () => {
         alert('Successful You are Navigating to Your Gmail') 
         window.location = 'https://mail.google.com/mail/u/0/#inbox'
         })
-        .catch((err) => alert('UnSuccessful Please Provide The Right And Complete Email' + err))
+        .catch((err) => alert('UnSuccessful Please Provide The Right And Complete Email'))
         check2 = true
     }
     return(
