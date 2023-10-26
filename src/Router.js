@@ -15,25 +15,25 @@ import AdminPage from "./AdminPage"
 const MyRouter = () => {
     const auth = getAuth();
     const {userDetail} = useSelector(e => e)
+    const [tempUser, setTempUser] = useState(userDetail)
+    // let tempUser = false;
     const dispatch = useDispatch()
     const [temp, setTemp] = useState(true)
     let check = true
-    // setTimeout(() => { 
-        useEffect(() => {
+    useEffect(() => {
+    setTimeout(() => { 
         onAuthStateChanged(auth, async (user) => {
             if(await user && userDetail){
                 const uid = user.uid
                 onValue(ref(db, "users/" + uid + "/userDetail"), (data) => {
-                    if(data.val()?.block)
-                        alert("You are Blocked by the Admin2")
-                    else if( data.val() && data.val() !== 'loading' && !data.val()?.verify && data.val()?.status != 'Admin' )
-                        alert("You are not Verified Please Contact with the Admin")
                    if(data.val()?.status == 'Admin' || (!data.val()?.block && data.val()?.verify) ){
                         dispatch(setUserDetail(data.val()))
+                        // setTempUser(data.val())
                         setTemp(false)}
                    if(data.val() && data.val()?.status != 'Admin')
                    if(data.val()?.block == true && userDetail != false && userDetail?.block != true && temp != 'block'){
                         dispatch(setUserDetail(false))
+                        // setTempUser(false)
                         try{ 
                             signOut(auth)
                         }
@@ -44,6 +44,7 @@ const MyRouter = () => {
                     }
                     else if(!data.val()?.verify && userDetail != false && userDetail?.verify != true && temp != 'verify'){
                         dispatch(setUserDetail(false))
+                        // setTempUser(false)
                         try{ 
                             signOut(auth)
                         }
@@ -56,6 +57,7 @@ const MyRouter = () => {
             }
             else{
                 if(userDetail != false)
+                // setTempUser(false)
                 dispatch(setUserDetail(false))
             }
         })
@@ -63,7 +65,21 @@ const MyRouter = () => {
         if( userDetail && userDetail.status != 'Student' && window.location.pathname == '/requirement')
         window.location.pathname = '/'
         // navigate('/')
+    },500)
     },[])
+    useEffect(() => {
+        // if(userDetail?.uid != tempUser?.uid && userDetail?.verify && !userDetail?.block ){
+        //         // dispatch(setUserDetail(userDetail))
+        //         setTempUser(userDetail)
+            if(userDetail?.block && userDetail?.status != 'Admin')
+                alert("You are Blocked by the Admin2")
+            else if( userDetail && userDetail !== 'loading' && !userDetail?.verify && userDetail?.status != 'Admin' )
+                alert("You are not Verified Please Contact with the Admin")
+                console.log(userDetail?.uid == userDetail?.uid, " True False")
+                console.log(userDetail, " TEMP USEr")
+                console.log(userDetail, ' User Detail')
+        // }
+    },[userDetail])
     return(
         <Router>
                 {userDetail == false || (userDetail.status != 'Admin' && userDetail?.block == true) ?

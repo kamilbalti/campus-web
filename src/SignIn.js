@@ -98,11 +98,16 @@ const SignIn = () => {
                     formik.values.email = ""
                     formik.values.password = ""
                 }
+                else{
+                    alert('You are blocked or not verified Please contact with the admin')
+                }
                 setCheck(false)
             }
             // })
             // navigate('/')
-        }).catch((err) => setErr(err))}
+        }).catch((err) => 
+        setErr(err)
+        )}
     }
     let check2 = true
     const sendMail = () => {

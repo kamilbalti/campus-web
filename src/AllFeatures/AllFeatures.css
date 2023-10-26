@@ -26,7 +26,21 @@
     padding: 30px;
 }
 .AllFeaturesNoPadding{
+    background-color: rgb(11, 197, 234) !important;
     padding: 30px 20px;
+    font-size: 20px;
+    color: white;
+    opacity: 1 !important;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 30%;
+    height: 40vh;
+    top: 30%; 
+    left: 35%; 
+    opacity: 1; 
+    cursor: auto;
 }
 .AllFeaturesDiv2{
     margin-left: -30%;
@@ -61,6 +75,9 @@
 }
 .AllFeaturesHeadingNoPad{
     padding: 20px 18px;
+    cursor: auto;
+    word-break: normal;
+    break-inside: avoid;
 }
 .profilePage{
     position: fixed;
@@ -92,5 +109,38 @@
     }
     .AllFeaturesDiv2{
         margin-left: -100%;
+    }
+}
+@media screen and (max-width: 1200px) {
+    .AllFeaturesNoPadding{
+        width: 40%;
+        height: 46vh;
+        top: 27%;
+        left: 30%;
+    }
+    .AllFeaturesHeadingNoPad{
+        padding: 15px;
+    }
+}
+@media screen and (max-width: 900px){
+    .AllFeaturesNoPadding{
+        width: 50%;
+        height: 50vh;
+        top: 25%;
+        left: 25%;
+    }
+    .AllFeaturesHeadingNoPad{
+        padding: 10px;
+    }
+}
+@media screen and (max-width: 600px){
+    .AllFeaturesNoPadding{
+        width: 86%;
+        height: 50vh;
+        top: 25vh;
+        left: 7%;
+    }
+    .AllFeaturesHeadingNoPad{
+        padding: 5px;
     }
 }

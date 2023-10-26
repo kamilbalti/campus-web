@@ -18,7 +18,7 @@ const UserInfo = ({setSelect, select}) => {
     return(
         tempStatus == 'Student'?
         <StudentInfo uid={location[2]}/> : tempStatus == 'Company' ?
-        <CompanyInfo tempUid={location[2]}/> : false
+        <CompanyInfo setSelect={setSelect} tempUid={location[2]}/> : false
     )
 }
 export default UserInfo

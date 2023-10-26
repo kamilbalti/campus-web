@@ -4,11 +4,28 @@ import { AiOutlineClose } from 'react-icons/ai'
 import { useSelector } from 'react-redux'
 import imgSrc from '../campus_image.png'
 import { useNavigate } from 'react-router'
+import { onValue, ref } from 'firebase/database'
+import { db } from '../firebase'
 
 const AllFeatures = ({ status, closeCheck, setCloseCheck, setSelect, select }) => {
     const navigate = useNavigate()
+    const [ AllUsersData, setAllUsersData ] = useState(false)
+    useEffect(() => {
+        onValue(ref(db,"users/"),(data) => {
+            let temp = AllUsersData ? [...AllUsersData] : []
+            data.val() && Object.values(data.val()).map((item,index) => item?.userDetail?.status !== "Admin" &&
+                temp.push(item?.userDetail)
+            )
+            setAllUsersData(temp)
+        })
+    },[])
+
     const { userDetail } = useSelector(e => e)
     // const [edit, setEdit] = useState(false)
+    let allUsers = AllUsersData?.length
+    let nonVerified = AllUsersData && AllUsersData?.filter((item, index) => !item?.verify)?.length
+    let verified = AllUsersData && AllUsersData?.filter((item, index) => item?.verify)?.length
+    let blocked = AllUsersData && AllUsersData?.filter((item, index) => item?.block)?.length
     const arr = closeCheck == "profile" ?
         [
                 [
@@ -19,7 +36,11 @@ const AllFeatures = ({ status, closeCheck, setCloseCheck, setSelect, select }) =
         ]
         : [
             ["All Jobs", "Jobs Applied"], ["Post Jobs", "Previous Jobs", "Student Applied"],
-            ["All Users", "Non Verified Users", "Verified Users", "Blocked Users"],
+            [`All Users (${allUsers? allUsers : 0})`, 
+            `Non Verified Users (${nonVerified? nonVerified : 0})`, 
+            `Verified Users (${verified? verified : 0})`, 
+            `Blocked Users (${blocked? blocked : 0})`, 
+        ],
         ]
 
     let arrNum = closeCheck == "profile" ? 0 : status == "Student" ? 0 : status == 'Company' ? 1 : 2

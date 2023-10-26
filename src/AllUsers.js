@@ -67,18 +67,6 @@ const AllUser = ({select, setSelect}) => {
         })
         setCheck(false)
     }
-    const unVerify = (item) => {
-        let uid = item?.uid
-        setCheck(true)
-        let index = AllUsersData.findIndex((item, index) => item.uid == uid)
-        let tempUser = AllUsersData[index]
-        tempUser.verify = false
-        set(ref(db, "users/" + tempUser?.uid + "/"),{
-            userDetail: tempUser
-        })
-
-        setCheck(false)
-    }
     const changeLink = (item) => {
         navigate(`/${item.status}/${item.uid}`)
         setSelect(4)
@@ -105,17 +93,15 @@ const AllUser = ({select, setSelect}) => {
                         <h3>Email: {item?.email}</h3>
                         <h3>Id: {item?.uid}</h3>
                     </div>
-                        { item?.status == 'Student' ? <a style={{cursor: 'pointer', color: 'rgb(50, 50, 250)', borderBottom: '1px solid blue', fontWeight: 'bold', fontSize: '18px'}} onClick={() => changeLink(item)}>Jobs Applied</a> : 
-                        <a style={{cursor: 'pointer', color: 'rgb(50, 50, 250)', borderBottom: '1px solid blue', fontWeight: 'bold', fontSize: '18px'}} onClick={() => changeLink(item)}>All Jobs</a>} 
+                        { item?.status == 'Student' ? <a style={{cursor: 'pointer', color: 'rgb(50, 50, 250)', borderBottom: '1px solid blue', fontWeight: 'bold', fontSize: '18px'}} onClick={() => changeLink(item)}>See Jobs Applied by {item?.name}</a> : 
+                        <a style={{cursor: 'pointer', color: 'rgb(50, 50, 250)', borderBottom: '1px solid blue', fontWeight: 'bold', fontSize: '18px'}} onClick={() => changeLink(item)}>See All Jobs of {item?.name}</a>} 
                     <div className="previousJobButtonDiv">
                     { item.block == true ?
                     <button type="button" onClick={() => Unblock(item)} className="postButton">Unblock</button>:
                     <button type="button" onClick={() => block(item)} className="postButton">Block</button>}
                     {
-                        item.verify == true ?
-                        <button type="button" onClick={() => unVerify(item)} className="postButton">Unverify</button> :
+                        item.verify == true ? false :
                         <button type="button" onClick={() => verify(item)} className="postButton">Verify</button>
-                    
                     }
                     {applyInd == index && applyInd !== false && <button type="button" onClick={() => setApplyInd(false)} className="postButton">x</button>} 
                 </div>

@@ -95,6 +95,7 @@ const StudentApplied = ({ setSelect, select}) => {
                             <h3>Experience: {item2?.userDetail?.exp} {item2?.userDetail?.exp ? "Years" : "Year"}</h3>
                             <h3>Education: {item2?.userDetail?.edu}</h3>
                         </div>
+                        <button style={{opacity: '0'}}></button>
                     </div>
                 </>
                 )) }
