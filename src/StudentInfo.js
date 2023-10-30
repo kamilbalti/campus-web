@@ -17,17 +17,13 @@ const StudentInfo = ({uid}) => {
                     }
                     )
                 })
-                console.log(appliedJob)
-            // if (appliedJob.length == 0)
-            //     setEmptPage(true)
-            // else
-            // setEmptPage(false)
         })
     }, [])
     return(
+        appliedJob.length != 0 && appliedJob ? 
         <div className="previousJobMainDiv">
-        {appliedJob.length != 0 && appliedJob ? appliedJob?.map((item, index) =>
-            <div className={"previousJobBox"}>
+        {appliedJob?.map((item, index) =>
+            <div key={index} className={"previousJobBox"}>
                 <h1>{item?.title.toUpperCase()}</h1>
                 <div>
                     <h3>Duration: {item?.duration} {item?.duration == 1 ? "Day" : "Days"}</h3>
@@ -35,10 +31,13 @@ const StudentInfo = ({uid}) => {
                 </div>
                 <button style={{ opacity: 0 }}>test</button>
             </div>
-        ) : 
-        <img width={"100%"} height={"99%"} style={{border: '1px solid rgb(220, 220, 220)', maxWidth: '1000px', margin:'auto', display: 'flex', alignSelf: 'center'}} src={'https://i.pinimg.com/originals/49/e5/8d/49e58d5922019b8ec4642a2e2b9291c2.png'}/>
-}
+        )}
     </div>
+        : 
+        <div className="emptPageDiv">
+            <img width={"100%"} height={"99%"} style={{border: '1px solid rgb(220, 220, 220)', maxWidth: '1000px', margin:'auto', display: 'flex', alignSelf: 'center'}} src={'https://i.pinimg.com/originals/49/e5/8d/49e58d5922019b8ec4642a2e2b9291c2.png'}/>
+        </div>
+
     )
 }
 export default StudentInfo

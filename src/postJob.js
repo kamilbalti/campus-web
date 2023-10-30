@@ -7,23 +7,14 @@ const PostJob = ({ tempInd, setTempInd, setSelect, title, setTitle, duration, se
     const {userDetail} = useSelector(e => e)
     const [ allCheck, setAllCheck ] = useState(false)
     const [ check, setCheck ] = useState(false)
-    // const [ index, setIndex ] = useState(0)
     let tempIndex = 0
-    // let descriptionPause = false;
 
     const uid = userDetail?.uid
     useEffect(() => {
         let temp = description.trim().split(" ")
-        // if( temp.length > 79 && description )
-        // descriptionPause = true
-        // else descriptionPause = false
         
         onValue(ref(db, "AllJobs/" + uid + "/job/"),async(data) =>{
             tempIndex = data?.val() ? data?.val()?.length : 0
-            // console.log(data.val())  
-            // await setIndex(
-            //     (data?.val())? data.length : 0)
-                // console.log(index, " Data Val length")
             })
         })
         useEffect(() => {
@@ -44,9 +35,6 @@ const PostJob = ({ tempInd, setTempInd, setSelect, title, setTitle, duration, se
             }
         if(allCheck){
             onValue(ref(db, "AllJobs/" + uid + "/job/"),async(data) =>{
-                
-                // console.log(data.val()?.length)
-                // setIndex( await data?.val()?.length)
                 tempIndex = data.val()? data.val().length : 0
                 setTitle("")
                 setDuration("")

@@ -35,7 +35,7 @@
 }
 .LogOutBut{
     padding: 12px;
-    background-color: rgba(11, 197, 234, 0.8);
+    background-color: rgb(14, 162, 136);
     color: white;
     border-radius: 15px;
     font-size: 16px;
@@ -54,7 +54,8 @@
 }
 .userLogo{
     cursor: pointer;
-    background-color: rgba(11, 197, 234, 0.8);
+    background-color: rgb(14, 162, 136);
+    /* background-color: rgba(11, 197, 234, 0.8); */
     color: white;
     font-weight: bold;
     border-radius: 100%;
@@ -65,8 +66,10 @@
     justify-content: center;
 }
 .userLogo:hover, .LogOutBut:hover{
-    background-color: rgb(21, 147, 255);
-    color: white;
+    background-color: rgb(14, 177, 136);
+    /* background-color: rgb(21, 147, 255); */
+    /* color: rgb(235, 235, 235); */
+    color: rgba(0, 0, 0, 0.5);
 }
 @media screen and (max-width: 600px){
     .NavbarMainDiv{

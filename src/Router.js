@@ -12,6 +12,7 @@ import { CirclesWithBar, ColorRing } from "react-loader-spinner"
 import StudentReq from "./studentReq"
 import UserInfo from "./UserInfo"
 import AdminPage from "./AdminPage"
+import ForgetPass from "./ForgetPass"
 const MyRouter = () => {
     const auth = getAuth();
     const {userDetail} = useSelector(e => e)
@@ -36,9 +37,13 @@ const MyRouter = () => {
                         // setTempUser(false)
                         try{ 
                             signOut(auth)
+                            alert("You are Blocked by the Admin") 
+                            window.location = window.location
                         }
                         catch(error){
-                                signOut(auth)
+                            signOut(auth)
+                            alert("You are Blocked by the Admin") 
+                                window.location = window.location
                                 console.log(error, ' Error')
                         }
                     }
@@ -47,9 +52,13 @@ const MyRouter = () => {
                         // setTempUser(false)
                         try{ 
                             signOut(auth)
+                            alert("You are not Verified Please Contact with the Admin") 
+                            window.location = window.location
                         }
                         catch(error){
                             signOut(auth)
+                            alert("You are not Verified Please Contact with the Admin") 
+                            window.location = window.location
                             console.log(error)
                         }
                     }
@@ -68,17 +77,10 @@ const MyRouter = () => {
     },500)
     },[])
     useEffect(() => {
-        // if(userDetail?.uid != tempUser?.uid && userDetail?.verify && !userDetail?.block ){
-        //         // dispatch(setUserDetail(userDetail))
-        //         setTempUser(userDetail)
             if(userDetail?.block && userDetail?.status != 'Admin')
-                alert("You are Blocked by the Admin2")
+                alert("You are Blocked by the Admin")
             else if( userDetail && userDetail !== 'loading' && !userDetail?.verify && userDetail?.status != 'Admin' )
                 alert("You are not Verified Please Contact with the Admin")
-                console.log(userDetail?.uid == userDetail?.uid, " True False")
-                console.log(userDetail, " TEMP USEr")
-                console.log(userDetail, ' User Detail')
-        // }
     },[userDetail])
     return(
         <Router>
@@ -86,6 +88,7 @@ const MyRouter = () => {
                 <Routes>
                     <Route path={'/'} element={<SignIn />} />
                     <Route path={'/signUp'} element={<SignUp />} />
+                    <Route path={'/forget-password'} element={<ForgetPass />} />
                 </Routes>
                 : 
                 userDetail == 'loading' ?

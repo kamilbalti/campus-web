@@ -32,33 +32,28 @@ const JobApplied = ({ closeCheck, select, setSelect, prevApplied, setPrevApplied
                         if (item2?.jobDetail?.apply?.hasOwnProperty(uid) && tempUser?.block == false && tempUser?.verify == true) {
                             appliedJob?.push(item2?.jobDetail)
                             setTempApplied(appliedJob)
-                            console.log(appliedJob, 'AppliedJob')
                         }
                     }
                     )
                 })
-                // console.log(appliedJob, " Apply")
             if (appliedJob.length == 0)
                 setEmptPage(true)
             else
             setEmptPage(false)
         })
     }, [])
-    useEffect(() => {
-        // setTempApplied([...appliedJob])
-        console.log(tempApplied, " Applied Job")
-    }, [tempApplied])
 
 
     return (
         <>
         {emptPage?
-        <img width={"100%"} height={"99%"} style={{border: '1px solid rgb(220, 220, 220)', maxWidth: '1000px', margin:'auto', display: 'flex', alignSelf: 'center'}} src={'https://i.pinimg.com/originals/49/e5/8d/49e58d5922019b8ec4642a2e2b9291c2.png'}/> : 
+        <div className="emptPageDiv">
+        <img width={"100%"} height={"99%"} style={{border: '1px solid rgb(220, 220, 220)', maxWidth: '1000px', margin:'auto', display: 'flex', alignSelf: 'center'}} src={'https://i.pinimg.com/originals/49/e5/8d/49e58d5922019b8ec4642a2e2b9291c2.png'}/></div>:
         <div className="previousJobMainDiv">
             { tempApplied != [] && tempApplied.length != 0?
             <>
              {tempApplied?.map((item, index) =>
-                <div onClick={() => setApplyInd(index)} className={"previousJobBox"}>
+                <div key={index} onClick={() => setApplyInd(index)} className={"previousJobBox"}>
                     <h1>{item?.title
                     // .toUpperCase()
                     }</h1>

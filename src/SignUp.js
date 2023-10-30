@@ -9,11 +9,12 @@ import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
+import imageSrc from './campus_image.png'
 import StudentReq from './studentReq';
 import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
 const SignUp = () => {
     const [passType, setPassType] = useState('password')
-    const [ passBorder, setPassBorder ] = useState(false)
+    const [passBorder, setPassBorder] = useState(false)
     const dispatch = useDispatch()
     const auth = getAuth(app);
     const [next, setNext] = useState(false)
@@ -73,121 +74,104 @@ const SignUp = () => {
     })
 
     const checkEmail = (email) => {
-        let temp2 = {...reqCheck}
+        let temp2 = { ...reqCheck }
         temp2.exist = false
         setReqCheck(temp2)
-        onValue(ref(db,"users/"),(data) => {
+        onValue(ref(db, "users/"), (data) => {
             let temp = [...AllUsersData]
-            data.val() && Object.values(data.val()).map((item,index) => temp.push(item?.userDetail)
+            data.val() && Object.values(data.val()).map((item, index) => temp.push(item?.userDetail)
             )
-        let index2 = temp.findIndex((item3, index3) => item3?.email == email)
-        index2 == -1 ? 
-        temp2.exist = false : temp2.exist = true
-        setReqCheck(temp2)
-        // console.log(temp2.exist)
+            let index2 = temp.findIndex((item3, index3) => item3?.email == email)
+            index2 == -1 ?
+                temp2.exist = false : temp2.exist = true
+            setReqCheck(temp2)
         })
     }
     useEffect(() => {
         checkEmail(formik.values.email)
-    },[formik.values.email])
+    }, [formik.values.email])
     const CreateUser = () => {
         let temp = { ...reqCheck }
         checkEmail(formik.values.email)
-        if(!wait) {
-            setWait(true)
-            setCheck(true)
-            
-            
+            .then(() => {
+                if (!wait) {
+                    setWait(true)
+                    setCheck(true)
 
-            
-            if (formik.values.email == "") {
-                temp.email = true;
-                setReqCheck(temp)
-                setErr(false)
-            }
-            else if (formik.values.email.length < 8)
-            temp.emaillength = true
-        else if (!formik.values.email.includes("@") || !formik.values.email.includes(".") && !formik?.values?.email[formik?.values?.email.length - 1] !== '.')
-        temp.invEmail = true
-            if (formik.values.password == "") {
-                temp.password = true;
-                setReqCheck(temp)
-                setErr(false)
-            }
-            else if (formik.values.password.length < 8) {
-                temp.passlength = true
-                setReqCheck(temp)
-                setErr(false)
-            }
-            if (formik.values.name == "") {
-                temp.name = true;
-                setReqCheck(temp)
-                setErr(false)
-            }
-            else {
-                setNext(true)
-            }
-            if (temp.email)
-                temp = temp
-            // temp.exp = true
-            else if (!temp.email && !temp.emaillength && !temp.invEmail && !temp.password && !temp.passlength && !temp.name) {
-                // if((temp.exp && status !== 'Student') || !temp.exp )
 
-                // let tempUserDetail = {name, status, email, password}
-                createUserWithEmailAndPassword(auth, formik.values.email, formik.values.password).then(async (res) => {
-                    let userId = res?.user?.uid
-                    let userDetail = {
-                        name: formik.values.name, status,
-                        email: formik.values.email, password: formik.values.password,
-                        uid: res?.user?.uid, block: false, verify: false,
-                        // exp: status == "Student"  ? exp : false, edu: status == "Student"  ? edu : false 
+
+
+                    if (formik.values.email == "") {
+                        temp.email = true;
+                        setReqCheck(temp)
+                        setErr(false)
+                        setWait(false)
                     }
-                    dispatch(setUserDetail(userDetail))
-                    setWait(false)
-                    await set(ref(db, 'users/' + userId), {
-                        userDetail
-                    }).then(() => {
+                    else if (formik.values.email.length < 8)
+                        temp.emaillength = true
+                    else if (!formik.values.email.includes("@") || !formik.values.email.includes(".") && !formik?.values?.email[formik?.values?.email.length - 1] !== '.')
+                        temp.invEmail = true
+                    if (formik.values.password == "") {
+                        temp.password = true;
+                        setReqCheck(temp)
+                        setErr(false)
+                        setWait(false)
+                    }
+                    else if (formik.values.password.length < 8) {
+                        temp.passlength = true
+                        setReqCheck(temp)
+                        setErr(false)
+                        setWait(false)
+                    }
+                    if (formik.values.name == "") {
+                        temp.name = true;
+                        setReqCheck(temp)
+                        setErr(false)
+                        setWait(false)
+                    }
+                    else {
+                        setNext(true)
+                        setWait(false)
+                    }
+                    if (temp.email) {
+                        setWait(false)
+                        temp = temp
+                    }
+                    // temp.exp = true
+                    else if (!temp.email && !temp.emaillength && !temp.invEmail && !temp.password && !temp.passlength && !temp.name) {
+                        // if((temp.exp && status !== 'Student') || !temp.exp )
 
-                        navigate('/')
-                    })
-                }).catch((err) => {
-                    setErr(err)
+                        // let tempUserDetail = {name, status, email, password}
+                        createUserWithEmailAndPassword(auth, formik.values.email, formik.values.password).then(async (res) => {
+                            let userId = res?.user?.uid
+                            let userDetail = {
+                                name: formik.values.name, status,
+                                email: formik.values.email, password: formik.values.password,
+                                uid: res?.user?.uid, block: false, verify: false,
+                                // exp: status == "Student"  ? exp : false, edu: status == "Student"  ? edu : false 
+                            }
+                            dispatch(setUserDetail(userDetail))
+                            setWait(false)
+                            await set(ref(db, 'users/' + userId), {
+                                userDetail
+                            }).then(() => {
+                                alert('You are not Verified Please contact with Admin')
+                                navigate('/')
+                            })
+                        }).catch((err) => {
+                            setErr(err)
+                            setWait(false)
+                            // alert(err)
+                            dispatch(setUserDetail(false))
+                        })
+                    }
+                }
+
+                else {
                     setWait(false)
-                    // alert(err)
-                    dispatch(setUserDetail(false))
-                })
-            }
-        }
-        else{
-            setWait(false)
-        }
-        // console.log(wait)
+                }
+            })
     }
-    // const nextFunc = () => {
-    // let temp = {...reqCheck}
-    // setNext(false)
-    // if(formik.values.name == "") {
-    //     temp.name = true;
-    //     setReqCheck(temp)
-    //     setErr(false)
-    // }
-    // else{
-    //     setNext(true)
-    // }
-    // }
-    // const changeExp = (e) => {
-    //     if(status == 'Student'){
-    //     // if(e.target.value == "")
-    //     //     setExp(0) 
-    //     if(e.target.value >= 0)
-    //         setExp(e.target.value)
-    //     let temp = {...reqCheck}
-    //     if(check){
-    //         temp.exp = exp == "" && exp !== 0 
-    //     }
-    //     setReqCheck(temp)}
-    //     setErr(false)
-    // }
     return (
         <div className="signUpMainDiv">
             <>
@@ -233,7 +217,9 @@ const SignUp = () => {
                                 {reqCheck.email ? <p className="signUpError">Required!</p> : reqCheck.emaillength ? <p className="signUpError">Minimum 8 character required!</p> : false}
                             </div>
                             <div className='signUpRowDiv'>
-                                <div className={passBorder ? 'signUpPassDiv signUpBorder' : 'signUpPassDiv'}>
+                                <div className={
+                                    passBorder ? 'signUpPassDiv signUpBorder' :
+                                        'signUpPassDiv'}>
                                     <input onFocus={() => setPassBorder(true)} onBlur={() => setPassBorder(false)} placeholder={'Password:'} name='password' value={formik.values.password} onChange={(e) => {
                                         let temp = { ...reqCheck }
                                         if (check) {
@@ -255,7 +241,10 @@ const SignUp = () => {
                             <p>Already have an account <Link to={'/'}>Sign in</Link></p>
                         </div>
                         <div className='bgBlueLock signUpImage'>
-                            <img width={'230px'} height={'230px'} src={`https://cdn-icons-png.flaticon.com/512/68/68286.png`} />
+                            {/* <img width={'230px'} height={'230px'} src={`https://cdn-icons-png.flaticon.com/512/68/68286.png`} /> */}
+                            <img width={'150px'} height={'150px'} src={imageSrc} />
+                            <h1><i>CAMPUS APP</i></h1>
+                            <h3 style={{ textAlign: 'center', fontSize: '20px' }}>Apply For Job Or <br /> Hire A Verified Person Efficiently</h3>
                         </div>
                     </form>
                 }

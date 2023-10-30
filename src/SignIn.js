@@ -8,7 +8,9 @@ import { onValue, ref } from 'firebase/database';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import {BsFillEyeFill, BsFillEyeSlashFill} from 'react-icons/bs';
+import imageSrc from './campus_image.png'
 import * as Yup from 'yup'
+
 const SignIn = () => {
     const {userDetail} = useSelector(e => e)
     const [passType, setPassType] = useState('password')
@@ -16,7 +18,8 @@ const SignIn = () => {
     const [reqCheck, setReqCheck] = useState({name: false, email: false, password: false})
     const [err, setErr] = useState(false)
     const [ passBorder, setPassBorder ] = useState(false)
-    const [ check, setCheck ] = useState(false)
+    // const [ check, setCheck ] = useState(false)
+    let check = false
     const validationSchema = Yup.object().shape({
         email: Yup.string()
           .email('Invalid email address')
@@ -39,7 +42,9 @@ const SignIn = () => {
         })
     const LogIn = (e) => {
             if(!check)
-            setCheck(true)
+            check = true
+            // setCheck(true)
+            // setTimeout(() => {
             if(check){
             let temp = {...reqCheck}
             if(formik.values.email == "") {
@@ -65,8 +70,9 @@ const SignIn = () => {
                             // alert('test')
                         else if(data.val()) 
                         if(data.val()?.block == true && data.val()?.verify){
-                        alert("You are Blocked by the Admin1") 
+                        alert("You are Blocked by the Admin") 
                         signOut(auth)
+                        window.location = window.location
                         .then(() =>
                         // setTimeout(() => {
                             dispatch(setUserDetail(false))
@@ -78,6 +84,7 @@ const SignIn = () => {
                         else if( data.val() && data.val()?.verify != true){
                             alert("You are not Verified Please Contact with the Admin") 
                             signOut(auth)
+                            window.location = window.location
                             .then(() =>
                             // setTimeout(() => {
                                 dispatch(setUserDetail(false))
@@ -94,36 +101,30 @@ const SignIn = () => {
 
                         // dispatch(setUserDetail(data.val())) : 
                         // dispatch(setUserDetail(false))
-                    if(userDetail != false){
-                    formik.values.email = ""
-                    formik.values.password = ""
-                }
-                else{
-                    alert('You are blocked or not verified Please contact with the admin')
-                }
-                setCheck(false)
+                    setTimeout(() => {
+
+                        if(userDetail != false){
+                            formik.values.email = ""
+                            formik.values.password = ""
+                            alert('You are blocked or not verified Please contact with the admin')
+                        }
+                        else{
+                        }
+                    },300)
+                    check = false
+                        // setCheck(false)
             }
             // })
             // navigate('/')
         }).catch((err) => 
         setErr(err)
         )}
-    }
-    let check2 = true
-    const sendMail = () => {
-        check2 = false
-        sendPasswordResetEmail(auth, formik.values.email)
-        .then(() =>{
-        alert('Successful You are Navigating to Your Gmail') 
-        window.location = 'https://mail.google.com/mail/u/0/#inbox'
-        })
-        .catch((err) => alert('UnSuccessful Please Provide The Right And Complete Email'))
-        check2 = true
+    // },100)
     }
     return(
         <div className="signUpMainDiv">
             <form onSubmit={(e)=>formik.handleSubmit(e)} className="signUpForm">
-                <div className='signUpDiv'>
+                <div className='signUpDiv signInDiv'>
                 <h1>LOGIN</h1>
                 <div className='signUpRowDiv'>
                     <input placeholder='Email' name="email" value={formik.values.email} onChange={(e) => {
@@ -155,12 +156,15 @@ const SignIn = () => {
                     {reqCheck.password? <p className='signUpError'>Required!</p> : reqCheck.passlength? <p className='signUpError'>Minimum 8 character required!</p> : err && !reqCheck.email && !reqCheck.emaillength? 
                     <p className='signUpError'>Invalid Email or Password</p> : false}
                 </div>
-                <p style={{width: '100%', display: 'flex', justifyContent: 'flex-end', paddingRight: '15px', marginBottom: '-20px'}}><Link onClick={() => sendMail()}>Forgot Password</Link></p>
+                <p onClick={() => navigate('/forget-password')} style={{width: '100%', display: 'flex', justifyContent: 'flex-end', paddingRight: '15px', marginBottom: '-20px'}}><Link>Forgot Password</Link></p>
                 <button className='signUpButton' type='submit'>Log In</button>
                 <p>Don't have an account <Link to={'/signUp'}>Create One</Link></p>
                 </div>
                 <div className='bgBlueLock signInImage'>
-                    <img width={'150px'} height={'130px'} src={`https://cdn-icons-png.flaticon.com/512/81/81052.png`}/>
+                    {/* <img width={'150px'} height={'130px'} src={`https://cdn-icons-png.flaticon.com/512/81/81052.png`}/> */}
+                    <img width={'150px'} height={'150px'} src={imageSrc} />
+                    <h1><i>CAMPUS APP</i></h1>
+                    <h3 style={{textAlign: 'center', fontSize: '20px'}}>Apply For Job Or <br /> Hire A Verified Person Efficiently</h3>
                 </div>
             </form>
         </div>

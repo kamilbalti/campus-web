@@ -5,11 +5,14 @@ import { setUserDetail } from '../Redux-Toolkit/BazarSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAuth, signOut } from "firebase/auth"
 import { useState } from 'react'
-const Navbar = ({name, closeCheck, setCloseCheck}) => {
-    const {userDetail} = useSelector(e => e)
-    const [ showDetail, setShowDetail ] = useState(false)
-    const data = [ "Name: " + userDetail?.name, "Email: " + userDetail?.email,
-                "Status: " + userDetail?.status ] 
+import { SlLogout } from 'react-icons/sl'
+import { AiOutlineClose } from 'react-icons/ai'
+const Navbar = ({ name, closeCheck, setCloseCheck }) => {
+    const { userDetail } = useSelector(e => e)
+    const [ show, setShow ] = useState(false)
+    const [showDetail, setShowDetail] = useState(false)
+    const data = ["Name: " + userDetail?.name, "Email: " + userDetail?.email,
+    "Status: " + userDetail?.status]
     const auth = getAuth();
     const dispatch = useDispatch()
     const logOut = () => {
@@ -17,34 +20,47 @@ const Navbar = ({name, closeCheck, setCloseCheck}) => {
         signOut(auth)
     }
     let logoName = (userDetail?.name?.trim()[0])?.toUpperCase() + userDetail?.status[0]
-    return(
-        <div className={closeCheck == true ? 'NavbarMainDiv NavbarMainDiv2' :'NavbarMainDiv'}>
+    return (
+        <div className={closeCheck == true ? 'NavbarMainDiv NavbarMainDiv2' : 'NavbarMainDiv'}>
             <div className='NavbarRow'>
-            <TbMenu2 className={closeCheck ? "showIcon" : 'hideIcon'} onClick={() => setCloseCheck(false)}/>
-            {/* <p>{name}</p> */}
+                <TbMenu2 className={closeCheck ? "showIcon" : 'hideIcon'} onClick={() => setCloseCheck(false)} />
+                {/* <p>{name}</p> */}
             </div>
             <div className='NavbarRow'>
-            <button onClick={() => logOut()} className='LogOutBut'>Log Out</button>
-            <div
-            onClick={() => setShowDetail(true)} 
-            className='userLogo'>{logoName}</div>
+                <button onClick={() => logOut()} className='LogOutBut'>
+                <SlLogout style={{marginRight: '10px'}}/>
+                    Log Out</button>
+                <div
+                    onClick={() => setShowDetail(true)}
+                    className='userLogo'>{logoName}</div>
             </div>
-            { showDetail ?
+            {showDetail ?
                 <>
-                <div onClick={() => setShowDetail(false)} style={{position: 'fixed', top: 0, left: 0 ,
-            backgroundColor: 'rgb(100, 100, 100)', width: '100vw', height: '100vh', opacity: '0.5', 
-            display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'}}>
-            </div>
-                <div className={'AllFeaturesNoPadding'}>
-                {data?.map((item, index) =>
-                    <div key={index} className={'AllFeaturesChildDiv'}>
-                        <h3 
-                        className={'AllFeaturesHeading AllFeaturesHeadingNoPad'}>{item}</h3>
+                    <div style={{
+                        position: 'fixed', top: 0, left: 0, backgroundColor: 'rgb(100, 100, 100)', 
+                        width: '100vw', height: '100vh', opacity: '0.5', display: 'flex', 
+                        alignItems: 'center', justifyContent: 'center', cursor: 'pointer'}}>
                     </div>
-                )}
-                </div>
+                    <div
+                     onClick={() => setShowDetail(false)}
+                         className={'AllFeaturesNoPadding'}>
+                        <div 
+                        // onClick={() => setTimeout(() => { setShow(true) && setShowDetail(true)},100)} 
+                        className='AllFeaturesNoPadChildDiv'>
+                            {/* <div style={{ width: '100%', display: 'flex', justifyContent: 'end', 
+                            padding: '20px 20px 0 0', cursor: 'pointer'}}>
+                                <AiOutlineClose />
+                             </div> */}
+                            {data?.map((item, index) =>
+                                <div key={index} className={'AllFeaturesChildDiv'}>
+                                    <h3
+                                        className={'AllFeaturesHeading AllFeaturesHeadingNoPad'}>{item}</h3>
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </> : false
-                }
+            }
         </div>
     )
 }

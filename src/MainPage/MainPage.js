@@ -16,7 +16,6 @@ const MainPage = ({select, closeCheck, setSelect, emptPage, setEmptPage}) => {
     const [ tempInd, setTempInd ] = useState(false)
     const [ Applied, setApplied ] = useState([])
     const {userDetail} = useSelector(e => e)
-    // console.log(emptPage, 'emptPage')
     return(
         <div className={
             // closeCheck == true ? "MainPageMainDiv MainPageDiv2" :

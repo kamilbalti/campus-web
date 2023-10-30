@@ -48,7 +48,6 @@ const AllJob = ({setSelect, select}) => {
             data?.val() && (Object?.values(data?.val()))?.map((item, index) => {
             let tempUid = Object.values(item?.job)[0]?.jobDetail?.uid
             let tempUser = tempAllUsersData.find((item) => item?.uid == tempUid)
-            console.log(tempUser, " TempData")
             if(Object.values(item?.job)?.hasOwnProperty(0) && 
                 tempUser.block == false && 
                 tempUser.verify == true){ 
@@ -109,8 +108,11 @@ const AllJob = ({setSelect, select}) => {
     //     else setEmptPage(false)
     },[streq])
     return(
-        emptPage? 
-        <img width={"100%"} height={"99%"} style={{border: '1px solid rgb(220, 220, 220)', maxWidth: '1000px', margin:'auto', display: 'flex', alignSelf: 'center'}} src={'https://i.pinimg.com/originals/49/e5/8d/49e58d5922019b8ec4642a2e2b9291c2.png'}/> : 
+        <>
+        {emptPage?
+        <div className="emptPageDiv">
+        <img width={"100%"} height={"99%"} style={{border: '1px solid rgb(220, 220, 220)', maxWidth: '1000px', margin:'auto', display: 'flex', alignSelf: 'center'}} src={'https://i.pinimg.com/originals/49/e5/8d/49e58d5922019b8ec4642a2e2b9291c2.png'}/>
+        </div>:
         <div className="previousJobMainDiv">
             {streq ? 
             <Navigate to={'requirement'}/> : 
@@ -131,7 +133,8 @@ const AllJob = ({setSelect, select}) => {
                 <button className="postButton" onClick={() => Apply(item.indexes)}>Apply</button>
                 </div>
             ) : false}
-        </div>
+        </div>}
+        </>
     )
 }
 export default AllJob
