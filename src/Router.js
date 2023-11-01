@@ -28,7 +28,10 @@ const MyRouter = () => {
                 const uid = user.uid
                 onValue(ref(db, "users/" + uid + "/userDetail"), (data) => {
                    if(data.val()?.status == 'Admin' || (!data.val()?.block && data.val()?.verify) ){
-                        dispatch(setUserDetail(data.val()))
+                        dispatch(setUserDetail('loading'))
+                        setTimeout(() => {
+                            dispatch(setUserDetail(data.val()))
+                        },1500)
                         // setTempUser(data.val())
                         setTemp(false)}
                    if(data.val() && data.val()?.status != 'Admin')
@@ -38,12 +41,12 @@ const MyRouter = () => {
                         try{ 
                             signOut(auth)
                             alert("You are Blocked by the Admin") 
-                            window.location = window.location
+                            window.location.pathname = '/'
                         }
                         catch(error){
                             signOut(auth)
                             alert("You are Blocked by the Admin") 
-                                window.location = window.location
+                                window.location.pathname = '/'
                                 console.log(error, ' Error')
                         }
                     }
@@ -52,13 +55,13 @@ const MyRouter = () => {
                         // setTempUser(false)
                         try{ 
                             signOut(auth)
-                            alert("You are not Verified Please Contact with the Admin") 
-                            window.location = window.location
+                            alert("You are not Verified Please Contact with the Admin1") 
+                            window.location.pathname = '/'
                         }
                         catch(error){
                             signOut(auth)
-                            alert("You are not Verified Please Contact with the Admin") 
-                            window.location = window.location
+                            alert("You are not Verified Please Contact with the Admin2") 
+                            window.location.pathname = '/'
                             console.log(error)
                         }
                     }
@@ -76,12 +79,12 @@ const MyRouter = () => {
         // navigate('/')
     },500)
     },[])
-    useEffect(() => {
-            if(userDetail?.block && userDetail?.status != 'Admin')
-                alert("You are Blocked by the Admin")
-            else if( userDetail && userDetail !== 'loading' && !userDetail?.verify && userDetail?.status != 'Admin' )
-                alert("You are not Verified Please Contact with the Admin")
-    },[userDetail])
+    // useEffect(() => {
+    //         if(userDetail?.block && userDetail?.status != 'Admin')
+    //             alert("You are Blocked by the Admin")
+    //         else if( userDetail && userDetail !== 'loading' && !userDetail?.verify && userDetail?.status != 'Admin' )
+    //             alert("You are not Verified Please Contact with the Admin")
+    // },[userDetail])
     return(
         <Router>
                 {userDetail == false || (userDetail.status != 'Admin' && userDetail?.block == true) ?

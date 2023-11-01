@@ -12,6 +12,7 @@ import * as Yup from 'yup'
 import imageSrc from './campus_image.png'
 import StudentReq from './studentReq';
 import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
+import { TailSpin } from 'react-loader-spinner';
 const SignUp = () => {
     const [passType, setPassType] = useState('password')
     const [passBorder, setPassBorder] = useState(false)
@@ -24,7 +25,7 @@ const SignUp = () => {
     const [check, setCheck] = useState(false)
     const [index, setIndex] = useState(false)
     const [wait, setWait] = useState(false)
-    const [reqCheck, setReqCheck] = useState({ name: false, email: false, password: false, passlength: false, emaillength: false, exp: false, invEmail: false, exist: false })
+    const [reqCheck, setReqCheck] = useState({ name: true, email: true, password: true, passlength: true, emaillength: true, exp: false, invEmail: false, exist: false })
     const [err, setErr] = useState(false)
     const validationSchema = Yup.object().shape({
         email: Yup.string()
@@ -83,7 +84,7 @@ const SignUp = () => {
             )
             let index2 = temp.findIndex((item3, index3) => item3?.email == email)
             index2 == -1 ?
-                temp2.exist = false : temp2.exist = true
+                temp2.exist = false : !wait ? temp2.exist = true : temp2.exist = false
             setReqCheck(temp2)
         })
     }
@@ -92,85 +93,86 @@ const SignUp = () => {
     }, [formik.values.email])
     const CreateUser = () => {
         let temp = { ...reqCheck }
-        checkEmail(formik.values.email)
-            .then(() => {
-                if (!wait) {
-                    setWait(true)
-                    setCheck(true)
+        checkEmail && checkEmail(formik.values.email)
+        try {
+            if (!wait) {
+                setWait(true)
+                setCheck(true)
 
 
 
 
-                    if (formik.values.email == "") {
-                        temp.email = true;
-                        setReqCheck(temp)
-                        setErr(false)
-                        setWait(false)
-                    }
-                    else if (formik.values.email.length < 8)
-                        temp.emaillength = true
-                    else if (!formik.values.email.includes("@") || !formik.values.email.includes(".") && !formik?.values?.email[formik?.values?.email.length - 1] !== '.')
-                        temp.invEmail = true
-                    if (formik.values.password == "") {
-                        temp.password = true;
-                        setReqCheck(temp)
-                        setErr(false)
-                        setWait(false)
-                    }
-                    else if (formik.values.password.length < 8) {
-                        temp.passlength = true
-                        setReqCheck(temp)
-                        setErr(false)
-                        setWait(false)
-                    }
-                    if (formik.values.name == "") {
-                        temp.name = true;
-                        setReqCheck(temp)
-                        setErr(false)
-                        setWait(false)
-                    }
-                    else {
-                        setNext(true)
-                        setWait(false)
-                    }
-                    if (temp.email) {
-                        setWait(false)
-                        temp = temp
-                    }
-                    // temp.exp = true
-                    else if (!temp.email && !temp.emaillength && !temp.invEmail && !temp.password && !temp.passlength && !temp.name) {
-                        // if((temp.exp && status !== 'Student') || !temp.exp )
-
-                        // let tempUserDetail = {name, status, email, password}
-                        createUserWithEmailAndPassword(auth, formik.values.email, formik.values.password).then(async (res) => {
-                            let userId = res?.user?.uid
-                            let userDetail = {
-                                name: formik.values.name, status,
-                                email: formik.values.email, password: formik.values.password,
-                                uid: res?.user?.uid, block: false, verify: false,
-                                // exp: status == "Student"  ? exp : false, edu: status == "Student"  ? edu : false 
-                            }
-                            dispatch(setUserDetail(userDetail))
-                            setWait(false)
-                            await set(ref(db, 'users/' + userId), {
-                                userDetail
-                            }).then(() => {
-                                alert('You are not Verified Please contact with Admin')
-                                navigate('/')
-                            })
-                        }).catch((err) => {
-                            setErr(err)
-                            setWait(false)
-                            // alert(err)
-                            dispatch(setUserDetail(false))
-                        })
-                    }
+                if (formik.values.email == "") {
+                    temp.email = true;
+                    setReqCheck(temp)
+                    setErr(false)
                 }
-
-                else {
+                else if (formik.values.email.length < 8) {
+                    temp.emaillength = true
+                }
+                else if (!formik.values.email.includes("@") || !formik.values.email.includes(".") && !formik?.values?.email[formik?.values?.email.length - 1] !== '.') {
+                    temp.invEmail = true
+                }
+                if (formik.values.password == "") {
+                    temp.password = true;
+                    setReqCheck(temp)
+                    setErr(false)
+                }
+                else if (formik.values.password.length < 8) {
+                    temp.passlength = true
+                    setReqCheck(temp)
+                    setErr(false)
+                }
+                if (formik.values.name == "") {
+                    temp.name = true;
+                    setReqCheck(temp)
+                    setErr(false)
+                }
+                if (temp.email) {
                     setWait(false)
+                    temp = temp
                 }
-            })
+                // temp.exp = true
+                else if (!temp.email && !temp.emaillength && !temp.invEmail && !temp.password && !temp.passlength && !temp.name && !temp.exist) {
+                    // if((temp.exp && status !== 'Student') || !temp.exp )
+
+                    // let tempUserDetail = {name, status, email, password}
+                    createUserWithEmailAndPassword(auth, formik.values.email, formik.values.password).then(async (res) => {
+                        let userId = res?.user?.uid
+                        let userDetail = {
+                            name: formik.values.name, status,
+                            email: formik.values.email, password: formik.values.password,
+                            uid: res?.user?.uid, block: false, verify: false,
+                            // exp: status == "Student"  ? exp : false, edu: status == "Student"  ? edu : false 
+                        }
+                        dispatch(setUserDetail(userDetail))
+                        setWait(false)
+                        await set(ref(db, 'users/' + userId), {
+                            userDetail
+                        }).then(() => {
+                            setWait(true)
+                            // alert('You are not Verified Please contact with Admin1')
+                            // navigate('/')
+                        })
+                    }).catch((err) => {
+                        setErr(err)
+                        alert(err)
+                        // navigate('/')
+                        setWait(false)
+                        // alert(err)
+                        dispatch(setUserDetail(false))
+                    })
+                }
+            }
+
+            else {
+                setWait(false)
+            }
+        }
+        catch (err) {
+            console.log(err, ' error')
+            setWait(false)
+        }
     }
     return (
         <div className="signUpMainDiv">
@@ -183,13 +185,13 @@ const SignUp = () => {
                             <div className='signUpRowDiv'>
                                 <input placeholder={'Name:'} name='name' value={formik.values.name} onChange={(e) => {
                                     let temp = { ...reqCheck }
-                                    if (check)
-                                        temp.name = e.target.value.length == 0
+                                    // if (check)
+                                    temp.name = e.target.value.length == 0
                                     setReqCheck(temp)
                                     setErr(false)
                                     formik.handleChange(e)
                                 }} className='signUpTextInput' />
-                                {reqCheck.name ? <p className="signUpError">Required!</p> : false}
+                                {/* {reqCheck.name ? <p className="signUpError">Required!</p> : false} */}
                             </div>
                             <div className='signUpRowDiv'>
                                 <select className='signUpSelect signUpTextInput' value={status} onChange={(e) => setStatus(e.target.value)}>
@@ -202,19 +204,19 @@ const SignUp = () => {
                             <div className='signUpRowDiv'>
                                 <input placeholder={'Email:'} name='email' value={formik.values.email} onChange={(e) => {
                                     let temp = { ...reqCheck }
-                                    if (check) {
-                                        temp.email = e.target.value.length == 0
-                                        temp.emaillength = e.target.value.length < 8
-                                        temp.invEmail = !e.target.value.includes('@') || !e.target.value.includes('.') || e.target.value[e.target.value.length - 1] == '.'
-                                        temp.exist = false
-                                    }
+                                    // if (check) {
+                                    temp.email = e.target.value.length == 0
+                                    temp.emaillength = e.target.value.length < 8
+                                    temp.invEmail = e.target.value != '' && (!e.target.value.includes('@') || !e.target.value.includes('.') || e.target.value[e.target.value.length - 1] == '.' || e.target.value[e.target.value.length - 2] == '.') || e.target.value.includes('..')
+                                    temp.exist = false
+                                    // }
                                     checkEmail(e.target.value)
                                     setReqCheck(temp)
                                     setErr(false)
                                     formik.handleChange(e)
                                 }
                                 } className='signUpTextInput' />
-                                {reqCheck.email ? <p className="signUpError">Required!</p> : reqCheck.emaillength ? <p className="signUpError">Minimum 8 character required!</p> : false}
+                                {reqCheck?.exist ? <p className="signUpError">Account already in used</p> : !reqCheck.email && reqCheck.emaillength ? <p className="signUpError">Minimum 8 character required!</p> : reqCheck.invEmail ? <p className="signUpError">Invalid Email!</p> : false}
                             </div>
                             <div className='signUpRowDiv'>
                                 <div className={
@@ -222,10 +224,10 @@ const SignUp = () => {
                                         'signUpPassDiv'}>
                                     <input onFocus={() => setPassBorder(true)} onBlur={() => setPassBorder(false)} placeholder={'Password:'} name='password' value={formik.values.password} onChange={(e) => {
                                         let temp = { ...reqCheck }
-                                        if (check) {
-                                            temp.password = e.target.value.length == 0
-                                            temp.passlength = e.target.value.length < 8
-                                        }
+                                        // if (check) {
+                                        temp.password = e.target.value.length == 0
+                                        temp.passlength = e.target.value.length < 8
+                                        // }
                                         setReqCheck(temp)
                                         setErr(false)
                                         formik.handleChange(e)
@@ -235,9 +237,28 @@ const SignUp = () => {
                                             <BsFillEyeSlashFill /> : <BsFillEyeFill />}
                                     </button>
                                 </div>
-                                {reqCheck?.exist ? <p className="signUpError">Account already in used</p> : reqCheck.password ? <p className="signUpError">Required!</p> : reqCheck.passlength ? <p className="signUpError">Minimum 8 character required!</p> : reqCheck.invEmail ? <p className="signUpError">Invalid Email!</p> : err ? <p className="signUpError">Invalid Email</p> : false}
+                                {!reqCheck.password && reqCheck.passlength ? <p className="signUpError">Minimum 8 character required!</p> : err ? <p className="signUpError">Invalid Email</p> : false}
                             </div>
-                            <button disabled={wait} onClick={CreateUser} className='signUpButton' type='submit'>Create User</button>
+                            <button 
+                            disabled={
+                                reqCheck.email || reqCheck.emaillength || reqCheck.invEmail ||
+                                reqCheck.password || reqCheck.passlength || reqCheck.name ||
+                                reqCheck?.exist || reqCheck?.invEmail} 
+                                onClick={CreateUser}
+                                className={
+                                    reqCheck.email || reqCheck.emaillength || reqCheck.invEmail ||
+                                        reqCheck.password ||
+                                        reqCheck.passlength ||
+                                        reqCheck.name ||
+                                        reqCheck?.exist ||
+                                        reqCheck?.invEmail
+                                        ? 'signUpButton signUpBgGray' : 'signUpButton'}
+                                type='submit'>
+                                {!wait ? 'Create User' :
+                                    <TailSpin height="15" width="15" color="#4fa94d" ariaLabel="tail-spin-loading"
+                                        radius="1" wrapperStyle={{}} wrapperClass="" visible={true} />
+                                }
+                            </button>
                             <p>Already have an account <Link to={'/'}>Sign in</Link></p>
                         </div>
                         <div className='bgBlueLock signUpImage'>

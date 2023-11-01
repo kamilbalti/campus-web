@@ -37,6 +37,7 @@ const ApplyInfo = ({setSelect}) => {
 
     const block = (item) => {
         let uid = item?.uid
+        if(!check){
         setCheck(true)
         let index = AllUsersData.findIndex((item, index) => item.uid == uid)
         let tempUser = AllUsersData[index]
@@ -44,10 +45,12 @@ const ApplyInfo = ({setSelect}) => {
             set(ref(db, "users/" + tempUser?.uid + "/"),{
                 userDetail: tempUser
             })
-        setTimeout(() => {setCheck(false)},1000)
+        }
+        setTimeout(() => {setCheck(false)},100)
     }
     const Unblock = (item) => {
         let uid = item?.uid
+        if(!check){
         setCheck(true)
         let index = AllUsersData.findIndex((item, index) => item.uid == uid)
         let tempUser = AllUsersData[index];
@@ -55,10 +58,12 @@ const ApplyInfo = ({setSelect}) => {
         set(ref(db, "users/" + tempUser?.uid + "/"),{
             userDetail: tempUser
         })
-        setCheck(false)
+    }
+    setTimeout(() => {setCheck(false)},100)
 }
     const verify = (item) => {
         let uid = item?.uid
+        if(!check){
         setCheck(true)
         let index = AllUsersData.findIndex((item, index) => item.uid == uid)
         let tempUser = AllUsersData[index];
@@ -66,8 +71,9 @@ const ApplyInfo = ({setSelect}) => {
         set(ref(db, "users/" + tempUser?.uid + "/"),{
             userDetail: tempUser
         })
-        setCheck(false)
     }
+    setTimeout(() => {setCheck(false)},100)
+}
     const changeLink = (item) => {
         navigate(`/${item.status}/${item.uid}`)
         setSelect(4)

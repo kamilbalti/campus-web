@@ -22,7 +22,7 @@
     gap: 20px;
 }
 .signInDiv{
-    max-height: 450px;
+    max-height: 480px;
 }
 .forgetPassDiv{
     max-height: 380px;   
@@ -133,15 +133,23 @@ background-color: rgb(230, 230, 230);
     background-color: rgb(31, 100, 155);
     color: white;
     border: none;
+    display: flex;
+    /* align-items: center; */
+    justify-content: center;
     width: 100%;
     font-size: 15px;
     border-radius: 30px;
     font-weight: bold;
     padding: 16px;
+    /* height: 80px; */
 }
 .signUpButton:hover{
     background-color: rgb(31, 110, 170);
     color: rgba(0, 0, 0, 0.5);
+}
+.signUpBgGray{
+    background-color: rgba(12, 12, 12, 0.3) !important;
+    color: gray !important;
 }
 .signUpRow2{
     display: flex;

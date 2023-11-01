@@ -9,7 +9,8 @@ import { SlLogout } from 'react-icons/sl'
 import { AiOutlineClose } from 'react-icons/ai'
 const Navbar = ({ name, closeCheck, setCloseCheck }) => {
     const { userDetail } = useSelector(e => e)
-    const [ show, setShow ] = useState(false)
+    // const [ show, setShow ] = useState(false)
+    let show = false
     const [showDetail, setShowDetail] = useState(false)
     const data = ["Name: " + userDetail?.name, "Email: " + userDetail?.email,
     "Status: " + userDetail?.status]
@@ -42,15 +43,30 @@ const Navbar = ({ name, closeCheck, setCloseCheck }) => {
                         alignItems: 'center', justifyContent: 'center', cursor: 'pointer'}}>
                     </div>
                     <div
-                     onClick={() => setShowDetail(false)}
+                     onClick={() => 
+                        setTimeout(() => {
+                        if(show == false)
+                        setShowDetail(false) },50)
+                    }
                          className={'AllFeaturesNoPadding'}>
                         <div 
-                        // onClick={() => setTimeout(() => { setShow(true) && setShowDetail(true)},100)} 
+                        onClick={() => {
+                            // if(show == false)
+                                show = true 
+                                // if(show == true)
+                                setTimeout(() => { 
+                                    setShowDetail(true)
+                                    show = false
+                                },87)
+                        }} 
                         className='AllFeaturesNoPadChildDiv'>
-                            {/* <div style={{ width: '100%', display: 'flex', justifyContent: 'end', 
-                            padding: '20px 20px 0 0', cursor: 'pointer'}}>
+                            <div style={{ width: '100%', display: 'flex', justifyContent: 'end', 
+                                padding: '20px 20px 0 0', cursor: 'pointer'}} onClick={() => {
+                                    setTimeout(() => {
+                                        setShowDetail(false) },100)
+                                }}>
                                 <AiOutlineClose />
-                             </div> */}
+                             </div>
                             {data?.map((item, index) =>
                                 <div key={index} className={'AllFeaturesChildDiv'}>
                                     <h3
