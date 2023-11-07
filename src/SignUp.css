@@ -182,6 +182,7 @@ background-color: rgb(230, 230, 230);
     color: white
 }
 .signUpError{
+    width: 100%;
     color: red;
 }
 @media screen and (max-width: 600px){

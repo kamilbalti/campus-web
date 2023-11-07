@@ -21,6 +21,7 @@ const SignIn = () => {
     const [ passBorder, setPassBorder ] = useState(false)
     const [check2, setCheck2] = useState(false)
     let check = false
+    let unsubscribe = ''
     // const [ check, setCheck ] = useState(false)
     const validationSchema = Yup.object().shape({
         email: Yup.string()
@@ -43,8 +44,9 @@ const SignIn = () => {
         }
         })
     const LogIn = (e) => {
-            if(!check){
+        if(!check2){
             check = true
+            // alert('yes')
             setCheck2(true)
         }
             // setCheck(true)
@@ -70,7 +72,8 @@ const SignIn = () => {
             // onAuthStateChanged(auth, (user) => {
                 if(user){
                     const uid = user.uid
-                    onValue(ref(db, "users/" + uid + "/userDetail"), (data) => {
+                    console.log(uid, " Dataiwoej")
+                    unsubscribe = onValue(ref(db, "users/" + uid + "/userDetail"), (data) => {
                         // if(window.location.pathname == '/' && data.val()?.block == true)
                         // window.location.pathname = '/'
                         if(data.val()?.status == 'Admin'){
@@ -82,10 +85,13 @@ const SignIn = () => {
                     }
                             // alert('test')
                         else if(data.val()) 
-                        if(data.val()?.block == true && data.val()?.verify){
-                        alert("You are Blocked by the Admin") 
+                        if(data.val()?.block == true && data.val()?.verify || data.val()?.status != 'Admin'){
+                        alert("You are Blocked by the Admin1") 
+                        check = false
+                        setCheck2(false)
                         signOut(auth)
-                        window.location.pathname = '/'
+                        unsubscribe()
+                        // window.location.pathname = '/'
                         .then(() =>
                         // setTimeout(() => {
                             dispatch(setUserDetail(false))
@@ -97,8 +103,11 @@ const SignIn = () => {
                         }
                         else if( data.val() && data.val()?.verify != true){
                             alert("You are not Verified Please Contact with the Admin3") 
+                            check = false
+                            setCheck2(false)
                             signOut(auth)
-                            window.location.pathname = '/'
+                            unsubscribe()
+                            // window.location.pathname = '/'
                             .then(() =>
                             // setTimeout(() => {
                                 dispatch(setUserDetail(false))

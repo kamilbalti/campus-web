@@ -24,7 +24,7 @@ const StudentInfo = ({uid}) => {
         <div className="previousJobMainDiv">
         {appliedJob?.map((item, index) =>
             <div key={index} className={"previousJobBox"}>
-                <h1>{item?.title.toUpperCase()}</h1>
+                <h1>{item?.title}</h1>
                 <div>
                     <h3>Duration: {item?.duration} {item?.duration == 1 ? "Day" : "Days"}</h3>
                     <h3>Budget: ${item?.salary}</h3>

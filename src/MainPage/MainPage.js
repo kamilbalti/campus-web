@@ -8,6 +8,7 @@ import JobApplied from "../JobApplied"
 import StudentApplied from "../StudentApplied"
 import AllUser from "../AllUsers"
 import UserInfo from "../UserInfo"
+import JobCompApply from "../JobCompApply"
 const MainPage = ({select, closeCheck, setSelect, emptPage, setEmptPage}) => {
     const [ title, setTitle ] = useState("")
     const [ duration, setDuration ] = useState("")
@@ -30,7 +31,7 @@ const MainPage = ({select, closeCheck, setSelect, emptPage, setEmptPage}) => {
             <PostJob tempInd={tempInd} setTempInd={setTempInd} emptPage={emptPage} setEmptPage={setEmptPage} setSelect={setSelect} title={title} setTitle={setTitle} duration={duration} setDuration={setDuration}
             salary={salary} setSalary={setSalary} description={description} setDescription={setDescription} /> 
             : (select == 1? <PreviousJob select={select} setTempInd={setTempInd} emptPage={emptPage} setEmptPage={setEmptPage} setSelect={setSelect} setTitle={setTitle} setDuration={setDuration} setSalary={setSalary} setDescription={setDescription}/> : 
-            <StudentApplied emptPage={emptPage} setEmptPage={setEmptPage} select={select} setSelect={setSelect}/>)) :
+            <JobCompApply emptPage={emptPage} setEmptPage={setEmptPage} select={select} setSelect={setSelect}/>)) :
             select == 0 ? 
             <AllUser select={select} emptPage={emptPage} setEmptPage={setEmptPage} setSelect={setSelect}/>
             : select == 1? 

@@ -20,7 +20,8 @@ a{
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 h2{
-  background-color: yellow;
+  font-size: 32px;
+  /* background-color: yellow; */
 }
 .AppMainDiv{
   display: flex;

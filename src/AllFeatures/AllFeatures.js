@@ -35,7 +35,7 @@ const AllFeatures = ({ status, closeCheck, setCloseCheck, setSelect, select }) =
                 ] 
         ]
         : [
-            ["All Jobs", "Jobs Applied"], ["Post Jobs", "Previous Jobs", "Student Applied"],
+            ["All Jobs", "Jobs Applied"], ["Post Jobs", "Previous Jobs"],
             [`All Users (${allUsers? allUsers : 0})`, 
             `Non Verified Users (${nonVerified? nonVerified : 0})`, 
             `Verified Users (${verified? verified : 0})`, 
@@ -52,7 +52,10 @@ const AllFeatures = ({ status, closeCheck, setCloseCheck, setSelect, select }) =
         navigate('/')
         if (select !== index && closeCheck !== 'profile')
             setSelect(index);
-
+        let location = window.location.pathname.split('/')
+        if(location[1] == 'Job')
+        navigate('/')
+        // alert('yes')
         // : false
         if ((window !== 'undefined') && window.innerWidth <= 600 && closeCheck !== 'profile')
             close()

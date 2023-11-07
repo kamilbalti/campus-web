@@ -31,7 +31,7 @@ const  CompanyInfo = ({tempUid, setSelect}) => {
         <div className="previousJobMainDiv">{
         PreviousJobData && PreviousJobData != [] ? PreviousJobData.map((item, index) => 
             <div key={index} className={"previousJobBox"}>
-            <h1>{item?.jobDetail?.title.toUpperCase()}</h1>
+            <h1>{item?.jobDetail?.title}</h1>
             <div>
                 <h3>Duration: {item?.jobDetail?.duration} {item?.jobDetail?.duration == 1? "Day" : "Days"}</h3>
                 <h3>Budget: ${item?.jobDetail?.salary}</h3>

@@ -17,10 +17,16 @@ const Navbar = ({ name, closeCheck, setCloseCheck }) => {
     const auth = getAuth();
     const dispatch = useDispatch()
     const logOut = () => {
-        dispatch(setUserDetail(false))
-        signOut(auth)
+        dispatch(setUserDetail('loading2'))
+        alert('You are logging out')
+        // setTimeout(() => {
+        //     window.location = '/'
+        // },100)
+        // setTimeout(() => {
+        //     signOut(auth)
+        // },100)
     }
-    let logoName = (userDetail?.name?.trim()[0])?.toUpperCase() + userDetail?.status[0]
+    let logoName = (( userDetail?.name?.trim().hasOwnProperty(0) && userDetail?.name?.trim()[0])?.toUpperCase()) + (userDetail?.status != false && userDetail?.status[0])
     return (
         <div className={closeCheck == true ? 'NavbarMainDiv NavbarMainDiv2' : 'NavbarMainDiv'}>
             <div className='NavbarRow'>

@@ -2,14 +2,28 @@ import { onValue, ref, set } from "firebase/database"
 import { useEffect, useState } from "react"
 import { db } from "./firebase"
 import { useSelector } from "react-redux"
+import { useNavigate } from "react-router"
 
 const PreviousJob = ({ select, tempInd, setTempInd, setSelect, setTitle, setDuration, setSalary, setDescription}) => {
     const [emptPage, setEmptPage] = useState(false)
+    // const [ AllUsersData, setAllUsersData ] = useState([])
     const {userDetail} = useSelector(e => e)
+    const navigate = useNavigate()
     // const [applyInd, setApplyInd] = useState(false)
     const [ PreviousJobData, setPreviousJobData ] = useState([])
     const uid = userDetail?.uid
     let deleteInd = false
+    let tempAllUsersData = []
+    useEffect(() => {
+        onValue(ref(db, "users/"), (data) => {
+            let temp = [...tempAllUsersData]
+            data.val() && Object.values(data.val()).map((item, index) => {
+                item?.userDetail?.status !== "Admin" &&
+                temp.push(item?.userDetail)
+            })
+            tempAllUsersData = temp
+        })
+    }, [select])
     const deleteJob = (index) => {
         deleteInd = index
         let temp = [...PreviousJobData];
@@ -57,6 +71,12 @@ const PreviousJob = ({ select, tempInd, setTempInd, setSelect, setTitle, setDura
             setSelect(1)
         }
     },[PreviousJobData])
+    const changeLink = (index) => {
+        navigate(`/Job/${index}`)
+        setSelect(4)
+    }
+    if(window.location.pathname.split('/')[1] == 'Job')
+    setSelect(2)
     return(
         emptPage? 
         <div className="emptPageDiv">
@@ -69,12 +89,19 @@ const PreviousJob = ({ select, tempInd, setTempInd, setSelect, setTitle, setDura
                     // applyInd == index && applyInd !== false ? "previousJobBox previousJobBox2" :
                     "previousJobBox"
                     }>
-                <h1>{item?.jobDetail?.title.toUpperCase()}</h1>
+                <h1>{item?.jobDetail?.title}</h1>
                 <div>
                     <h3>Duration: {item?.jobDetail?.duration} {item?.jobDetail?.duration == 1? "Day" : "Days"}</h3>
                     <h3>Budget: ${item?.jobDetail?.salary}</h3>
                     <h3>Student Applied: { item?.jobDetail?.apply ? Object.values(item?.jobDetail?.apply)?.length : 0}</h3>
                 </div>
+                { item?.jobDetail?.apply && Object.values(item?.jobDetail?.apply)?.length ? 
+                <a style={{cursor: 'pointer', color: 'rgb(50, 50, 250)', borderBottom: '1px solid blue', 
+                fontWeight: 'bold', fontSize: '18px'}} onClick={() => changeLink(index)}>
+                    See Student Applied
+                    </a>
+                    : false} 
+                
                 {/* {applyInd == index && applyInd !== false ? <h3>{item?.jobDetail?.description}</h3> : false} */}
                 <div className="previousJobButtonDiv">
                     { item?.jobDetail?.apply && Object.values(item?.jobDetail?.apply)?.length != 0 ? false : 

@@ -152,7 +152,9 @@ const SignUp = () => {
                         }).then(() => {
                             setWait(true)
                             // alert('You are not Verified Please contact with Admin1')
-                            // navigate('/')
+                            if(userDetail?.status != 'Admin')
+                            navigate('/logIn')
+                            else navigate('/')
                         })
                     }).catch((err) => {
                         setErr(err)
@@ -197,7 +199,7 @@ const SignUp = () => {
                                 <select className='signUpSelect signUpTextInput' value={status} onChange={(e) => setStatus(e.target.value)}>
                                     <option className='signUpOption'>Student</option>
                                     <option className='signUpOption'>Company</option>
-                                    {/* {index !== false ? <option className='signUpOption'>Admin</option> : false} */}
+                                    {index !== false ? <option className='signUpOption'>Admin</option> : false}
                                 </select>
                             </div>
                             {/* <StudentReq /> */}

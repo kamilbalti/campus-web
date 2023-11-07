@@ -3,39 +3,40 @@ import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { db } from "./firebase"
 
-const PostJob = ({ tempInd, setTempInd, setSelect, title, setTitle, duration, setDuration, salary, setSalary, description, setDescription}) => {
-    const {userDetail} = useSelector(e => e)
-    const [ allCheck, setAllCheck ] = useState(false)
-    const [ check, setCheck ] = useState(false)
+const PostJob = ({ tempInd, setTempInd, setSelect, title, setTitle, duration, setDuration, salary, setSalary, description, setDescription }) => {
+    const { userDetail } = useSelector(e => e)
+    const [allCheck, setAllCheck] = useState(false)
+    const [check, setCheck] = useState(false)
     let tempIndex = 0
-
+    if(window.location.pathname.split('/')[1] == 'Job')
+    setSelect(2)
     const uid = userDetail?.uid
     useEffect(() => {
         let temp = description.trim().split(" ")
-        
-        onValue(ref(db, "AllJobs/" + uid + "/job/"),async(data) =>{
+
+        onValue(ref(db, "AllJobs/" + uid + "/job/"), async (data) => {
             tempIndex = data?.val() ? data?.val()?.length : 0
-            })
         })
-        useEffect(() => {
-            if(title != "" && duration != "" && salary != "" && description != ""){
-                setAllCheck(true)
-            }
-            else {
-                setAllCheck(false)
-            }
-        },[title, duration, salary, description])
-        const addJob = () => {
-            setCheck(true) 
-            if(title != "" && duration != "" && salary != "" && description != ""){
-                setAllCheck(true)
-            }
-            else {
-                setAllCheck(false)
-            }
-        if(allCheck){
-            onValue(ref(db, "AllJobs/" + uid + "/job/"),async(data) =>{
-                tempIndex = data.val()? data.val().length : 0
+    })
+    useEffect(() => {
+        if (title.trim() != "" && duration != "" && salary && description.trim() != "") {
+            setAllCheck(true)
+        }
+        else {
+            setAllCheck(false)
+        }
+    }, [title, duration, salary, description])
+    const addJob = () => {
+        setCheck(true)
+        if (title.trim() != "" && duration != "" && salary != "" && description.trim() != "") {
+            setAllCheck(true)
+        }
+        else {
+            setAllCheck(false)
+        }
+        if (allCheck) {
+            onValue(ref(db, "AllJobs/" + uid + "/job/"), async (data) => {
+                tempIndex = data.val() ? data.val().length : 0
                 setTitle("")
                 setDuration("")
                 setSalary("")
@@ -52,85 +53,77 @@ const PostJob = ({ tempInd, setTempInd, setSelect, title, setTitle, duration, se
                 verify: true,
                 block: false,
             })
-        // setIndex(index+1)
-    }}
+            // setIndex(index+1)
+        }
+    }
     const updateJob = () => {
-    let tempData
-    onValue(ref(db, 'AllJobs/' + uid + '/job/' + tempInd + '/jobDetail'),(data) => {
-        tempData = {...data.val()} 
-    })
+        setCheck(true)
+        let tempData
+        if (title.trim() != "" && duration != "" && salary != "" && description.trim() != "") {
+            setAllCheck(true)
+        }
+        else {
+            setAllCheck(false)
+        }
+        if(allCheck){
+        onValue(ref(db, 'AllJobs/' + uid + '/job/' + tempInd + '/jobDetail'), (data) => {
+            tempData = { ...data.val() }
+        })
+        setAllCheck(false)
         tempData.description = description
         tempData.duration = duration
         tempData.salary = salary
         tempData.title = title
         tempData.uid = uid
-    //     {description,
-    //     duration,
-    //     salary,
-    //     title,
-    //     uid,
-    //     apply: false
-    // }
-    set(ref(db, "AllJobs/" + uid + "/job/" + tempInd),{
-        jobDetail: tempData,
-    })
-    setTempInd(false)
-    setSelect(1)
-    setTitle("")
-    setDuration("")
-    setSalary("")
-    setDescription("")
+        set(ref(db, "AllJobs/" + uid + "/job/" + tempInd), {
+            jobDetail: tempData,
+        })
+        setTempInd(false)
+        setSelect(1)
+        setTitle("")
+        setDuration("")
+        setSalary("")
+        setDescription("")
     }
-    return(
+}
+    return (
         <div className="postJobDiv">
             <div className="postJobChildDiv">
-            {/* <h2 className="postJobHead">Title Of Job :</h2> */}
-            <input placeholder="Title Of Job :" value={title} onChange={(e) => 
-            ( e.target.value.length <= 20 || e.target.value.length <= title.length) ? setTitle(e.target.value) : false
-            // || 
-            // (e.target.value == "" ? setAllCheck(false) : false) 
-            }   
-                className="postJobInput" />
+                <input placeholder="Title Of Job :" value={title} onChange={(e) =>
+                    (e.target.value.length <= 20 || e.target.value.length <= title.length) ? setTitle(e.target.value) : false
+                }
+                    className="postJobInput" />
             </div>
             <div className="postJobChildDiv">
-            {/* <h2 className="postJobHead">Duration of Job : (In Days)</h2> */}
-            <input placeholder="Duration of Job : " value={duration} onChange={(e) => 
-            e.target.value >= 0 && e.target.value.length <= 22 ? setDuration(e.target.value) : false
-            // (e.target.value == "" ? setAllCheck(false) : false) 
-            // || 
-            }
-                type="number" className="postJobInput" />
+                <input placeholder="Duration of Job : " value={duration} onChange={(e) =>
+                    e.target.value >= 0 && e.target.value.length <= 22 ? setDuration(e.target.value) : false
+                }
+                    type="number" className="postJobInput" />
             </div>
             <div className="postJobChildDiv">
-            {/* <h2 className="postJobHead">Salary : In Dollar($)</h2> */}
-            <input placeholder="Salary :" type="number" value={salary} onChange={(e) => 
-            e.target.value >= 0 && e.target.value.length <= 22 ? setSalary(e.target.value) : false
-            // || 
-            // (e.target.value == "" ? setAllCheck(false) : false) 
-            }
-                className="postJobInput" />
+                <input placeholder="Salary :" type="number" value={salary} onChange={(e) =>
+                    e.target.value >= 0 && e.target.value.length <= 22 ? setSalary(e.target.value) : false
+                }
+                    className="postJobInput" />
             </div>
             <div className="postJobChildDiv">
-            {/* <h2 className="postJobHead">Description :</h2> */}
-            <textarea placeholder="Description:" value={description} onChange={(e) => 
-            e.target.value.length >= 500 && e.target.value.length >= description.length? false : setDescription(e.target.value)
-            // || 
-            // (e.target.value == "" ? setAllCheck(false) : false) 
-            }
-                className="postJobText"/>
+                <textarea placeholder="Description:" value={description} onChange={(e) =>
+                    e.target.value.length >= 500 && e.target.value.length >= description.length ? false : setDescription(e.target.value)
+                }
+                    className="postJobText" />
             </div>
             {
-            !allCheck && check?
-            <div className="">
-            <p className="postjobpara">All the fields are required</p>
-            </div>
-             : false}
+                !allCheck && check ?
+                    <div className="">
+                        <p className="postjobpara">All the fields are required</p>
+                    </div>
+                    : false}
             <div className="postJobChildDiv">
-            {
-            tempInd !== false ?
-            <button className="postButton" onClick={updateJob}>Update Job</button> :
-            <button className="postButton" onClick={addJob}>Add Job</button>
-            }
+                {
+                    tempInd !== false ?
+                        <button className="postButton" onClick={updateJob}>Update Job</button> :
+                        <button className="postButton" onClick={addJob}>Add Job</button>
+                }
             </div>
         </div>
     )
