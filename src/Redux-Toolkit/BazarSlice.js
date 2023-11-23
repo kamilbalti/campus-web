@@ -2,7 +2,9 @@
 import { createSlice } from "@reduxjs/toolkit"
 const initialState = {
     userDetail: 'loading',
-    userArr: []
+    userArr: [],
+    unSub: false,
+    check: false
 }
 export const bazar = createSlice({
     name: 'Bazar',
@@ -13,25 +15,15 @@ export const bazar = createSlice({
         },
         setUserArr: (state, action) => {
             state.userArr = action.payload
+        },
+        setUnSub: (state, action) => {
+            state.unSub = action.payload
+        },
+        setCheck: (state, action) => {
+            state.check = action.payload
         }
-            // addItems: (state, action) => {
-            // state.cartData.push(action.payload)
-            // },            
-            // changeItemsQuantity: (state, action) => {
-            //     state.ItemsQuantity[action.payload?.index1][action.payload?.index2] += action.payload.quantity
-            // },
-            // setItemsQuantity: (state, action) => {
-            //     state.ItemsQuantity = action.payload
-            // },
-            // setCartOpen: (state, action) => {
-            //     state.cartOpen = action.payload
-            // },
-            // setCartData: (state, action) => {
-            //     state.cartData = action.payload
-            // }
     }
     }
 )
-// const bazarReducer = bazar.reducer
-export const { setUserDetail, setUserArr } = bazar.actions
+export const { setUserDetail, setUserArr, setUnSub, setCheck } = bazar.actions
 export default bazar.reducer;
