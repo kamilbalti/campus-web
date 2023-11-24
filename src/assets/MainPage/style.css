@@ -26,12 +26,6 @@
     transition: 0.5s ease;
     overflow-y: auto;
 }
-@media screen and (max-width: 1000px) {
-    .AppChildDiv{
-        width: 50%;
-        /* padding: 10px; */
-    }
-}
 .emptPageDiv{
     width: 100%;
     height: calc(100vh - 135px);
@@ -46,22 +40,6 @@
     max-width: 1000px !important;
     /* height: 100vh; */
     /* height: calc(100vh - 125px); */
-}
-@media screen and (max-width: 1000px){
-    .AppChildDiv{
-        width: 60%;
-    }
-    .AllFeaturesDiv2{
-        /* margin-left: -40%; */
-    }
-}
-@media screen and (max-width: 800px){
-    .AppChildDiv{
-        width: 50%;
-    }
-    .AllFeaturesDiv2{
-        /* margin-left: -50%; */
-    }
 }
 .MainPageDiv2{
     width: 100%;

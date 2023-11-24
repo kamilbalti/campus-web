@@ -32,7 +32,7 @@ const Navbar = ({ name, closeCheck, setCloseCheck }) => {
         window.location.pathname = '/'
         // dispatch(setCheck(false))
     }
-    let logoName = (( userDetail?.name?.trim().hasOwnProperty(0) && userDetail?.name?.trim()[0])?.toUpperCase()) + (userDetail?.status != false && userDetail?.status[0])
+    let logoName = ( userDetail?.name?.trim().hasOwnProperty(0) ? userDetail?.name?.trim()[0]?.toUpperCase() : 'A')
     return (
         <>
         <div className={closeCheck == true ? 'NavbarMainDiv NavbarMainDiv2' : 'NavbarMainDiv'}>

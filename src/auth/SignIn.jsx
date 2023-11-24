@@ -41,11 +41,11 @@ const SignIn = () => {
           .min(6, 'Password must be at least 6 characters')
           .required('Password is required'),
       });
-    // useEffect(() => {
-    //     if(userDetail && ( userDetail != 'loading' || userDetail != 'loading2' ))
-    //     navigate('/')
-    //     else navigate('/logIn')
-    // },[userDetail])
+    useEffect(() => {
+        if(userDetail && ( userDetail != 'loading' || userDetail != 'loading2' && userDetail.verify ))
+        navigate('/')
+        else navigate('/logIn')
+    },[userDetail])
     const navigate = useNavigate()
     const dispatch = useDispatch()
         const formik = useFormik({
@@ -186,7 +186,7 @@ const SignIn = () => {
                 <div className='signUpDiv signInDiv'>
                 <h1 style={{ width: '100%', textAlign: 'start', padding: '0 5px'}}>LOGIN</h1>
                 <Input name={'Email'} inputClass={'signUpTextInput'} si={true} formik={formik} reqCheck={reqCheck} setReqCheck={setReqCheck} setErr={setErr}/>
-                <Input passBorder={passBorder} setPassBorder={setPassBorder} err={err ? <p className='signUpError'>Invalid Email or Password</p> : false} passType={passType} setPassType={setPassType} name={'Password'} inputClass={`signUpTextInput signUpPassInput`} si={true} formik={formik} reqCheck={reqCheck} setReqCheck={setReqCheck} setErr={setErr}/>
+                <Input type='pass' passBorder={passBorder} setPassBorder={setPassBorder} err={err ? <p className='signUpError'>Invalid Email or Password</p> : false} passType={passType} setPassType={setPassType} name={'Password'} inputClass={`signUpTextInput signUpPassInput`} si={true} formik={formik} reqCheck={reqCheck} setReqCheck={setReqCheck} setErr={setErr}/>
                 <p onClick={() => navigate('/forget-password')} style={{width: '100%', display: 'flex', justifyContent: 'flex-end', paddingRight: '15px', marginBottom: '-20px'}}><Link>Forgot Password</Link></p>
                 <button disabled={formik.values.email == '' || formik.values.password == ''} 
                 className={check2 || formik.values.email == '' || formik.values.password == '' ?

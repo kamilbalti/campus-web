@@ -34,6 +34,7 @@ const AllUser = ({select, setSelect, AllUsersData, setAllUsersData, temp}) => {
         setSelect(4)
     })
     const block = (item) => {
+        notify(`${item?.name} is block successful`)
         let uid = item?.uid
         setCheck(true)
         let index = AllUsersData.findIndex((item, index) => item.uid == uid)
@@ -45,6 +46,7 @@ const AllUser = ({select, setSelect, AllUsersData, setAllUsersData, temp}) => {
         setTimeout(() => {setCheck(false)},1000)
     }
     const Unblock = (item) => {
+        notify(`${item?.name} is unblock successful`)
         let uid = item?.uid
         setCheck(true)
         let index = AllUsersData.findIndex((item, index) => item.uid == uid)
@@ -56,6 +58,7 @@ const AllUser = ({select, setSelect, AllUsersData, setAllUsersData, temp}) => {
         setCheck(false)
 }
     const verify = (item) => {
+        notify(`${item?.name} is verified successful`)
         let uid = item?.uid
         setCheck(true)
         let index = AllUsersData.findIndex((item, index) => item.uid == uid)
@@ -95,7 +98,7 @@ const AllUser = ({select, setSelect, AllUsersData, setAllUsersData, temp}) => {
                     <div className="previousJobButtonDiv">
                     { item.block == true ?
                     <button type="button" onClick={() => Unblock(item)} className="postButton">Unblock</button>:
-                    <button type="button" onClick={() => item?.verify ? block(item) : notify(`${item?.name} Is Not Verified, Verify ${item?.name} Before Blocking`)} className="postButton">Block</button>}
+                    <button type="button" onClick={() => item?.verify ? block(item) : notify(`${item?.name} is Not verified, verify ${item?.name} before blocking`)} className="postButton">Block</button>}
                     {
                         item.verify == true ? false :
                         <button type="button" onClick={() => verify(item)} className="postButton">Verify</button>

@@ -127,23 +127,6 @@
     position: fixed;
     right: 0;
 }
-@media screen and (max-width: 1000px){
-    .AllFeaturesMainDiv{
-        width: 40%;
-    }
-    .AllFeaturesDiv2{
-        margin-left: -40%;
-    }
-}
-@media screen and (max-width: 800px){
-    .AllFeaturesMainDiv{
-        width: 50%;
-    }
-    .AllFeaturesDiv2{
-        margin-left: -50%;
-    }
-    
-}
 @media screen and (max-width: 600px){
     .AllFeaturesMainDiv{
         z-index: 20;
@@ -151,26 +134,9 @@
         position: fixed;
         width: 100% ;
     }
-    .AllFeaturesDiv2{
-        margin-left: -100%;
-    }
-    .AllFeaturesNoPadChildDiv{
-        width: 100%;
-    }
 }
-/* @media screen and (max-width: 1200px) {
-    .AllFeaturesHeadingNoPad{
-        padding: 15px;
-    }
-} */
 @media screen and (max-width: 900px){
     .AllFeaturesHeadingNoPad{
         padding: 20px;
     }
 }
-/* @media screen and (max-width: 600px){
-
-    .AllFeaturesHeadingNoPad{
-        padding: 5px;
-    }
-} */
