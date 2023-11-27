@@ -31,10 +31,12 @@ const JobCompApply = ({setSelect}) => {
                         if(!tempData?.block && tempData?.verify){
                         tempApply.push(tempData)
                     }
+                })
+                if(tempApply.length>0){
                     setApply(tempApply)
-                    })
                 }
                 else setEmptPage(true)
+                }
             })
         },500)
     },[])

@@ -32,7 +32,7 @@ const SignUp = () => {
             .email('Invalid email address')
             .max(35, 'Email must be at most 35 characters')
             .required('Email is required')
-            .matches(/^[a-zA-Z0-9\s']+.@+/, 'Invalid email address')
+            // .matches(/^[a-zA-Z0-9\s']+.@+/, 'Invalid email address')
             .matches(/[.]/, 'Invalid email address')
             ,
             password: Yup.string()

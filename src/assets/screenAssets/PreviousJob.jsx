@@ -4,41 +4,11 @@ import { db } from "../../Firebase/firebase"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router"
 
-const PreviousJob = ({ select, tempInd, setTempInd, setSelect, setTitle, setDuration, setSalary, setDescription, PreviousJobData, setPreviousJobData, emptPage, setEmptPage}) => {
-    // const [emptPage, setEmptPage] = useState(false)
-    // const [ AllUsersData, setAllUsersData ] = useState([])
+const PreviousJob = ({ AllUsersData, select, tempInd, setTempInd, setSelect, setTitle, setDuration, setSalary, setDescription, PreviousJobData, setPreviousJobData, emptPage, setEmptPage}) => {
     const {userDetail} = useSelector(e => e)
     const navigate = useNavigate()
-    // const [applyInd, setApplyInd] = useState(false)
-    // const [ PreviousJobData, setPreviousJobData ] = useState([])
     const uid = userDetail?.uid
     let deleteInd = false
-    // let tempAllUsersData = []
-    // useEffect(() => {
-    //     onValue(ref(db, "users/"), (data) => {
-    //         let temp = [...tempAllUsersData]
-    //         data.val() && Object.values(data.val()).map((item, index) => {
-    //             item?.userDetail?.status !== "Admin" &&
-    //             temp.push(item?.userDetail)
-    //         })
-    //         tempAllUsersData = temp
-    //     })
-    // }, [select])
-    // useEffect(() => {
-    //     onValue(ref(db, "AllJobs/" + uid + "/job/"), async(data) =>{
-    //         setPreviousJobData( await data.val() ? [...data.val()] : false)
-    //     })
-    // },[select])
-    // useEffect(() => {
-    //     setEmptPage(false)
-    //     if(PreviousJobData != false || PreviousJobData.length != 0 && PreviousJobData.length !== undefined || PreviousJobData != []){
-    //         setEmptPage(false)
-    //     }
-    //     else{
-    //         setEmptPage(true)
-    //         setSelect(1)
-    //     }
-    // },[PreviousJobData])
     const deleteJob = (index) => {
         deleteInd = index
         let temp = [...PreviousJobData];
@@ -84,33 +54,29 @@ const PreviousJob = ({ select, tempInd, setTempInd, setSelect, setTitle, setDura
         <div className="previousJobMainDiv">
             {PreviousJobData ? PreviousJobData.map((item, index) => 
                 <div key={index}
-                // onClick={() => index !== applyInd && deleteInd == false && setApplyInd(index)} 
                 className={
-                    // applyInd == index && applyInd !== false ? "previousJobBox previousJobBox2" :
                     "previousJobBox"
                     }>
                 <h1>{item?.jobDetail?.title}</h1>
                 <div>
                     <h3>Duration: {item?.jobDetail?.duration} {item?.jobDetail?.duration == 1? "Day" : "Days"}</h3>
                     <h3>Budget: ${item?.jobDetail?.salary}</h3>
-                    <h3>Student Applied: { item?.jobDetail?.apply ? Object.values(item?.jobDetail?.apply)?.length : 0}</h3>
+                    <h3>Student Applied: { item?.jobDetail?.apply ? Object.values(item?.jobDetail?.apply)?.filter((item2) => !item2?.userDetail?.block)?.length : 0}</h3>
                 </div>
-                { item?.jobDetail?.apply && Object.values(item?.jobDetail?.apply)?.length ? 
+                { item?.jobDetail?.apply && Object.values(item?.jobDetail?.apply)?.filter((item2) => !item2?.userDetail?.block)?.length != 0 ? 
                 <a style={{cursor: 'pointer', color: 'rgb(50, 50, 250)', borderBottom: '1px solid blue', 
                 fontWeight: 'bold', fontSize: '18px'}} onClick={() => changeLink(index)}>
                     See Student Applied
                     </a>
                     : false} 
                 
-                {/* {applyInd == index && applyInd !== false ? <h3>{item?.jobDetail?.description}</h3> : false} */}
                 <div className="previousJobButtonDiv">
-                    { item?.jobDetail?.apply && Object.values(item?.jobDetail?.apply)?.length != 0 ? false : 
+                { item?.jobDetail?.apply && Object.values(item?.jobDetail?.apply)?.filter((item2) => !item2?.userDetail?.block)?.length != 0 ? false : 
                     <>
                         <button onClick={() => deleteJob(index)} className="postButton">Delete</button>
                         <button onClick={() => updateJob(index)} className="postButton">Update</button>
                     </>
                     }
-                    {/* {applyInd == index && applyInd !== false && <button onClick={() => setApplyInd(false)} className="postButton">x</button>}  */}
                 </div>
                 </div>
             ) : false}

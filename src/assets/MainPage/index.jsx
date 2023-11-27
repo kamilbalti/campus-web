@@ -30,7 +30,7 @@ const MainPage = ({select, temp, closeCheck, setSelect, emptPage, setEmptPage, P
             (select == 0 ? 
             <PostJob tempInd={tempInd} setTempInd={setTempInd} emptPage={emptPage} setEmptPage={setEmptPage} setSelect={setSelect} title={title} setTitle={setTitle} duration={duration} setDuration={setDuration}
             salary={salary} setSalary={setSalary} description={description} setDescription={setDescription} /> 
-            : (select == 1? <PreviousJob select={select} setTempInd={setTempInd} emptPage={emptPage} setEmptPage={setEmptPage} setSelect={setSelect} setTitle={setTitle} setDuration={setDuration} setSalary={setSalary} setDescription={setDescription} PreviousJobData={PreviousJobData} setPreviousJobData={setPreviousJobData} /> : 
+            : (select == 1? <PreviousJob AllUsersData={AllUsersData} select={select} setTempInd={setTempInd} emptPage={emptPage} setEmptPage={setEmptPage} setSelect={setSelect} setTitle={setTitle} setDuration={setDuration} setSalary={setSalary} setDescription={setDescription} PreviousJobData={PreviousJobData} setPreviousJobData={setPreviousJobData} /> : 
             <JobCompApply emptPage={emptPage} setEmptPage={setEmptPage} select={select} setSelect={setSelect}/>)) :
             select == 0 ? 
             <AllUser AllUsersData={AllUsersData} temp={temp} setAllUsersData={setAllUsersData} select={select} emptPage={emptPage} setEmptPage={setEmptPage} setSelect={setSelect}/>

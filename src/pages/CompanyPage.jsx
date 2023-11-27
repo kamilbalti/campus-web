@@ -19,10 +19,30 @@ const CompanyPage = ({name, closeCheck, setCloseCheck, status, select, setSelect
             })
             tempAllUsersData = temp
         })
-        onValue(ref(db, "AllJobs/" + uid + "/job/"), async(data) =>{
-            setPreviousJobData( await data.val() ? [...data.val()] : false)
-        })
+        setTimeout(() => {
+            onValue(ref(db, "AllJobs/" + uid + "/job/"), async(data) =>{
+                let tempData = data.val()
+                tempData.map((item, index) => 
+                item?.jobDetail?.apply && Object.values(item.jobDetail.apply)?.map((item2, index2) => {
+                    let tempInd = tempAllUsersData.findIndex((item3) => (item3?.uid == item2.userDetail.uid))
+                    // if(tempInd != -1)
+                    // alert(tempInd)
+                    console.log(item2.userDetail, 'userDetail', tempAllUsersData[tempInd], 'secondDetail')
+                    // console.log(tempAllUsersData[tempInd])
+                    item2.userDetail = tempInd != -1 ? tempAllUsersData[tempInd] : []
+                })
+                )
+                console.log(tempData)
+                setPreviousJobData( tempData ? tempData : [])
+            })
+        },1000)
+        // catch(err){
+        //     alert(err)
+        // }
     }, [])
+    useEffect(() => {    
+        console.log(PreviousJobData, "Dayta")
+    },[PreviousJobData])
     useEffect(() => {
         setEmptPage(false)
         if(PreviousJobData != false || PreviousJobData.length != 0 && PreviousJobData.length !== undefined || PreviousJobData != []){

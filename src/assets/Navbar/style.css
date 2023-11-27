@@ -31,10 +31,12 @@
 .NavbarRow{
     display: flex;
     flex-direction: row;
+    align-items: center;
     gap: 40px;
     color: white;
 }
 .LogOutBut{
+    margin: 5px 0;
     padding: 12px;
     background-color: rgb(14, 162, 136);
     color: white;
@@ -61,6 +63,9 @@
     font-weight: bold;
     border-radius: 100%;
     width: 40px;
+    height: 40px;
+    /* margin: 5px 0; */
+    font-size: 20px;
     display: flex;
     flex-direction: row;
     align-items: center;

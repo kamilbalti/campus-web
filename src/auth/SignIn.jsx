@@ -33,14 +33,14 @@ const SignIn = () => {
     const notify = (error) => toast(error);
     let unsubscribe = ''
     // const [ check, setCheck ] = useState(false)
-    const validationSchema = Yup.object().shape({
-        email: Yup.string()
-          .email('Invalid email address')
-          .required('Email is required'),
-        password: Yup.string()
-          .min(6, 'Password must be at least 6 characters')
-          .required('Password is required'),
-      });
+    // const validationSchema = Yup.object().shape({
+    //     email: Yup.string()
+    //       .email('Invalid email address')
+    //       .required('Email is required'),
+    //     password: Yup.string()
+    //       .min(6, 'Password must be at least 6 characters')
+    //       .required('Password is required'),
+    //   });
     useEffect(() => {
         if(userDetail && ( userDetail != 'loading' || userDetail != 'loading2' && userDetail.verify ))
         navigate('/')
@@ -84,7 +84,8 @@ const SignIn = () => {
         }
         
         else if(!temp.email && !temp.password)
-        signInWithEmailAndPassword(auth, formik.values.email, formik.values.password).then((data) => {
+        signInWithEmailAndPassword(auth, formik.values.email.trim(), formik.values.password.trim())
+        .then((data) => {
             // onAuthStateChanged(auth, (user) => {
                 const user = data?.user
                 if(user){
@@ -170,8 +171,10 @@ const SignIn = () => {
             }
             // })
             // navigate('/')
-        }).catch((err) => { 
-        setErr(err)
+        }).catch((error) => {
+            // alert(Object.values(error)[0])
+        notify(Object.values(error)[0]) 
+        setErr(Object.values(error)[0])
         setCheck2(false)
         })
         // else setCheck2(false)

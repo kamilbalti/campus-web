@@ -3,6 +3,7 @@ import { db } from "../../Firebase/firebase"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import StudentReq from "../../pages/studentReq"
+import ViewMore from "../../pages/ViewMore"
 // import { Navigate, useNavigate } from "react-router"
 
 const AllJob = ({ setSelect, select }) => {
@@ -15,6 +16,7 @@ const AllJob = ({ setSelect, select }) => {
     const [applyText, setApplyText] = useState("")
     const [check, setCheck] = useState(false)
     const [streq, setStReq] = useState(false)
+    const [view, setView] = useState(false)
     // const navigate = useNavigate()
     let tempAllUsersData = []
     useEffect(() => {
@@ -128,7 +130,9 @@ const AllJob = ({ setSelect, select }) => {
                 :
                 <div className="previousJobMainDiv">
                     <>
+                        {view? <ViewMore data={view} setData={setView}/> : false}
                         {streq ? <StudentReq setShowDetail={setStReq} showDetail={streq} /> : false}
+                    
                     </>
                     {
                         // streq ?
@@ -144,10 +148,15 @@ const AllJob = ({ setSelect, select }) => {
                                         <h3>Duration: {item?.jobDetail?.duration} {item?.jobDetail?.duration == 1 ? "Day" : "Days"}</h3>
                                         <h3>Budget: ${item?.jobDetail?.salary}</h3>
                                         <h3>
-                                            Description: <i>{item?.jobDetail?.description}</i>
+                                            Description: <i>{item?.jobDetail?.description?.split('').filter((item2, index2) => index2 <= 100).join('') + (item?.jobDetail?.description?.length >= 100 ? '...' : '') }</i>
                                         </h3>
                                     </div>
+                                    <div style={{display: 'flex', gap: '15px'}}>
                                     <button className="postButton" onClick={() => Apply(item.indexes)}>Apply</button>
+                                    {item?.jobDetail?.description?.length >= 100 ? <button className="postButton" 
+                                    onClick={() => setView(item)}
+                                    >Full View</button> : false}
+                                    </div>
                                 </div>
                             ) : false}
                 </div>
