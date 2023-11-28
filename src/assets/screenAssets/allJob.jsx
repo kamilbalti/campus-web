@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import StudentReq from "../../pages/studentReq"
 import ViewMore from "../../pages/ViewMore"
+import { ToastContainer, toast } from "react-toastify"
 // import { Navigate, useNavigate } from "react-router"
 
 const AllJob = ({ setSelect, select }) => {
@@ -37,14 +38,19 @@ const AllJob = ({ setSelect, select }) => {
             userDetail
         })
     })}
-    const Apply = (indexes) => {
+    const notify = (data) => {
+        toast(data)
+    }
+    const Apply = (indexes, title) => {
         if (userDetail?.edu && userDetail?.exp) {
+            notify(`Applied successful at the job ${title}`)
             setStReq(false)
             tempApply(indexes)
             setSelect(1)
         }
         else {
-            setStReq(true)
+            // notify()
+                setStReq(true)
             // setTimeout(() => {
             //     setInterval(() => {
             //         if(!streq)
@@ -122,6 +128,7 @@ const AllJob = ({ setSelect, select }) => {
     // }, [streq])
     return (
         <>
+            <ToastContainer />
             {emptPage ?
                 // <>
                 <div className="emptPageDiv">
@@ -145,17 +152,19 @@ const AllJob = ({ setSelect, select }) => {
                                     "previousJobBox"} onClick={() => applyInd !== index && setApplyInd(index)}>
                                     <h1>{item?.jobDetail?.title}</h1>
                                     <div>
-                                        <h3>Duration: {item?.jobDetail?.duration} {item?.jobDetail?.duration == 1 ? "Day" : "Days"}</h3>
+                                        <h3>Duration: {item?.jobDetail?.duration} {item?.jobDetail?.duration == 1 ? "Day/month" : "Days/month"}</h3>
                                         <h3>Budget: ${item?.jobDetail?.salary}</h3>
                                         <h3>
                                             Description: <i>{item?.jobDetail?.description?.split('').filter((item2, index2) => index2 <= 100).join('') + (item?.jobDetail?.description?.length >= 100 ? '...' : '') }</i>
                                         </h3>
                                     </div>
                                     <div style={{display: 'flex', gap: '15px'}}>
-                                    <button className="postButton" onClick={() => Apply(item.indexes)}>Apply</button>
-                                    {item?.jobDetail?.description?.length >= 100 ? <button className="postButton" 
+                                    <button className="postButton" onClick={() => Apply(item.indexes, item?.jobDetail?.title)}>Apply</button>
+                                    {/* {item?.jobDetail?.description?.length >= 100 ?  */}
+                                    <button className="postButton" 
                                     onClick={() => setView(item)}
-                                    >Full View</button> : false}
+                                    >Full View</button>
+                                    {/* //  : false} */}
                                     </div>
                                 </div>
                             ) : false}

@@ -59,7 +59,7 @@ const PreviousJob = ({ AllUsersData, select, tempInd, setTempInd, setSelect, set
                     }>
                 <h1>{item?.jobDetail?.title}</h1>
                 <div>
-                    <h3>Duration: {item?.jobDetail?.duration} {item?.jobDetail?.duration == 1? "Day" : "Days"}</h3>
+                    <h3>Duration: {item?.jobDetail?.duration} {item?.jobDetail?.duration == 1? "Day/month" : "Days/month"}</h3>
                     <h3>Budget: ${item?.jobDetail?.salary}</h3>
                     <h3>Student Applied: { item?.jobDetail?.apply ? Object.values(item?.jobDetail?.apply)?.filter((item2) => !item2?.userDetail?.block)?.length : 0}</h3>
                 </div>

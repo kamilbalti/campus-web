@@ -3,6 +3,7 @@ import { onValue, ref, set } from "firebase/database"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { db } from "../../Firebase/firebase"
+import { ToastContainer, toast } from 'react-toastify'
 
 const PostJob = ({ tempInd, setTempInd, setSelect, title, setTitle, duration, setDuration, salary, setSalary, description, setDescription }) => {
     const { userDetail } = useSelector(e => e)
@@ -12,6 +13,9 @@ const PostJob = ({ tempInd, setTempInd, setSelect, title, setTitle, duration, se
     if(window.location.pathname.split('/')[1] == 'Job')
     setSelect(2)
     const uid = userDetail?.uid
+    const notify = (info) => {
+        toast(info)
+    }
     useEffect(() => {
         let temp = description.trim().split(" ")
 
@@ -45,6 +49,7 @@ const PostJob = ({ tempInd, setTempInd, setSelect, title, setTitle, duration, se
                 setAllCheck(false)
                 setSelect(1)
             })
+            notify('Job add successful')
             set(ref(db, "AllJobs/" + uid + "/job/" + tempIndex + "/jobDetail"), {
                 title,
                 duration,
@@ -85,19 +90,23 @@ const PostJob = ({ tempInd, setTempInd, setSelect, title, setTitle, duration, se
         setDuration("")
         setSalary("")
         setDescription("")
+        notify('Job update successful')
     }
 }
     return (
         <div className="postJobDiv">
+            <ToastContainer />
             <div className="postJobChildDiv">
                 <input placeholder="Title Of Job :" value={title} onChange={(e) =>
-                    (e.target.value.length <= 20 || e.target.value.length <= title.length) ? setTitle(e.target.value) : false
+                    (e.target.value.length <= 50 || e.target.value.length <= title.length) ? setTitle(e.target.value) : false
                 }
                     className="signUpTextInput" />
             </div>
             <div className="postJobChildDiv">
-                <input placeholder="Duration of Job : " value={duration} onChange={(e) =>
-                    e.target.value >= 0 && e.target.value.length <= 22 ? setDuration(e.target.value) : false
+                <input placeholder="Duration of Job (days) / month" value={duration} onChange={(e) =>
+                    e.target.value >= 0 && e.target.value <= 31 && (!e.target.value.includes('+') && 
+                    !e.target.value.includes('-') && !e.target.value.includes('.'))
+                    ? setDuration(e.target.value) : false
                 }
                     type="number" className="signUpTextInput" />
             </div>
