@@ -22,7 +22,7 @@ const CompanyPage = ({name, closeCheck, setCloseCheck, status, select, setSelect
         setTimeout(() => {
             onValue(ref(db, "AllJobs/" + uid + "/job/"), async(data) =>{
                 let tempData = data.val()
-                tempData.map((item, index) => 
+                tempData?.map((item, index) => 
                 item?.jobDetail?.apply && Object.values(item.jobDetail.apply)?.map((item2, index2) => {
                     let tempInd = tempAllUsersData.findIndex((item3) => (item3?.uid == item2.userDetail.uid))
                     // if(tempInd != -1)
@@ -32,7 +32,14 @@ const CompanyPage = ({name, closeCheck, setCloseCheck, status, select, setSelect
                     item2.userDetail = tempInd != -1 ? tempAllUsersData[tempInd] : []
                 })
                 )
-                console.log(tempData)
+                // if( data.val() || !!data.val()?.length)
+                // setEmptPage(true)
+                setTimeout(() => {
+                    console.log(tempData == null || !!tempData?.length < 0)
+                    if(tempData == null || !!tempData?.length < 0)
+                        setEmptPage(true)
+                    else setEmptPage(false)
+                },1000)
                 setPreviousJobData( tempData ? tempData : [])
             })
         },1000)
